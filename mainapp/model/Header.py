@@ -9,6 +9,7 @@ class Header(models.Model):
     image_default_path = models.CharField(max_length=255)
     image_event_name = models.CharField(max_length=100)
     image_event_path = models.CharField(max_length=255)
+    active = models.BooleanField(null=False, default=True)
     created_at = models.DateField(null=False)
     updated_at = models.DateField(null=True)
 
