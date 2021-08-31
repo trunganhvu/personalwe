@@ -35,35 +35,16 @@
         <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
         <!-- Template Main JS File -->
         <script src="{% static 'assets/js/main.js' %}"></script>
+        <script src="{% static 'js/webjs/fetchdata.js' %}"></script>
     </body>
     <script type="text/javascript">
-        function fetchApi(api){
-            const response = fetch(api)
-            .then(function(response) {
-                if(!response.ok) throw new Error("HTTP error, status = " + response.status);
-                let myjson_data = response.json();
-                return myjson_data;
-            })
-            .then(function(mydata){
-                if (Object.keys(mydata).length == 0){
-                    return {'message': ''};
-                }
-                else {
-                    return mydata;
-                }
-            })
-            .catch(function(error) {
-                console.log("error");
-                return {'message': 'error'};
-            })
-            return response;
-        }
         window.onload = function() {
             let api = window.location.protocol + '//' + window.location.host + '/api/header/';
             let header = fetchApi(api);
             let header_promise = Promise.resolve(header);
             header_promise.then(function(value) {
                 document.getElementById("hero").setAttribute('style', 'background: url(' + value.path + ') !important');
+                //document.getElementById("hero").setAttribute('style', 'background: url(static/media/images/test_VenLccr.jpeg) !important');
             })
         };
     </script>

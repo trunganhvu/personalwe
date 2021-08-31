@@ -32,6 +32,9 @@ CACHE_MIDDLEWARE_SECONDS = '600'
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
 CACHE_TIME = 30 * 60
 
+IMAGE_PATH_STATIC = 'static/media/images'
+IMAGE_USER = os.path.join(BASE_DIR, 'mainapp/static/media/images')
+
 # Application definition
 
 INSTALLED_APPS = [

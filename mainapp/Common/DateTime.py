@@ -7,7 +7,7 @@ def get_current_YmdHMS():
     trunganhvu 2021/08/29
     """
     tz_NY = pytz.timezone('Asia/Saigon')
-    return datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
 def get_current_microsecond():
     """
