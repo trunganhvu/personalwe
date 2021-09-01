@@ -7,6 +7,7 @@ def get_path_header():
     Get path header active
     """
     header = Header.objects.filter(active=True).first()
+    print('dao')
     return header
 
 def insert_header_image(header_name, header_path):

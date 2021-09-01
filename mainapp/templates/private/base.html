@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{% static 'assets/css/font-roboto-googleapis.css' %}" />
         <!-- CSS Files -->
         <link href="{% static '/assets/css/material-dashboard.css' %}" rel="stylesheet" />
+        <link href="{% static '/css/mystyle.css' %}" rel="stylesheet" />
         <!-- CSS Just for demo purpose, don't include it in your project -->
         {% comment %} <link href="../assets/demo/demo.css" rel="stylesheet" /> {% endcomment %}
     </head>
@@ -198,7 +199,7 @@
         <!-- Material Dashboard DEMO methods, don't include it in your project! -->
         <script src="../assets/demo/demo.js"></script>
         {% endcomment %}
-        <script>
+        {% comment %} <script>
             $(document).ready(function () {
                 $().ready(function () {
                     $sidebar = $(".sidebar");
@@ -369,6 +370,6 @@
                 // Javascript method's body can be found in assets/js/demos.js
                 md.initDashboardPageCharts();
             });
-        </script>
+        </script> {% endcomment %}
     </body>
 </html>

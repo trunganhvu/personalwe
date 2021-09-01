@@ -4,63 +4,101 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-            <div class="card-header card-header-primary">
-                <h4 class="card-title">Edit Profile</h4>
-                <p class="card-category">Complete your profile</p>
-            </div>
-            <div class="card-body">
-                <form method="post" autocomplete="on" action="/header/image" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <img id="image-heade-preview" alt="image-heade-preview" width="200" height="200" class="d-none"/>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="fofrm-group">
-                                <label for="image-header" class="bmd-label-floating">file</label>
-                                <input type="file"
-                                        id="image-header"
-                                        name="image-header" 
-                                        accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
-                                        onchange="document.getElementById('image-heade-preview').src = window.URL.createObjectURL(this.files[0]);
-                                                document.getElementById('image-heade-preview').classList.remove('d-none');"
-                                        required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="bmd-label-floating">Tên file</label>
-                                <input type="text" class="form-control" name="name-header" required>
-                            </div>
-                        </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Cập nhật header mặc định</h4>
+                        <p class="card-category"></p>
                     </div>
-                    <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
-                    <div class="clearfix"></div>
-                </form>
+                    <div class="card-body">
+                        <form method="post" autocomplete="on" action="/header/image" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="name-header" class="bmd-label-floating">Tên file
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" name="name-header" maxlength="70" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% comment %} <div class="form-group"> {% endcomment %}
+                                        <label for="image-header" class="bmd-label-floating">Chọn ảnh
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        {% comment %} <input type="file"
+                                                id="image-header"
+                                                class="form-control-file"
+                                                name="image-header" 
+                                                accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
+                                                onchange="document.getElementById('image-heade-preview').src = window.URL.createObjectURL(this.files[0]);
+                                                        document.getElementById('image-heade-preview').classList.remove('d-none');"
+                                                required>
+                                    </div> {% endcomment %}
+                                    <div class="input-group mb-3">
+                                        <div class="custom-file">
+                                            <input type="file"
+                                                id="image-header"
+                                                class="form-control-file custom-file-input"
+                                                name="image-header" 
+                                                accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
+                                                onchange="document.getElementById('image-heade-preview').src = window.URL.createObjectURL(this.files[0]);
+                                                        document.getElementById('image-heade-preview').classList.remove('d-none');"
+                                                required>
+                                            <label class="custom-file-label" for="inputGroupFile01">Ảnh đuôi .png, .webp, .jpg</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right">Update</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
             </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Xem trước</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    <img class="img d-none" id="image-heade-preview" alt="image-heade-preview"/>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-profile">
-            <div class="card-avatar">
-                <a href="javascript:;">
-                <img class="img" src="{% static 'media/images/test.jpeg' %}" />
-                </a>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Hiện tại</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    <img class="img" id="header-now" src="" /> <!-- {% static 'media/images/test.jpeg' %} -->
+
+                </div>
             </div>
-            <div class="card-body">
-                <h6 class="card-category text-gray">CEO / Co-Founder</h6>
-                <h4 class="card-title">Alec Thompson</h4>
-                <p class="card-description">
-                Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                </p>
-                <a href="javascript:;" class="btn btn-primary btn-round">Follow</a>
-            </div>
-            </div>
-        </div>
         </div>
     </div>
 </div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
 <script type="text/javascript">
-    
+    window.onload = function() {
+        // Call api
+        let api = window.location.protocol + '//' + window.location.host + '/api/header/';
+        let header = fetchApi(api);
+        let header_promise = Promise.resolve(header);
+        header_promise.then(function(value) {
+            // Response no error
+            if (value.path != null) {
+                console.log(value.path);
+                document.getElementById("header-now").src = '/' + value.path;
+            } else {
+                document.getElementById("header-now").src = '{% static 'static/assets/img/hero-bg.jpg' %}';
+            }
+        })
+    };
 </script>
 {% endblock %}

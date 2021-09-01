@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 
 
-@cache_page(settings.CACHE_TIME)
+# @cache_page(settings.CACHE_TIME, key_prefix='api-header')
 @api_view(['GET'])
 def get_header_path(request):
     """
@@ -40,7 +40,7 @@ def insert_header_image_form(request):
                 header_name = str(mark_safe(header_name)).strip()
                 url = HeaderService.insert_header_image(header_image, header_name)
                 print(url)
-                HeaderService.clean_header_cache('api/header/')
+                # HeaderService.clean_header_cache('api-header')
             else:
                 # Message error
                 print()

@@ -8,8 +8,8 @@
         <meta content="" name="keywords">
         {% load static %}
         <!-- Favicons -->
-        <link href="{% static 'image/icon/icon-tab.jpg' %}" rel="icon">
-        <link href="{% static 'image/icon/icon-tab.jpg' %}" rel="apple-touch-icon">
+        {% comment %} <link href="{% static 'image/icon/icon-tab.jpg' %}" rel="icon">
+        <link href="{% static 'image/icon/icon-tab.jpg' %}" rel="apple-touch-icon"> {% endcomment %}
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Satisfy" rel="stylesheet">
         <!-- Vendor CSS Files -->
@@ -39,13 +39,33 @@
     </body>
     <script type="text/javascript">
         window.onload = function() {
+            // Set Icon
+            setIcon();
+            // Call api
             let api = window.location.protocol + '//' + window.location.host + '/api/header/';
             let header = fetchApi(api);
             let header_promise = Promise.resolve(header);
             header_promise.then(function(value) {
-                document.getElementById("hero").setAttribute('style', 'background: url(' + value.path + ') !important');
-                //document.getElementById("hero").setAttribute('style', 'background: url(static/media/images/test_VenLccr.jpeg) !important');
+                // Response no error
+                if (value.path != null) {
+                    document.getElementById("hero").setAttribute('style', 'background: url(' + value.path + ') !important');
+                } else {
+                    document.getElementById("hero").setAttribute('style', 'background: url({% static 'media/images/test.jpeg' %}) !important');
+                }
             })
         };
+
+        /**
+         * Set icon
+         */
+        function setIcon() {
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+            link.href = '{% static 'image/icon/icon-tab.jpg' %}';
+        }
     </script>
 </html>
