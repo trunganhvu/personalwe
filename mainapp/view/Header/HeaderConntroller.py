@@ -7,7 +7,7 @@ from mainapp.service.Header import HeaderService
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.utils.safestring import mark_safe
-
+from django.contrib import messages
 
 # @cache_page(settings.CACHE_TIME, key_prefix='api-header')
 @api_view(['GET'])
@@ -40,13 +40,12 @@ def insert_header_image_form(request):
                 header_name = str(mark_safe(header_name)).strip()
                 url = HeaderService.insert_header_image(header_image, header_name)
                 print(url)
-                # HeaderService.clean_header_cache('api-header')
+                messages.success(request, "Thành công.")
             else:
                 # Message error
                 print()
+                messages.error(request, "Thất bại.")
         except Exception:
-            return redirect('/header')
-
-        
+            messages.error(request, "Thất bại.")
         return redirect('/header')
 

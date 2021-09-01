@@ -1,0 +1,19 @@
+
+{% for message in messages %}
+<div class="row justify-content-end">
+    <div class="alert {{ message.tags }} col-md-2 col-6 mr-4" id="alert-msg" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message|safe }}
+    </div>
+</div>
+{% endfor %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+    setTimeout(function () {
+        $('#alert-msg').hide();
+    }, 2000);
+    });
+</script>
