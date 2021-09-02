@@ -1,0 +1,131 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+#msg-category-name,
+#msg-category-url,
+#msg-category-image-name,
+#msg-category-image,
+#msg-category-display-order {
+    display: none;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Category</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" autocomplete="on" action="" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Category name
+                                    </label>
+                                    <input type="text" name="category-name" class="form-control" 
+                                            {% if category.category_name %}
+                                                value="{{category.category_name}}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Đường dẫn tương ứng
+                                    </label>
+                                    <input type="text" name="category-url" class="form-control"
+                                            {% if category.category_url %}
+                                                value="{{category.category_url}}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Tên ảnh mặc định
+                                    </label>
+                                    <input type="text" name="category-image-name" class="form-control"
+                                            {% if category.category_image_default_name %}
+                                                value="{{category.category_image_default_name}}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="image-header" class="bmd-label-floating">Tên ảnh
+                                </label>
+                                <input type="text" name="category-image-name" class="form-control"
+                                            {% if category.category_image_default %}
+                                                value="{{category.category_image_default}}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Hiển thị
+                                    </label>
+                                    <input type="text" name="category-image-name" class="form-control"
+                                            {% if category.display %}
+                                                value="{{category.display}}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Thứ tự hiển thị
+                                    </label>
+                                    <input type="number" name="category-display-order"
+                                            class="form-control"
+                                            {% if category.display_order %}
+                                                value="{{category.display_order}}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Hiện tại</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    {% if category.category_image_default %}
+                        <img class="img" id="image-category-now" src=""/>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        // Src image
+        let srcImage = '{{ category.category_image_default }}';
+        // Set image
+        document.getElementById("image-category-now").src = '/' + srcImage;
+    };
+    
+</script>
+{% endblock %}

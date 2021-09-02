@@ -27,8 +27,6 @@ def view_category_form_page(request):
     """
     View form update, insert category
     """
-    print(os.path.exists('/home/trunganh/django-test/personalweb/static/media/images/1234.jpeg'))
-    print(os.path.exists('/home/trunganh/django-test/personalweb/mainapp/static/media/images/222.jpeg'))
     return render(request, 'private/Category/categoryform.html')
 
 def insert_category_form(request):
@@ -64,6 +62,22 @@ def insert_category_form(request):
             messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
             return render(request, 'private/Category/categoryform.html', context=context)
         return redirect('/category')
+
+def get_category_detail_page(request, id):
+    """
+    Get detail category
+    """
+    context = {}
+    try:
+        category = CategoryService.get_category_detail(id)
+        context = {
+            'category': category
+        }
+    except Exception:
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+        return redirect('/category')
+    return render(request, 'private/Category/categorydetail.html', context=context)
+
 
 def validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order):
     """

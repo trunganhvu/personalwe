@@ -29,21 +29,24 @@
                         {% for category in categorys %}
                             <tr>
                                 <td>
-                                {{category.category_id}}
+                                    <a href="{% url 'category-detail' id=category.category_id %}">
+                                        {{ category.category_id }}
+                                    </a>
                                 </td>
                                 <td>
-                                {{category.category_name}}
+                                    <a href="{% url 'category-detail' id=category.category_id %}">
+                                        {{ category.category_name }}
+                                    </a>
                                 </td>
                                 <td>
-                                {{category.category_url}}
+                                    {{ category.category_url }}
                                 </td>
                                 <td>
-                                {{category.display}}
+                                    {{ category.display }}
                                 </td>
                                 <td>
-                                {{category.display_order}}
+                                    {{ category.display_order }}
                                 </td>
-
                             </tr>
                         {% endfor %}
                         </tbody>

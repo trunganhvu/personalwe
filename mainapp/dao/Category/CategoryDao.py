@@ -13,8 +13,6 @@ def insert_category(category_name, category_url, category_image_name, category_i
     """
     Insert category
     """
-    print('dao 1')
-
     category = Category(category_name=category_name,
                 category_url=category_url,
                 display=category_display,
@@ -23,6 +21,11 @@ def insert_category(category_name, category_url, category_image_name, category_i
                 category_image_default=category_image,
                 created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 )
-    print('dao 2')
     category.save()
-    print('dao 3')
+
+def get_category_detail(id):
+    """
+    Get category detail
+    """
+    category = Category.objects.get(pk=id)
+    return category

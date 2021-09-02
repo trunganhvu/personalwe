@@ -52,4 +52,11 @@ def insert_category(category_name, category_url, category_image_name, category_i
             path2 = str(settings.BASE_DIR) + '/' + full_path_image
             os.remove(path1)
             os.remove(path2)
-        raise error 
+        raise error
+
+def get_category_detail(id):
+    """
+    Get category detail
+    """
+    category = CategoryDao.get_category_detail(id)
+    return category
