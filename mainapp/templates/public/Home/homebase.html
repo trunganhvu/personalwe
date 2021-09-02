@@ -81,16 +81,17 @@
             let bannerTitle = fetchApi(apiGetBannerTitle);
             let bannerTitlePromise = Promise.resolve(bannerTitle);
             bannerTitlePromise.then(function(value) {
-                console.log(value.bannerTitle);
+                let title = 'Chưa có nội dung';
+                let subTitle = 'Chưa có nội dung';
                 // Response no error
                 if (value.bannerTitle != null) {
-                    console.log(value.bannerTitle);
-                    document.getElementById("title-banner").innerHTML = escapeHTML(value.bannerTitle);
-                    document.getElementById("sub-title-banner").innerHTML = escapeHTML(value.bannerSubTitle);
-                } else {
-                    document.getElementById("title-banner").innerHTML = 'Chưa có nội dung';
-                    document.getElementById("sub-title-banner").innerHTML = 'Chưa có nội dung';
+                    title = escapeHTML(value.bannerTitle);
+                } 
+                if (value.bannerSubTitle != null) {
+                    subTitle = escapeHTML(value.bannerSubTitle);
                 }
+                document.getElementById("title-banner").innerHTML = title;
+                document.getElementById("sub-title-banner").innerHTML = subTitle;
             })
         }
         /**

@@ -75,6 +75,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <span class="tim-note">Thời gian chỉnh sửa gần nhất:</span>
+                            <small id="header-update-time"></small>
                             <button type="submit" class="btn btn-primary pull-right">Update</button>
                             <div class="clearfix"></div>
                         </form>
@@ -133,6 +135,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <span class="tim-note">Thời gian chỉnh sửa gần nhất:</span>
+                            <small id="banner-title-update-time"></small>
                             <button type="submit" class="btn btn-primary pull-right">Update</button>
                             <div class="clearfix"></div>
                         </form>
@@ -145,13 +149,6 @@
                         <h4 class="card-title">Hiện tại</h4>
                     </div>
                     <div class="card-body"></div>
-                    {% comment %} <section id="hero header-now-content-text">
-                        <div class="hero-container">
-                            <h1>Laura Thomson</h1>
-                            <h2>I'm a Professional Photographer In New York City</h2>
-                            <a href="#about" class="btn-scroll scrollto" title="Scroll Down"><i class="bx bx-chevron-down"></i></a>
-                        </div>
-                    </section> {% endcomment %}
                     <div class="layer-image"></div>
                     <img class="img" id="header-now-content-text" src="" />
                     
@@ -187,16 +184,19 @@
         let header = fetchApi(apiGetHeader);
         let headerPromise = Promise.resolve(header);
         headerPromise.then(function(value) {
+            let headerImage = '{% static 'assets/img/hero-bg.jpg' %}';
+            let updateTime = 'Chưa chỉnh sửa';
             // Response no error
             if (value.path != null) {
-                console.log(value.path);
-                document.getElementById("header-now").src = '/' + value.path;
-                document.getElementById("header-now-content-text").src = '/' + value.path;
+                headerImage = '/' + value.path;
                 //document.getElementById("header-now-content-text").setAttribute('style', 'background: url(' + value.path + ') !important');
-            } else {
-                document.getElementById("header-now").src = '{% static 'static/assets/img/hero-bg.jpg' %}';
-                document.getElementById("header-now-content-text").src = '{% static 'static/assets/img/hero-bg.jpg' %}';
             }
+            if (value.updatedAt != null) {
+                updateTime = new Date(value.updatedAt).toLocaleString();
+            }
+            document.getElementById("header-now").src = headerImage;
+            document.getElementById("header-now-content-text").src = headerImage;
+            document.getElementById("header-update-time").innerHTML = updateTime;
         })
     }
 
@@ -210,16 +210,22 @@
         let bannerTitle = fetchApi(apiGetBannerTitle);
         let bannerTitlePromise = Promise.resolve(bannerTitle);
         bannerTitlePromise.then(function(value) {
-            console.log(value.bannerTitle);
+            let title = 'Chưa có nội dung';
+            let subTitle = 'Chưa có nội dung';
+            let updateTime = 'Chưa chỉnh sửa';
             // Response no error
             if (value.bannerTitle != null) {
-                console.log(value.bannerTitle);
-                document.getElementById("title-banner").innerHTML = escapeHTML(value.bannerTitle);
-                document.getElementById("sub-title-banner").innerHTML = escapeHTML(value.bannerSubTitle);
-            } else {
-                document.getElementById("title-banner").innerHTML = 'Chưa có nội dung';
-                document.getElementById("sub-title-banner").innerHTML = 'Chưa có nội dung';
+                title = escapeHTML(value.bannerTitle);
+            } 
+            if (value.bannerSubTitle != null) {
+                subTitle = escapeHTML(value.bannerSubTitle);
             }
+            if (value.updatedAt != null) {
+                updateTime = new Date(value.updatedAt).toLocaleString();
+            }
+            document.getElementById("banner-title-update-time").innerHTML = updateTime;
+            document.getElementById("title-banner").innerHTML = title;
+            document.getElementById("sub-title-banner").innerHTML = subTitle;
         })
     }
     

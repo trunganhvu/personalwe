@@ -1,0 +1,62 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">Danh sách category</h4>
+                    <a href="{% url 'category-form' %}" class="btn btn-secondary pull-right">Mới</a>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Url</th>
+                            <th>Hiển thị</th>
+                            <th>Thứ tự hiển thị</th>
+                        </thead>
+                        <tbody>
+                        {% for category in categorys %}
+                            <tr>
+                                <td>
+                                {{category.category_id}}
+                                </td>
+                                <td>
+                                {{category.category_name}}
+                                </td>
+                                <td>
+                                {{category.category_url}}
+                                </td>
+                                <td>
+                                {{category.display}}
+                                </td>
+                                <td>
+                                {{category.display_order}}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    
+</script>
+{% endblock %}

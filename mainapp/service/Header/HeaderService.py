@@ -15,7 +15,8 @@ def get_path_header():
         header = HeaderDao.get_path_header()
         context = {
             'name': header.image_default_name,
-            'path': header.image_default_path
+            'path': header.image_default_path,
+            'updatedAt': header.updated_at
         }
         # Set header into cache
         cache.set('context-api-header', context, settings.CACHE_TIME)
@@ -37,8 +38,15 @@ def insert_header_image(header_image, header_name):
         uploaded_file_url = fs.url(filename)
         full_path_image = settings.IMAGE_PATH_STATIC + uploaded_file_url
         print(full_path_image)
-        # Save image to DB
-        HeaderDao.insert_header_image(header_name_save, full_path_image)
+    
+        # Check header exist
+        count_header_image = HeaderDao.count_header_image()
+        if count_header_image == 0:
+            # Insert image to DB
+            HeaderDao.insert_header_image(header_name_save, full_path_image)
+        else:
+            # Update image to DB
+            HeaderDao.update_header_image(header_name_save, full_path_image)
         # Clean cache header
         clean_header_cache('context-api-header')
     except Exception as error: 

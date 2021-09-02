@@ -1,4 +1,3 @@
-import re
 from django.shortcuts import render
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view
@@ -7,6 +6,7 @@ from rest_framework.response import Response
 from mainapp.service.Header import BannerTitleService
 from django.utils.safestring import mark_safe
 from django.contrib import messages
+from mainapp.Common import ConstValiable
 
 @api_view(['GET'])
 def get_banner_title(request):
@@ -32,12 +32,11 @@ def update_banner_title_form(request):
                 subtitle_banner = str(mark_safe(subtitle_banner)).strip()
 
                 BannerTitleService.update_banner_title(title_banner, subtitle_banner)
-                messages.success(request, "Thành công.")
+                messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
             else:
                 # Message error
-                print()
-                messages.error(request, "Thất bại.")
+                messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         except Exception:
-            messages.error(request, "Thất bại.")
+            messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         return redirect('/header')
 

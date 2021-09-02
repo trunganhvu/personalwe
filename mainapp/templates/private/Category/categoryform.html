@@ -1,0 +1,167 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+#msg-category-name,
+#msg-category-url,
+#msg-category-image-name,
+#msg-category-image,
+#msg-category-display-order {
+    display: none;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Category</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" autocomplete="on" action="/header/image/" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="row">
+                            <div class="text-danger">
+                                <ul>
+                                    <li id="msg-category-name"></li>
+                                    <li id="msg-category-url"></li>
+                                    <li id="msg-category-image-name"></li>
+                                    <li id="msg-category-image"></li>
+                                    <li id="msg-category-display-order"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Category name
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" onchange="validateCategoryName(this.value)" maxlength="1000" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Đường dẫn tương ứng
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" onchange="validateCategoryUrl(this.value)" maxlength="1000" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Tên ảnh mặc định
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" onchange="validateCategoryImageName(this.value)" maxlength="1000" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="image-header" class="bmd-label-floating">Chọn ảnh
+                                    <span class="asteriskField">*</span>
+                                </label>
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                        <input type="file"
+                                            id="image-header"
+                                            class="form-control-file custom-file-input"
+                                            name="image-header" 
+                                            accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
+                                            onchange="document.getElementById('image-category-preview').src = window.URL.createObjectURL(this.files[0]);
+                                                    document.getElementById('image-category-preview').classList.remove('d-none');"
+                                            required>
+                                        <label class="custom-file-label" for="inputGroupFile01">Ảnh đuôi .png, .webp, .jpg</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Hiển thị
+                                    </label>
+                                    <select name="display" id="display" class="form-control">
+                                        <option value="false">Không hiển thị</option>
+                                        <option value="true">Hiển thị</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Thứ tự hiển thị
+                                    </label>
+                                    <input type="number" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right">Tạo</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Xem trước</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    <img class="img" id="image-category-preview"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    /**
+     * Validate category name
+     */
+    function validateCategoryName(categoryName) {
+        let re = new RegExp("^[A-Za-z0-9_ ]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(categoryName) == false) {
+            display = 'block';
+            html = 'Category name: Nhập ký tự trong bảng chữ cái, số, khoảng cách.';
+        } 
+        document.getElementById("msg-category-name").style.display = display;
+        document.getElementById("msg-category-name").innerHTML = html;
+    }
+
+    /**
+     * Validate category name
+     */
+    function validateCategoryUrl(categoryUrl) {
+        let re = new RegExp("^[A-Za-z0-9-_]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(categoryUrl) == false) {
+            display = 'block';
+            html = 'Đường dẫn tương ứng: Nhập ký tự trong bảng chữ cái, số.';
+        }
+        document.getElementById("msg-category-url").style.display = display;
+        document.getElementById("msg-category-url").innerHTML = html;
+    }
+
+    /**
+     * Validate category image name
+     */
+    function validateCategoryImageName(categoryImageName) {
+        let re = new RegExp("^[A-Za-z0-9-_]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(categoryImageName) == false) {
+            display = 'block';
+            html = 'Tên ảnh mặc định: Nhập ký tự trong bảng chữ cái, số, khoảng cách.';
+        } 
+        document.getElementById("msg-category-image-name").style.display = display;
+        document.getElementById("msg-category-image-name").innerHTML = html;
+    }
+    
+</script>
+{% endblock %}

@@ -5,19 +5,17 @@ from rest_framework.response import Response
 
 from mainapp.service.Header import HeaderService
 from django.views.decorators.cache import cache_page
-from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.contrib import messages
+from mainapp.Common import ConstValiable
 
-# @cache_page(settings.CACHE_TIME, key_prefix='api-header')
 @api_view(['GET'])
 def get_header_path(request):
     """
     Get path header
     """
-    if request.method == 'GET':
-        context = HeaderService.get_path_header()
-        return Response(context)
+    context = HeaderService.get_path_header()
+    return Response(context)
 
 def view_header_page(request):
     """
@@ -36,16 +34,23 @@ def insert_header_image_form(request):
             header_name = request.POST.get('name-header')
 
             # Check none
-            if header_name != '' and header_image != None:
+            if validation_header(header_name, header_image):
                 header_name = str(mark_safe(header_name)).strip()
                 url = HeaderService.insert_header_image(header_image, header_name)
                 print(url)
-                messages.success(request, "Thành công.")
+                messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
             else:
                 # Message error
-                print()
-                messages.error(request, "Thất bại.")
+                messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         except Exception:
-            messages.error(request, "Thất bại.")
+            messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         return redirect('/header')
 
+def validation_header(header_name, header_image):
+    """
+    Validate data header user input
+    """
+    if header_name != '' and header_image != None:
+        if len(header_name) <= 100 and len(header_image) <= 255:
+            return True
+    return False

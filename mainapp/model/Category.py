@@ -6,7 +6,7 @@ class Category(models.Model):
     """
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=100)
-    category_url = models.CharField(max_length=100)
+    category_url = models.CharField(max_length=100, unique=True)
     display = models.BooleanField(default=False)
     display_order = models.IntegerField(default=0)
     category_image_default_name = models.CharField(max_length=100)
