@@ -20,7 +20,7 @@
                   <h4 class="card-title">Category</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" autocomplete="on" action="/header/image/" enctype="multipart/form-data">{% csrf_token %}
+                    <form method="post" autocomplete="on" action="/category-form/insert/" enctype="multipart/form-data">{% csrf_token %}
                         <div class="row">
                             <div class="text-danger">
                                 <ul>
@@ -38,7 +38,14 @@
                                     <label class="bmd-label-floating">Category name
                                         <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" class="form-control" onchange="validateCategoryName(this.value)" maxlength="1000" required>
+                                    <input type="text" name="category-name" class="form-control" 
+                                            onchange="validateCategoryName(this.value)"
+                                            maxlength="1000" 
+                                            required
+                                            {% if category_name %}
+                                                value="{{category_name}}"
+                                            {% endif %}
+                                            >
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -46,7 +53,14 @@
                                     <label class="bmd-label-floating">Đường dẫn tương ứng
                                         <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" class="form-control" onchange="validateCategoryUrl(this.value)" maxlength="1000" required>
+                                    <input type="text" name="category-url" class="form-control"
+                                            onchange="validateCategoryUrl(this.value)"
+                                            maxlength="1000"
+                                            required
+                                            {% if category_url %}
+                                                value="{{category_url}}"
+                                            {% endif %}
+                                            >
                                 </div>
                             </div>
                         </div>
@@ -56,7 +70,14 @@
                                     <label class="bmd-label-floating">Tên ảnh mặc định
                                         <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" class="form-control" onchange="validateCategoryImageName(this.value)" maxlength="1000" required>
+                                    <input type="text" name="category-image-name" class="form-control"
+                                            onchange="validateCategoryImageName(this.value)"
+                                            maxlength="1000"
+                                            required
+                                            {% if category_image_name %}
+                                                value="{{category_image_name}}"
+                                            {% endif %}
+                                            >
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -68,11 +89,15 @@
                                         <input type="file"
                                             id="image-header"
                                             class="form-control-file custom-file-input"
-                                            name="image-header" 
+                                            name="category-image" 
                                             accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
                                             onchange="document.getElementById('image-category-preview').src = window.URL.createObjectURL(this.files[0]);
                                                     document.getElementById('image-category-preview').classList.remove('d-none');"
-                                            required>
+                                            required
+                                            {% if category_image %}
+                                                value="{{category_image}}"
+                                            {% endif %}
+                                            >
                                         <label class="custom-file-label" for="inputGroupFile01">Ảnh đuôi .png, .webp, .jpg</label>
                                     </div>
                                 </div>
@@ -83,9 +108,18 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Hiển thị
                                     </label>
-                                    <select name="display" id="display" class="form-control">
-                                        <option value="false">Không hiển thị</option>
-                                        <option value="true">Hiển thị</option>
+                                    <select name="category-display" id="display" class="form-control">
+                                        <option value="false"
+                                                {% if category_display == 'false' %}
+                                                    selected
+                                                {% endif %}
+                                                >Không hiển thị
+                                        </option>
+                                        <option value="true"
+                                                {% if category_display == 'true' %}
+                                                    selected
+                                                {% endif %}>Hiển thị
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -93,7 +127,12 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Thứ tự hiển thị
                                     </label>
-                                    <input type="number" class="form-control">
+                                    <input type="number" name="category-display-order"
+                                            class="form-control"
+                                            {% if category_display_order %}
+                                                value="{{category_display_order}}"
+                                            {% endif %}
+                                            >
                                 </div>
                             </div>
                         </div>

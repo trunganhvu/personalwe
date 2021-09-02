@@ -9,17 +9,20 @@ def get_all_category():
     category_list = Category.objects.all()
     return category_list
 
-# def insert_header_image(header_name, header_path):
-#     """
-#     Insert header
-#     """
-#     create_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#     header = Header(image_default_name=header_name, image_default_path=header_path, created_at=create_at, active=True)
-#     header.save()
+def insert_category(category_name, category_url, category_image_name, category_image, category_display, category_display_order):
+    """
+    Insert category
+    """
+    print('dao 1')
 
-# def count_header_image():
-#     """
-#     Count header image
-#     """
-#     count_header_image = Header.objects.filter(active=True).count()
-#     return count_header_image
+    category = Category(category_name=category_name,
+                category_url=category_url,
+                display=category_display,
+                display_order=category_display_order,
+                category_image_default_name=category_image_name,
+                category_image_default=category_image,
+                created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                )
+    print('dao 2')
+    category.save()
+    print('dao 3')

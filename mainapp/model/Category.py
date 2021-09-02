@@ -13,10 +13,10 @@ class Category(models.Model):
     category_image_default = models.CharField(max_length=255)
     category_image_event_name = models.CharField(max_length=100, null=True)
     category_image_event = models.CharField(max_length=255, null=True)
-    category_image_event_start = models.DateField(null=True)
-    category_image_event_end = models.DateField(null=True)
-    created_at = models.DateField(null=False)
-    updated_at = models.DateField(null=True)
+    category_image_event_start = models.DateTimeField(null=True)
+    category_image_event_end = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True)
 
     class Meta:
         app_label = "mainapp"

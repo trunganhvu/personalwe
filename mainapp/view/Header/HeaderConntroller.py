@@ -29,7 +29,7 @@ def insert_header_image_form(request):
     """
     if request.method == 'POST':
         try:
-            # Get data in from
+            # Get data in form
             header_image = request.FILES["image-header"]
             header_name = request.POST.get('name-header')
 

@@ -34,7 +34,7 @@ CACHE_TIME = 30 * 60
 
 IMAGE_PATH_STATIC = 'static/media/images'
 IMAGE_USER = os.path.join(BASE_DIR, 'mainapp/static/media/images')
-
+APP_NAME1 = 'mainapp'
 # Application definition
 
 INSTALLED_APPS = [
