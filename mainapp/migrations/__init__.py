@@ -12,3 +12,4 @@ from mainapp.model.ProductImage import ProductImage
 from mainapp.model.ProductPromotion import ProductPromotion
 from mainapp.model.Order import Order
 from mainapp.model.OrderDetail import OrderDetail
+from mainapp.model.BannerTitle import BannerTitle

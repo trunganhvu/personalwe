@@ -41,11 +41,27 @@
         window.onload = function() {
             // Set Icon
             setIcon();
+
+            // Base url
+            let baseUrl = window.location.protocol + '//' + window.location.host;
+            
+            // Set header
+            setHeader(baseUrl);
+
+            // Set banner title
+            setBannerTitle(baseUrl);
+        };
+
+        /**
+         * Set header
+         * @param {string} baseUrl 
+         */
+        function setHeader(baseUrl) {
             // Call api
-            let api = window.location.protocol + '//' + window.location.host + '/api/header/';
-            let header = fetchApi(api);
-            let header_promise = Promise.resolve(header);
-            header_promise.then(function(value) {
+            let apiGetHeader = baseUrl + '/api/header/';
+            let header = fetchApi(apiGetHeader);
+            let headerPromise = Promise.resolve(header);
+            headerPromise.then(function(value) {
                 // Response no error
                 if (value.path != null) {
                     document.getElementById("hero").setAttribute('style', 'background: url(' + value.path + ') !important');
@@ -53,8 +69,30 @@
                     document.getElementById("hero").setAttribute('style', 'background: url({% static 'media/images/test.jpeg' %}) !important');
                 }
             })
-        };
+        }
 
+        /**
+         * Set banner title
+         * @param {string} baseUrl 
+         */
+        function setBannerTitle(baseUrl) {
+            // Call api get banner title
+            let apiGetBannerTitle = baseUrl + '/api/banner-title/';
+            let bannerTitle = fetchApi(apiGetBannerTitle);
+            let bannerTitlePromise = Promise.resolve(bannerTitle);
+            bannerTitlePromise.then(function(value) {
+                console.log(value.bannerTitle);
+                // Response no error
+                if (value.bannerTitle != null) {
+                    console.log(value.bannerTitle);
+                    document.getElementById("title-banner").innerHTML = escapeHTML(value.bannerTitle);
+                    document.getElementById("sub-title-banner").innerHTML = escapeHTML(value.bannerSubTitle);
+                } else {
+                    document.getElementById("title-banner").innerHTML = 'Chưa có nội dung';
+                    document.getElementById("sub-title-banner").innerHTML = 'Chưa có nội dung';
+                }
+            })
+        }
         /**
          * Set icon
          */
