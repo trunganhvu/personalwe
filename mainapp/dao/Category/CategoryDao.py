@@ -45,3 +45,10 @@ def update_category(category):
     category_db.category_image_default = category.category_image_default
     category_db.save()
     return category_db
+
+def get_category_display():
+    """
+    Get all category display
+    """
+    category_list = Category.objects.filter(display=True).order_by('-display_order')
+    return category_list

@@ -9,6 +9,7 @@ import os
 
 KEY_CACHE_API_CATEGORY = 'context-api-category'
 KEY_CACHE_API_CATEGORY_ID = 'context-api-category-id-'
+KEY_CACHE_API_CATEGORY_DISPLAY = 'context-api-category-display'
 def get_all_category():
     """
     Get all category
@@ -107,6 +108,7 @@ def update_category(category, is_update_image):
 
         # Clean cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_DISPLAY)
 
         # Reset category into cache
         key_cache = str(KEY_CACHE_API_CATEGORY_ID) + str(category_updated.category_id)
@@ -118,3 +120,21 @@ def update_category(category, is_update_image):
             os.remove(path1)
             os.remove(path2)
         raise error
+
+def get_category_display():
+    """
+    Get all category display
+    """
+    cached_data = cache.get(KEY_CACHE_API_CATEGORY_DISPLAY)
+    if not cached_data:
+        print('Khong co cache')
+
+        # Get category in DB
+        category_list = CategoryDao.get_category_display()
+
+        # Have category to return
+        if category_list.count() > 0:
+            # Set list category into cache
+            cache.set(KEY_CACHE_API_CATEGORY_DISPLAY, category_list, settings.CACHE_TIME)
+            cached_data = category_list 
+    return cached_data

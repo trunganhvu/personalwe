@@ -143,6 +143,11 @@ def update_category_form(request, id):
             return redirect('/category-form/' + str(id))
         return redirect('/category')
 
+def get_category_display(request):
+    """
+    Get all category display
+    """
+    
 def validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image):
     """
     Validate data form insert category
