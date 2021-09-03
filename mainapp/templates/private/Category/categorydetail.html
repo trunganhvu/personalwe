@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Hiển thị
                                     </label>
@@ -78,7 +78,19 @@
                                             >
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="category-display-type" class="bmd-label-floating">Kiểu hiển thị
+                                    </label>
+                                    <input type="text" name="category-display-type" class="form-control"
+                                            {% if category.display_type %}
+                                                value="Loại {{ category.display_type }}"
+                                            {% endif %}
+                                            disabled
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Thứ tự hiển thị 
                                     </label>
@@ -112,6 +124,56 @@
                         <img class="img" id="image-category-now" src=""/>
                     {% endif %}
                     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách post</h4>
+                        <a href="{% url 'post-form' category_id=category.category_id %}" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Tiêu đề</th>
+                                    <th class="col-url">Url</th>
+                                    <th class="col-display">Hiển thị</th>
+                                    <th class="col-display">Thứ tự</th>
+                                </thead>
+                                <tbody>
+                                {% for category_post in category_posts %}
+                                    {% if category_post.display %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}">
+                                                {{ category_post.category_post_id }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}">
+                                                {{ category_post.category_post_title }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ category_post.category_post_url }}
+                                        </td>
+                                        <td>
+                                            <img src="{% static '/assets/img/tick.png' %}" />
+                                        </td>
+                                        <td>
+                                            {{ category_post.display_order }}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

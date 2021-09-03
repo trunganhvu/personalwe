@@ -1,0 +1,144 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Post</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Tiêu đề</label>
+                                <input type="text" name="category-post-title" class="form-control" 
+                                        {% if category_post.category_post_title %}
+                                            value="{{ category_post.category_post_title }}"
+                                        {% endif %}
+                                        disabled
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Đường dẫn tương ứng</label>
+                                <input type="text" name="category-post-url" class="form-control"
+                                        disabled
+                                        {% if category_post.category_post_url %}
+                                            value="{{ category_post.category_post_url }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Mô tả</label>
+                                <div class="form-group">
+                                    <div>{{ category_post.category_post_description }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Nội dung</label>
+                                <div class="form-group">
+                                    <div class="">
+                                        {{ category_post.category_post_content }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Tên ảnh mặc định</label>
+                                <input type="text" name="category-post-image-name" class="form-control"
+                                    disabled
+                                    {% if category_post.category_post_image_name %}
+                                        value="{{ category_post.category_post_image_name }}"
+                                    {% endif %}
+                                    />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="image-header" class="bmd-label-floating">Vị trị</label>
+                            <div class="input-group mb-3">
+                                <div class="custom-file">
+                                    <input type="text" name="category-post-image"
+                                        class="form-control" disabled
+                                        value="{{ category_post.category_post_image }}"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Hiển thị </label>
+                                <input type="text" name="category-post-display-order"
+                                    class="form-control" disabled
+                                    value="{{ category_post.display }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Thứ tự</label>
+                                <input type="number" name="category-post-display-order"
+                                    class="form-control" disabled
+                                    {% if category_post.display_order %}
+                                        value="{{ category_post.display_order }}"
+                                    {% endif %}
+                                    >
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'category-detail' id=category.category_id %}" class="btn btn-primary pull-right">
+                        Quay lại
+                    </a>
+                    <a href="{% url 'post-form-update' category_id=category.category_id post_id=category_post.category_post_id %}" class="btn btn-primary pull-right">
+                        Cập nhật
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Hiện tại</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    {% if category_post.category_post_image %}
+                        <img class="img" id="image-category-now" src=""/>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        // Src image
+        let srcImage = '{{ category_post.category_post_image }}';
+        // Set image
+        document.getElementById("image-category-now").src = '/' + srcImage;
+    };
+    
+</script>
+{% endblock %}

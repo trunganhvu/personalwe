@@ -9,6 +9,7 @@ class Category(models.Model):
     category_url = models.CharField(max_length=100, unique=True)
     display = models.BooleanField(default=False)
     display_order = models.IntegerField(default=0)
+    display_type = models.IntegerField(default=1)
     category_image_default_name = models.CharField(max_length=100)
     category_image_default = models.CharField(max_length=255)
     category_image_event_name = models.CharField(max_length=100, null=True)

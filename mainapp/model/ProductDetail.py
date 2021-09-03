@@ -14,8 +14,8 @@ class ProductDetail(models.Model):
     number_of_product = models.IntegerField(default=0)
     product_original_price = models.DecimalField(max_digits=12, decimal_places=2)
     product_public_price = models.DecimalField(max_digits=12, decimal_places=2)
-    created_at = models.DateField(null=False)
-    updated_at = models.DateField(null=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     class Meta:
         app_label = "mainapp"

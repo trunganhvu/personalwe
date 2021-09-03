@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from mainapp.service.Category import CategoryService
+from mainapp.service.Category import CategoryService, CategoryPostService
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from mainapp.Common import ConstValiable
@@ -43,18 +43,21 @@ def insert_category_form(request):
             category_image = request.FILES['category-image']
             category_display = request.POST.get('category-display')
             category_display_order = request.POST.get('category-display-order')
+            category_display_type = request.POST.get('category-display-type')
             category = Category(category_name=category_name,
                                 category_url=category_url,
                                 display=category_display,
                                 display_order=category_display_order,
                                 category_image_default_name=category_image_name,
-                                category_image_default=category_image)
+                                category_image_default=category_image,
+                                display_type=category_display_type)
             context = {
                 'category': category
             }
-            check = validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order)
+            is_update_image = True
+            check = validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image, category_display_type)
             if check:
-                CategoryService.insert_category(category_name, category_url, category_image_name, category_image, category_display, category_display_order)
+                CategoryService.insert_category(category)
                 messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
             else:
                 messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
@@ -72,8 +75,10 @@ def get_category_detail_page(request, id):
     context = {}
     try:
         category = CategoryService.get_category_detail(id)
+        list_category_post = CategoryPostService.get_all_post_in_category(id)
         context = {
-            'category': category
+            'category': category,
+            'category_posts': list_category_post
         }
     except Exception:
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
@@ -113,6 +118,7 @@ def update_category_form(request, id):
             category_display = request.POST.get('category-display')
             category_display_order = request.POST.get('category-display-order')
             category_image_now = request.POST.get('category-image-now')
+            category_display_type = request.POST.get('category-display-type')
             if category_image == '':
                 is_update_image = False
                 category_image = category_image_now
@@ -124,18 +130,17 @@ def update_category_form(request, id):
                                 display=category_display,
                                 display_order=category_display_order,
                                 category_image_default_name=category_image_name,
-                                category_image_default=category_image)
+                                category_image_default=category_image,
+                                display_type=category_display_type)
             context = {
                 'category': category
             }
-            check = validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image)
+            check = validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image, category_display_type)
             if category_id == id and check:
-                print('validate true')
                 # update
                 CategoryService.update_category(category, is_update_image)
                 messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
             else:
-                print(category.category_name)
                 messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
                 return render(request, 'private/Category/categoryform.html', context=context)
         except Exception:
@@ -148,7 +153,7 @@ def get_category_display(request):
     Get all category display
     """
     
-def validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image):
+def validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image, category_display_type):
     """
     Validate data form insert category
     """
@@ -176,5 +181,6 @@ def validate_form_insert(category_name, category_url, category_image_name, categ
     if category_display == 'true':
         if not category_display_order.isnumeric() or int(category_display_order) <= 0:
             return False
-    
+        if not str(category_display_type) in ['1', '2', '3']:
+            return False
     return True

@@ -11,10 +11,10 @@ class Event(models.Model):
     event_description = models.CharField(max_length=1000)
     event_image_banner = models.CharField(max_length=255)
     active = models.BooleanField(default=False)
-    event_start = models.DateField(null=True)
-    event_end = models.DateField(null=True)
-    created_at = models.DateField(null=False)
-    updated_at = models.DateField(null=True)
+    event_start = models.DateTimeField(null=True)
+    event_end = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     class Meta:
         app_label = "mainapp"

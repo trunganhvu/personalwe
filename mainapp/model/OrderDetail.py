@@ -10,8 +10,8 @@ class OrderDetail(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_detail_id = models.ForeignKey(ProductDetail, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
-    created_at = models.DateField(null=False)
-    updated_at = models.DateField(null=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     class Meta:
         app_label = "mainapp"

@@ -13,8 +13,8 @@ class ProductSize(models.Model):
     product_size_height_min = models.IntegerField(default=0)
     product_size_width_max = models.IntegerField(default=0)
     product_size_width_min = models.IntegerField(default=0)
-    created_at = models.DateField(null=False)
-    updated_at = models.DateField(null=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     class Meta:
         app_label = "mainapp"

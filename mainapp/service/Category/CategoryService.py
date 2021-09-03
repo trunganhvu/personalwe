@@ -10,6 +10,7 @@ import os
 KEY_CACHE_API_CATEGORY = 'context-api-category'
 KEY_CACHE_API_CATEGORY_ID = 'context-api-category-id-'
 KEY_CACHE_API_CATEGORY_DISPLAY = 'context-api-category-display'
+
 def get_all_category():
     """
     Get all category
@@ -26,37 +27,38 @@ def get_all_category():
             cached_data = category_list 
     return cached_data
 
-def insert_category(category_name, category_url, category_image_name, category_image, category_display, category_display_order):
+def insert_category(category):
     """
     Insert category
     """
     full_path_image = ''
     try:
         # Set image name saved
-        image_name_save = category_image_name + '.' + str(imghdr.what(category_image))
+        image_name_save = category.category_image_default_name + '.' + str(imghdr.what(category.category_image_default))
         # Dir save
         fs = FileSystemStorage(location=settings.IMAGE_USER)
         # Save image
-        filename = fs.save(image_name_save, category_image)
+        filename = fs.save(image_name_save, category.category_image_default)
         # Url dir save
         uploaded_file_url = fs.url(filename)
         full_path_image = settings.IMAGE_PATH_STATIC + uploaded_file_url
-        
+        category.category_image_default = full_path_image
+
         # Change display
-        category_display = True if category_display == 'true' else False
+        category.display = True if category.display == 'true' else False
 
         # Change display order
-        category_display_order = 0 if category_display_order == '' else category_display_order
-
+        category.display_order = 0 if category.display_order == '' else category.display_order
         # Insert to DB
-        category = CategoryDao.insert_category(category_name, category_url, category_image_name, full_path_image, category_display, category_display_order)
+        category_db = CategoryDao.insert_category(category)
         
         # Clean cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_DISPLAY)
 
         # Set category into cache
-        key_cache = str(KEY_CACHE_API_CATEGORY_ID) + str(category.category_id)
-        cache.set(key_cache, category, settings.CACHE_TIME)
+        key_cache = str(KEY_CACHE_API_CATEGORY_ID) + str(category_db.category_id)
+        cache.set(key_cache, category_db, settings.CACHE_TIME)
     except Exception as error: 
         if full_path_image != '':
             path1 = str(settings.BASE_DIR) + '/' + settings.APP_NAME1 + '/' + full_path_image

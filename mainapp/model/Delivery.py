@@ -9,8 +9,8 @@ class Delivery(models.Model):
     delivery_phone =  models.CharField(max_length=25)
     delivery_price = models.DecimalField(max_digits=12, decimal_places=2)
     is_using = models.BooleanField(default=False)
-    created_at = models.DateField(null=False)
-    updated_at = models.DateField(null=True)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     class Meta:
         app_label = "mainapp"
