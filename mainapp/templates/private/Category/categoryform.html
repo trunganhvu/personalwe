@@ -20,7 +20,13 @@
                   <h4 class="card-title">Category</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" autocomplete="on" action="/category-form/insert/" enctype="multipart/form-data">{% csrf_token %}
+                {% if category.category_id %}
+                    <form method="post" autocomplete="on" action="{% url 'category-update' id=category.category_id %}" enctype="multipart/form-data">
+                        <input type="hidden" name="category-id" value="{{ category.category_id }}"/>
+                {% else %}
+                    <form method="post" autocomplete="on" action="{% url 'category-insert' %}" enctype="multipart/form-data">
+                {% endif %}
+                        {% csrf_token %}
                         <div class="row">
                             <div class="text-danger">
                                 <ul>
@@ -42,8 +48,8 @@
                                             onchange="validateCategoryName(this.value)"
                                             maxlength="1000" 
                                             required
-                                            {% if category_name %}
-                                                value="{{category_name}}"
+                                            {% if category.category_name %}
+                                                value="{{ category.category_name }}"
                                             {% endif %}
                                             >
                                 </div>
@@ -57,8 +63,8 @@
                                             onchange="validateCategoryUrl(this.value)"
                                             maxlength="1000"
                                             required
-                                            {% if category_url %}
-                                                value="{{category_url}}"
+                                            {% if category.category_url %}
+                                                value="{{ category.category_url }}"
                                             {% endif %}
                                             >
                                 </div>
@@ -74,18 +80,32 @@
                                             onchange="validateCategoryImageName(this.value)"
                                             maxlength="1000"
                                             required
-                                            {% if category_image_name %}
-                                                value="{{category_image_name}}"
+                                            {% if category.category_image_default_name %}
+                                                value="{{ category.category_image_default_name }}"
                                             {% endif %}
                                             >
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="image-header" class="bmd-label-floating">Chọn ảnh
-                                    <span class="asteriskField">*</span>
+                                    {% if not category.category_image_default %}
+                                        <span class="asteriskField">*</span>
+                                    {% endif %}
                                 </label>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
+                                    {% if category.category_image_default %}
+                                        <input type="hidden" name="category-image-now" value="{{ category.category_image_default }}"/>
+                                        <input type="file"
+                                            id="image-header"
+                                            class="form-control-file custom-file-input"
+                                            name="category-image" 
+                                            accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
+                                            onchange="document.getElementById('image-category-preview').src = window.URL.createObjectURL(this.files[0]);
+                                                    document.getElementById('image-category-preview').classList.remove('d-none');"
+                                            >
+                                            <label class="custom-file-label" for="inputGroupFile01">{{ category.category_image_default }}</label>
+                                    {% else %}
                                         <input type="file"
                                             id="image-header"
                                             class="form-control-file custom-file-input"
@@ -94,11 +114,9 @@
                                             onchange="document.getElementById('image-category-preview').src = window.URL.createObjectURL(this.files[0]);
                                                     document.getElementById('image-category-preview').classList.remove('d-none');"
                                             required
-                                            {% if category_image %}
-                                                value="{{category_image}}"
-                                            {% endif %}
                                             >
                                         <label class="custom-file-label" for="inputGroupFile01">Ảnh đuôi .png, .webp, .jpg</label>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -106,17 +124,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="bmd-label-floating">Hiển thị
+                                    <label class="bmd-label-floating">Hiển thị {{category.display}}
                                     </label>
                                     <select name="category-display" id="display" class="form-control">
                                         <option value="false"
-                                                {% if category_display == 'false' %}
+                                                {% if category.display == False %}
                                                     selected
                                                 {% endif %}
                                                 >Không hiển thị
                                         </option>
                                         <option value="true"
-                                                {% if category_display == 'true' %}
+                                                {% if category.display == True %}
                                                     selected
                                                 {% endif %}>Hiển thị
                                         </option>
@@ -129,14 +147,21 @@
                                     </label>
                                     <input type="number" name="category-display-order"
                                             class="form-control"
-                                            {% if category_display_order %}
-                                                value="{{category_display_order}}"
+                                            {% if category.display_order %}
+                                                value="{{ category.display_order }}"
                                             {% endif %}
                                             >
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary pull-right">Tạo</button>
+                        {% if category.category_id %}
+                            <a href="{% url 'category-detail' id=category.category_id %}" class="btn btn-primary pull-right">
+                                Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary pull-right">Tạo</button>
+                        {% endif %}
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -149,7 +174,11 @@
                     </div>
                     <div class="card-body">
                     </div>
-                    <img class="img" id="image-category-preview"/>
+                    {% if category.category_image_default %}
+                        <img class="img" src="/{{ category.category_image_default }}" id="image-category-preview"/>
+                    {% else %}
+                        <img class="img" id="image-category-preview"/>
+                    {% endif %}
                 </div>
             </div>
         </div>

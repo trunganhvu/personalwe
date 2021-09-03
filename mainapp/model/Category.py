@@ -16,7 +16,7 @@ class Category(models.Model):
     category_image_event_start = models.DateTimeField(null=True)
     category_image_event_end = models.DateTimeField(null=True)
     created_at = models.DateTimeField(null=False)
-    updated_at = models.DateTimeField(null=True)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
 
     class Meta:
         app_label = "mainapp"

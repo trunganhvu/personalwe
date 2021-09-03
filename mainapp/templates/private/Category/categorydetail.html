@@ -2,13 +2,7 @@
 {% load static %}
 {% block section %}
 <style>
-#msg-category-name,
-#msg-category-url,
-#msg-category-image-name,
-#msg-category-image,
-#msg-category-display-order {
-    display: none;
-}
+
 </style>
 <div class="content">
     {% include 'private/message.html' %}
@@ -86,7 +80,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="bmd-label-floating">Thứ tự hiển thị
+                                    <label class="bmd-label-floating">Thứ tự hiển thị 
                                     </label>
                                     <input type="number" name="category-display-order"
                                             class="form-control"
@@ -98,6 +92,11 @@
                                 </div>
                             </div>
                         </div>
+                        <a href="" class="btn btn-primary pull-right">Xóa</a>
+                        {% if category.category_id %}
+                            <a href="{% url 'category-form-update' id=category.category_id %}" class="btn btn-primary pull-right">Sửa</a>
+                        {% endif %}
+                        
                     </form>
                 </div>
               </div>

@@ -2,7 +2,18 @@
 {% load static %}
 {% block section %}
 <style>
-
+.col-id {
+    width: 10%;
+}
+.col-name {
+    width: 30%;
+}
+.col-url {
+    width: 30%;
+}
+.col-display {
+    width: 10%;
+}
 </style>
 <div class="content">
     {% include 'private/message.html' %}
@@ -13,20 +24,20 @@
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Danh sách category</h4>
                     <a href="{% url 'category-form' %}" class="btn btn-secondary pull-right">Mới</a>
-
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                     <table class="table">
                         <thead class=" text-primary">
-                            <th>ID</th>
-                            <th>Category</th>
-                            <th>Url</th>
-                            <th>Hiển thị</th>
-                            <th>Thứ tự hiển thị</th>
+                            <th class="col-id">ID</th>
+                            <th class="col-name">Category</th>
+                            <th class="col-url">Url</th>
+                            <th class="col-display">Hiển thị</th>
+                            <th class="col-display">Thứ tự hiển thị</th>
                         </thead>
                         <tbody>
                         {% for category in categorys %}
+                            {% if category.display %}
                             <tr>
                                 <td>
                                     <a href="{% url 'category-detail' id=category.category_id %}">
@@ -42,17 +53,64 @@
                                     {{ category.category_url }}
                                 </td>
                                 <td>
-                                    {{ category.display }}
+                                    <img src="{% static '/assets/img/tick.png' %}" />
                                 </td>
                                 <td>
                                     {{ category.display_order }}
                                 </td>
                             </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
                     </div>
                 </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th class="col-id">ID</th>
+                                <th class="col-name">Category</th>
+                                <th class="col-url">Url</th>
+                                <th class="col-display">Hiển thị</th>
+                                <th class="col-display">Thứ tự hiển thị</th>
+                            </thead>
+                            <tbody>
+                            {% for category in categorys %}
+                            {% if not category.display %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'category-detail' id=category.category_id %}">
+                                            {{ category.category_id }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'category-detail' id=category.category_id %}">
+                                            {{ category.category_name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ category.category_url }}
+                                    </td>
+                                    <td class="btn-outline-danger">
+                                        <img src="{% static '/assets/img/close.png' %}" />
+                                    </td>
+                                    <td>
+                                        {{ category.display_order }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,8 +18,10 @@ urlpatterns = [
     path('banner-title/', BannerTitleController.update_banner_title_form, name='banner-title'),
     path('category/', CategoryController.view_category_page, name='category'),
     path('category-form/', CategoryController.view_category_form_page, name='category-form'),
-    path('category-form/insert/', CategoryController.insert_category_form, name='category-form-insert'),
+    path('category-form/insert/', CategoryController.insert_category_form, name='category-insert'),
     path('category/<str:id>/', CategoryController.get_category_detail_page, name='category-detail'),
+    path('category-form/<str:id>/', CategoryController.view_category_form_update_page, name='category-form-update'),
+    path('category-form/update/<str:id>', CategoryController.update_category_form, name='category-update'),
 
 
 
