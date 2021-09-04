@@ -54,3 +54,10 @@ def get_category_display():
     """
     category_list = Category.objects.filter(display=True).order_by('display_order')
     return category_list
+
+def get_category_detail_diplay(url):
+    """
+    Get category detail is diplay
+    """
+    category = Category.objects.filter(category_url=url).first()
+    return category

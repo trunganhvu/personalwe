@@ -11,6 +11,8 @@ KEY_CACHE_API_CATEGORY_POST = 'context-api-category-post'
 KEY_CACHE_API_CATEGORY_POST_IN_CATEGORY = 'context-api-category-post-in-categoy-'
 KEY_CACHE_API_CATEGORY_POST_ID = 'context-api-category-post-id-'
 KEY_CACHE_API_CATEGORY_POST_DISPLAY = 'context-api-category-post-display'
+KEY_CACHE_CATEGORY_POST_DISPLAY_IN_CATEGORY = 'context-api-category-post-display-in-categoy-'
+KEY_CACHE_CATEGORY_POST_DETAIL_DISPLAY_BY_URL = 'context-api-category-post-detail-display-by-url-'
 
 def get_all_category_post():
     """
@@ -35,18 +37,33 @@ def get_all_post_in_category(id):
     key_cache = str(KEY_CACHE_API_CATEGORY_POST_IN_CATEGORY) + str(id)
     cached_data = cache.get(key_cache)
     if not cached_data:
-        print('post k co trong cache')
         # Get post in DB
         post_list = CategoryPostDao.get_all_post_by_category_id(id)
-        print('sau khi dao')
         # Have post to return
         if post_list.count() > 0:
-            print('truoc khi set cache')
             # Set list post into cache
             cache.set(key_cache, post_list, settings.CACHE_TIME)
-            print('set cache done')
             cached_data = post_list
-    print(cached_data)
+        else:
+            cached_data = {}
+    return cached_data
+
+def get_all_post_display_in_category(id):
+    """
+    Get all post display in category
+    """
+    key_cache = str(KEY_CACHE_CATEGORY_POST_DISPLAY_IN_CATEGORY) + str(id)
+    cached_data = cache.get(key_cache)
+    if not cached_data:
+        # Get post in DB
+        post_list = CategoryPostDao.get_all_post_display_by_category_id(id)
+        # Have post to return
+        if post_list.count() > 0:
+            # Set list post into cache
+            cache.set(key_cache, post_list, settings.CACHE_TIME)
+            cached_data = post_list
+        else:
+            cached_data = {}
     return cached_data
 
 def get_detail_post_by_id(id):
@@ -60,6 +77,20 @@ def get_detail_post_by_id(id):
 
         # Set list post into cache
         cache.set(KEY_CACHE_API_CATEGORY_POST_ID + str(id), post, settings.CACHE_TIME)
+        cached_data = post 
+    return cached_data
+
+def get_detail_post_public_by_url(url):
+    """
+    Get detail post public by url
+    """
+    cached_data = cache.get(KEY_CACHE_CATEGORY_POST_DETAIL_DISPLAY_BY_URL + url)
+    if not cached_data:
+        # Get post in DB
+        post = CategoryPostDao.get_post_detail_display_by_url(url)
+
+        # Set list post into cache
+        cache.set(KEY_CACHE_CATEGORY_POST_DETAIL_DISPLAY_BY_URL + url, post, settings.CACHE_TIME)
         cached_data = post 
     return cached_data
 
@@ -93,7 +124,7 @@ def insert_post(post):
         # Clean cache list
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_POST)
         CacheUtil.clean_cache_by_key(str(KEY_CACHE_API_CATEGORY_POST_IN_CATEGORY) + str(post.category_id_id))
-
+        CacheUtil.clean_cache_by_key(str(KEY_CACHE_CATEGORY_POST_DISPLAY_IN_CATEGORY) + str(id))
         # Save cache
         key_cache = str(KEY_CACHE_API_CATEGORY_POST_ID) + str(category_post.category_post_id)
         cache.set(key_cache, category_post, settings.CACHE_TIME)
@@ -137,6 +168,7 @@ def update_post(post, is_update_image):
         # Clean cache list
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_POST)
         CacheUtil.clean_cache_by_key(str(KEY_CACHE_API_CATEGORY_POST_IN_CATEGORY) + str(post.category_id_id))
+        CacheUtil.clean_cache_by_key(str(KEY_CACHE_CATEGORY_POST_DISPLAY_IN_CATEGORY) + str(id))
 
         # Reset cache
         key_cache = str(KEY_CACHE_API_CATEGORY_POST_ID) + str(category_post.category_post_id)

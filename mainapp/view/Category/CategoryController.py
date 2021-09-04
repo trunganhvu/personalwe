@@ -164,6 +164,25 @@ def get_category_display(request):
     Get all category display
     """
     
+def view_category_by_url_public_page(request, url):
+    """
+    View category in public page
+    """
+    try:
+        category = CategoryService.get_category_detail_display(url)
+        list_post = CategoryPostService.get_all_post_display_in_category(category.category_id)
+        print(category)
+        if category is not None:
+            context = {
+                'category': category,
+                'posts': list_post
+            }
+        else:
+            return redirect('/') 
+    except Exception:
+        return redirect('/') 
+    return render(request, 'public/Category/category.html', context=context)
+
 def validate_form_insert(category_name, category_url, category_image_name, category_image, category_display, category_display_order, is_update_image, category_display_type):
     """
     Validate data form insert category
@@ -183,7 +202,7 @@ def validate_form_insert(category_name, category_url, category_image_name, categ
     if is_update_image:
         image_split = category_image.name.split('.')
         image_type = image_split[-1]
-        check = image_type in ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif', 'webp']
+        check = image_type.lower() in ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif', 'webp']
         if not check:
             return False
     # Check display

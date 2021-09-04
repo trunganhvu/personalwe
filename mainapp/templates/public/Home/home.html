@@ -6,7 +6,7 @@
                 <ul>
                     <li class="active"><a href="index.html">Home</a></li>
                     {% for category in categories %}
-                        <li><a href="#{{ category.category_url }}">{{ category.category_name }}</a></li>
+                        <li><a href="#{{ category.category_detail.category_url }}">{{ category.category_detail.category_name }}</a></li>
                     {% endfor %}
                 </ul>
             </nav>
@@ -23,134 +23,91 @@
         </section>
         <!-- End Hero -->
         <main id="main">
+            {% for category in categories %}
+                {% if category.category_detail.display_type == 1 %}
+                    <section id="{{ category.category_detail.category_url }}" class="services">
+                        <div class="container">
+                            <div class="section-title">
+                                <span>{{ category.category_detail.category_name }}</span>
+                                <h2><a href="{% url 'public-category' url=category.category_detail.category_url %}">
+                                    {{ category.category_detail.category_name }}</a>
+                                </h2>
+                                <p>{{ category.category_detail.category_url }}</p>
+                            </div>
+                            <div class="row">
+                                {% for post in category.posts %}
+                                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                                        <div class="icon-box">
+                                            <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                                            <h4 class="title"><a href="{{ post.category_post_url }}">
+                                                {{ post.category_post_title }}</a>
+                                            </h4>
+                                            <p class="description">{{ post.category_post_description }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                {% elif category.category_detail.display_type == 2 %}
+                    <section id="{{ category.category_detail.category_url }}" class="portfolio">
+                        <div class="container">
+                            <div class="section-title">
+                                <span>{{ category.category_detail.category_name }}</span>
+                                <h2>{{ category.category_detail.category_name }}</h2>
+                                <p>{{ category.category_detail.category_url }}</p>
+                            </div>
+                            <ul id="portfolio-flters" class="d-flex justify-content-center">
+                                <li data-filter="*" class="filter-active">All</li>
+                                <li data-filter=".filter-app">App</li>
+                                <li data-filter=".filter-card">Card</li>
+                                <li data-filter=".filter-web">Web</li>
+                            </ul>
+                            <div class="row portfolio-container">
+                                {% for post in category.posts %}
+                                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                                    <div class="portfolio-img"><img src="{{ post.category_post_image }}" class="img-fluid" alt=""></div>
+                                    <div class="portfolio-info">
+                                        <h4>{{ post.category_post_title }}</h4>
+                                        <p>{{ post.category_post_description }}</p>
+                                        <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery"
+                                                class="venobox preview-link"
+                                                title="{{ post.category_post_title }}">
+                                                <i class="bx bx-plus"></i>
+                                        </a>
+                                        <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                {% elif category.category_detail.display_type == 3 %}
+                    <section id="{{ category.category_detail.category_url }}" class="testimonials">
+                        <div class="container">
+                            <div class="owl-carousel testimonials-carousel">
+                                {% for post in category.posts %}
+                                <div class="testimonial-item">
+                                    <img src="{{ post.category_post_image }}" class="testimonial-img" alt="">
+                                    <h3>{{ post.category_post_title }}</h3>
+                                    <h4>{{ post.category_post_description }}</h4>
+                                    <p>
+                                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                        {{ post.category_post_content }}
+                                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                    </p>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
+            {% endfor %}
             
-            <!-- ======= My Portfolio Section ======= -->
-            <section id="portfolio" class="portfolio">
-                <div class="container">
-                    <div class="section-title">
-                        <span>My Portfolio</span>
-                        <h2>My Portfolio</h2>
-                        <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p>
-                    </div>
-                    <ul id="portfolio-flters" class="d-flex justify-content-center">
-                        <li data-filter="*" class="filter-active">All</li>
-                        <li data-filter=".filter-app">App</li>
-                        <li data-filter=".filter-card">Card</li>
-                        <li data-filter=".filter-web">Web</li>
-                    </ul>
-                    <div class="row portfolio-container">
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-1.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>App 1</h4>
-                                <p>App</p>
-                                <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-2.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>Web 3</h4>
-                                <p>Web</p>
-                                <a href="assets/img/portfolio/portfolio-2.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-3.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>App 2</h4>
-                                <p>App</p>
-                                <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-4.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>Card 2</h4>
-                                <p>Card</p>
-                                <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-5.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>Web 2</h4>
-                                <p>Web</p>
-                                <a href="assets/img/portfolio/portfolio-5.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Web 2"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-6.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>App 3</h4>
-                                <p>App</p>
-                                <a href="assets/img/portfolio/portfolio-6.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-7.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>Card 1</h4>
-                                <p>Card</p>
-                                <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-8.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>Card 3</h4>
-                                <p>Card</p>
-                                <a href="assets/img/portfolio/portfolio-8.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                            <div class="portfolio-img"><img src="{% static 'assets/img/portfolio/portfolio-9.jpg' %}" class="img-fluid" alt=""></div>
-                            <div class="portfolio-info">
-                                <h4>Web 3</h4>
-                                <p>Web</p>
-                                <a href="assets/img/portfolio/portfolio-9.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-                                <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <!-- End My Portfolio Section -->
             <!-- ======= Testimonials Section ======= -->
-            <section id="testimonials" class="testimonials">
-                <div class="container">
-                    <div class="owl-carousel testimonials-carousel">
-                        <div class="testimonial-item">
-                            <img src="{% static 'assets/img/testimonials/testimonials-1.jpg' %}" class="testimonial-img" alt="">
-                            <h3>Saul Goodman</h3>
-                            <h4>Ceo &amp; Founder</h4>
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                        </div>
-                        <div class="testimonial-item">
-                            <img src="{% static 'assets/img/testimonials/testimonials-2.jpg' %}" class="testimonial-img" alt="">
-                            <h3>Sara Wilsson</h3>
-                            <h4>Designer</h4>
-                            <p>
-                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            
             <!-- End Testimonials Section -->
         </main>
         <!-- End #main -->

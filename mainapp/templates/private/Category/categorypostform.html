@@ -78,10 +78,9 @@
                                         <span class="asteriskField">*</span>
                                     </label>
                                     <div class="form-group">
-                                        <textarea class="form-control" name="category-post-description" 
-                                            rows="5">
-                                            {% if category_post.category_post_description %}
-                                                {{ category_post.category_post_description }}
+                                        <textarea class="form-control" 
+                                            name="category-post-description" 
+                                            rows="5">{% if category_post.category_post_description %}{{ category_post.category_post_description }}
                                             {% endif %}
                                         </textarea>
                                     </div>
@@ -95,12 +94,10 @@
                                         <span class="asteriskField">*</span>
                                     </label>
                                     <div class="form-group">
-                                        <textarea class="form-control" name="category-post-content"
-                                            rows="5">
-                                            {% if category_post.category_post_content %}
-                                                {{ category_post.category_post_content }}
-                                            {% endif %}
-                                        </textarea>
+                                        <textarea class="form-control"
+                                            name="category-post-content"
+                                            rows="5">{% if category_post.category_post_content %}{{ category_post.category_post_content }}
+                                            {% endif %}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +192,9 @@
                             </a>
                             <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>
                         {% else %}
+                        <a href="{% url 'category-detail' id=category.category_id %}" class="btn btn-primary pull-right">
+                                Quay lại
+                            </a>
                             <button type="submit" class="btn btn-primary pull-right">Tạo</button>
                         {% endif %}
                         <div class="clearfix"></div>

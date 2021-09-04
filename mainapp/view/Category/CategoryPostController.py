@@ -83,6 +83,7 @@ def insert_category_post_form(request, category_id):
             }
             is_update_image = True
             check = validate_form(category_post, is_update_image)
+            print(check)
             if check:
                 CategoryPostService.insert_post(category_post)
                 messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
@@ -169,6 +170,25 @@ def view_category_post_detail_page(request, category_id, post_id):
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         return redirect('/category')
 
+def view_category_post_detail_public_page(request, url):
+    """
+    View detail post public by url
+    """
+    try:
+        post = CategoryPostService.get_detail_post_public_by_url(url)
+
+        if post is not None:
+            context = {
+                'post': post
+            }
+            return render(request, 'public/Category/categorypostdetail.html', context=context)
+        else:
+            return redirect('/')   
+    except Exception:
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+        return redirect('/')
+    
+
 def validate_form(category_post, is_update_image):
     """
     Validate data form insert category
@@ -188,7 +208,7 @@ def validate_form(category_post, is_update_image):
     if is_update_image:
         image_split = category_post.category_post_image.name.split('.')
         image_type = image_split[-1]
-        check = image_type in ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif', 'webp']
+        check = image_type.lower() in ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif', 'webp']
         if not check:
             return False
     # Check display

@@ -10,6 +10,8 @@ import os
 KEY_CACHE_API_CATEGORY = 'context-api-category'
 KEY_CACHE_API_CATEGORY_ID = 'context-api-category-id-'
 KEY_CACHE_API_CATEGORY_DISPLAY = 'context-api-category-display'
+KEY_CACHE_CATEGORY_DETAIL_DISPLAY = 'context-api-category-detail-display-'
+
 
 def get_all_category():
     """
@@ -140,4 +142,19 @@ def get_category_display():
             # Set list category into cache
             cache.set(KEY_CACHE_API_CATEGORY_DISPLAY, category_list, settings.CACHE_TIME)
             cached_data = category_list 
+    return cached_data
+
+def get_category_detail_display(url):
+    """
+    Get category detail is display
+    """
+    key_cache = str(KEY_CACHE_CATEGORY_DETAIL_DISPLAY) + url
+    cached_data = cache.get(key_cache)
+    if not cached_data:
+        # Get category in DB
+        category_list = CategoryDao.get_category_detail_diplay(url)
+
+        # Set list category into cache
+        cache.set(key_cache, category_list, settings.CACHE_TIME)
+        cached_data = category_list 
     return cached_data

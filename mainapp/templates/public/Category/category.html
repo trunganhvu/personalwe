@@ -1,0 +1,77 @@
+{% extends 'public/base.html' %}
+{% block section %}
+<div class="hero-section home-page-hero"
+    style="background-image: url(/{{ category.category_image_default }})">
+    <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
+        <div class="w-container">
+            <a href="/" aria-current="page" class="w-nav-brand w--current">
+                <div class="logo-text">{{ category.category_name}}</strong></div>
+            </a>
+            <nav role="navigation" class="nav-menu w-nav-menu">
+                <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
+                <a href="/about" class="nav-link w-nav-link">About</a>
+                <a href="/portfolio" class="nav-link w-nav-link">Portfolio</a>
+                <a href="/blog" class="nav-link w-nav-link">Blog</a>
+                <a href="#" data-w-id="c66b3b9e-8533-cf7e-3626-5291fef080a4" class="nav-link contact w-nav-link">Contact</a>
+            </nav>
+            <div class="menu-button w-nav-button"><div class="w-icon-nav-menu"></div></div>
+        </div>
+    </div>
+    <h1
+        style="
+            -webkit-transform: translate3d(0, -30px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            -moz-transform: translate3d(0, -30px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            -ms-transform: translate3d(0, -30px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            transform: translate3d(0, -30px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+            opacity: 0;
+        "
+        class="home-page-heading"
+    >
+        {{ category.category_name }}
+    </h1>
+    <div class="hero-overlay"></div>
+</div>
+<div class="section top-section home-page">
+    <div class="hero-container w-container">
+        <div class="w-clearfix">
+        {% for post in posts %}
+            <div
+                data-w-id="e8c4e4c4-cea0-8f1e-cb08-86aed56ea0ae"
+                style="
+                    -webkit-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                    -moz-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                    -ms-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                    transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                    opacity: 0;
+                "
+                class="_33block"
+            >
+                <a href="{% url 'public-post' url=post.category_post_url %}" class="hero-tile w-inline-block">
+                    <div class="tile-text">
+                        {{ post.category_post_title }}
+                    </div>
+                    <div class="tile-image"
+                        style="background-image: url(/{{ post.category_post_image }});"
+                        ><div class="tile-overlay"></div></div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="footer-section">
+    <div class="w-container">
+        <div class="w-row">
+            <div class="w-col w-col-3">
+                <a href="/" aria-current="page" class="logo-footer w-nav-brand w--current">
+                    <div class="logo-text footer-logo">{{ category.category_name}}</strong></div>
+                </a>
+            </div>
+            {% comment %} <div class="footer-link-col w-clearfix w-col w-col-9">
+                <a href="#" data-ix="show-contact-overlay" class="nav-link footer-link contact">Contact</a><a href="/blog" class="nav-link footer-link">Blog</a><a href="/portfolio" class="nav-link footer-link">Portfolio</a>
+                <a href="/about" class="nav-link footer-link">About</a><a href="/" aria-current="page" class="nav-link footer-link w--current">Home</a>
+            </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock %}

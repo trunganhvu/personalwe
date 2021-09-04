@@ -17,11 +17,25 @@ def get_all_post_by_category_id(id):
     list_post = CategoryPost.objects.filter(category_id=id).order_by('category_post_id')
     return list_post
 
+def get_all_post_display_by_category_id(id):
+    """
+    Get all post display in category
+    """
+    list_post = CategoryPost.objects.filter(category_id=id, display=True).order_by('display_order')
+    return list_post
+
 def get_post_detail_by_id(id):
     """
     Get detail by id
     """
     post = CategoryPost.objects.get(pk=id)
+    return post
+
+def get_post_detail_display_by_url(url):
+    """
+    Get detail by url
+    """
+    post = CategoryPost.objects.filter(category_post_url=url).first()
     return post
 
 def insert_category_post(post):

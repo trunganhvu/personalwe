@@ -20,7 +20,7 @@ urlpatterns = [
     path('category/', CategoryController.view_category_page, name='category'),
     path('category-form/', CategoryController.view_category_form_page, name='category-form'),
     path('category-form/insert/', CategoryController.insert_category_form, name='category-insert'),
-    path('category/<str:id>/', CategoryController.get_category_detail_page, name='category-detail'),
+    path('category/<int:id>/', CategoryController.get_category_detail_page, name='category-detail'),
     path('category-form/<str:id>/', CategoryController.view_category_form_update_page, name='category-form-update'),
     path('category-form/update/<str:id>', CategoryController.update_category_form, name='category-update'),
     path('category/<str:category_id>/post-form/', CategoryPostController.view_insert_category_post_page, name='post-form'),
@@ -28,8 +28,8 @@ urlpatterns = [
     path('category/<str:category_id>/post/<str:post_id>/', CategoryPostController.view_category_post_detail_page, name='post'),
     path('category/<str:category_id>/post-form/insert/', CategoryPostController.insert_category_post_form, name='post-insert'),
     path('category/<str:category_id>/post-form/<str:post_id>/update/', CategoryPostController.update_category_post_form, name='post-update'),
-
-
+    path('post/<str:url>/', CategoryPostController.view_category_post_detail_public_page, name='public-post'),
+    path('category/<str:url>/', CategoryController.view_category_by_url_public_page, name='public-category'),
 
 
     # ---------------- API ----------------
