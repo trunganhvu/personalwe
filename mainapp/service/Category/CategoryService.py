@@ -114,6 +114,7 @@ def update_category(category, is_update_image):
 
         # Reset category into cache
         key_cache = str(KEY_CACHE_API_CATEGORY_ID) + str(category_updated.category_id)
+        CacheUtil.clean_cache_by_key(key_cache)
         cache.set(key_cache, category_updated, settings.CACHE_TIME)
     except Exception as error:
         if full_path_image != '':

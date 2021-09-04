@@ -2,7 +2,18 @@
 {% load static %}
 {% block section %}
 <style>
-
+.col-id {
+    width: 10%;
+}
+.col-name {
+    width: 30%;
+}
+.col-url {
+    width: 30%;
+}
+.col-display {
+    width: 10%;
+}
 </style>
 <div class="content">
     {% include 'private/message.html' %}
@@ -69,13 +80,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Hiển thị
-                                    </label>
-                                    <input type="text" name="category-image-name" class="form-control"
-                                            {% if category.display %}
-                                                value="{{category.display}}"
-                                            {% endif %}
-                                            disabled
-                                            >
+                                    </label><br>
+                                    <img src="
+                                    {% if category.display %}
+                                        {% static '/assets/img/tick.png' %}
+                                    {% else %}
+                                       {% static '/assets/img/close.png' %}
+                                    {% endif %}
+                                    " />
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -104,6 +116,7 @@
                                 </div>
                             </div>
                         </div>
+                        <a href="{% url 'category' %}" class="btn btn-primary pull-right">Quay lại</a>
                         <a href="" class="btn btn-primary pull-right">Xóa</a>
                         {% if category.category_id %}
                             <a href="{% url 'category-form-update' id=category.category_id %}" class="btn btn-primary pull-right">Sửa</a>
@@ -127,6 +140,7 @@
                 </div>
             </div>
         </div>
+        {% if category_posts_display_true|length != 0%}        
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -145,7 +159,7 @@
                                     <th class="col-display">Thứ tự</th>
                                 </thead>
                                 <tbody>
-                                {% for category_post in category_posts %}
+                                {% for category_post in category_posts_display_true %}
                                     {% if category_post.display %}
                                     <tr>
                                         <td>
@@ -177,6 +191,87 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if category_posts_display_false|length != 0%}        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    {% if category_posts_display_true|length == 0 %}
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách post</h4>
+                        <a href="{% url 'post-form' category_id=category.category_id %}" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Tiêu đề</th>
+                                    <th class="col-url">Url</th>
+                                    <th class="col-display">Hiển thị</th>
+                                    <th class="col-display">Thứ tự</th>
+                                </thead>
+                                <tbody>
+                                {% for category_post in category_posts_display_false %}
+                                    {% if not category_post.display %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}">
+                                                {{ category_post.category_post_id }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}">
+                                                {{ category_post.category_post_title }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ category_post.category_post_url }}
+                                        </td>
+                                        <td>
+                                            <img src="{% static '/assets/img/close.png' %}" />
+                                        </td>
+                                        <td>
+                                            {{ category_post.display_order }}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if category_posts_display_false|length == 0 and category_posts_display_true|length == 0 %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách post</h4>
+                        <a href="{% url 'post-form' category_id=category.category_id %}" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Tiêu đề</th>
+                                    <th class="col-url">Url</th>
+                                    <th class="col-display">Hiển thị</th>
+                                    <th class="col-display">Thứ tự</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 <script src="{% static 'js/webjs/fetchdata.js' %}"></script>

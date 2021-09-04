@@ -28,7 +28,7 @@ def insert_category_post(post):
     """
     Insert category post
     """
-    category = Category.objects.get(pk=post.category_id)
+    print('dao')
     category_post = CategoryPost(category_id=post.category_id,
                     category_post_title=post.category_post_title,
                     category_post_url=post.category_post_url,
@@ -47,6 +47,7 @@ def update_category_post(post):
     """
     Update category post
     """
+    print('dao')
     category_post = CategoryPost.objects.get(pk=post.category_post_id)
     category_post.category_id=post.category_id
     category_post.category_post_title=post.category_post_title

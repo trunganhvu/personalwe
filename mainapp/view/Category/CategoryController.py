@@ -76,9 +76,20 @@ def get_category_detail_page(request, id):
     try:
         category = CategoryService.get_category_detail(id)
         list_category_post = CategoryPostService.get_all_post_in_category(id)
+        list_category_post_display_true = []
+        list_category_post_display_false = [] 
+        # Query have result
+        if list_category_post is not None:
+            for category_post in list_category_post:
+                if category_post.display:
+                    list_category_post_display_true.append(category_post)
+                else:
+                    list_category_post_display_false.append(category_post)
+        
         context = {
             'category': category,
-            'category_posts': list_category_post
+            'category_posts_display_false': list_category_post_display_false,
+            'category_posts_display_true': list_category_post_display_true
         }
     except Exception:
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)

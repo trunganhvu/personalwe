@@ -123,13 +123,13 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="image-header" class="bmd-label-floating">Chọn ảnh
-                                    {% if not category_post.category_image_default %}
+                                    {% if not category_post.category_post_image %}
                                         <span class="asteriskField">*</span>
                                     {% endif %}
                                 </label>
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                    {% if category_post.category_image_default %}
+                                    {% if category_post.category_post_image %}
                                         <input type="hidden" name="category-post-image-now" value="{{ category_post.category_post_image }}"/>
                                         <input type="file"
                                             id="image-header"
@@ -139,7 +139,7 @@
                                             onchange="document.getElementById('image-category-post-preview').src = window.URL.createObjectURL(this.files[0]);
                                                     document.getElementById('image-category-post-preview').classList.remove('d-none');"
                                             >
-                                            <label class="custom-file-label" for="inputGroupFile01">{{ category.category_image_default }}</label>
+                                            <label class="custom-file-label" for="inputGroupFile01">{{ category_post.category_post_image }}</label>
                                     {% else %}
                                         <input type="file"
                                             id="image-header"
@@ -190,7 +190,7 @@
                             </div>
                         </div>
                         {% if category_post.category_post_id %}
-                            <a href="{% url 'category-detail' id=category.category_id %}" class="btn btn-primary pull-right">
+                            <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}" class="btn btn-primary pull-right">
                                 Quay lại
                             </a>
                             <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>

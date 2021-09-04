@@ -87,10 +87,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Hiển thị </label>
-                                <input type="text" name="category-post-display-order"
-                                    class="form-control" disabled
-                                    value="{{ category_post.display }}">
+                                <label class="bmd-label-floating">Hiển thị </label><br>
+                                <img src="
+                                    {% if category_post.display %}
+                                        {% static '/assets/img/tick.png' %}
+                                    {% else %}
+                                       {% static '/assets/img/close.png' %}
+                                    {% endif %}
+                                    " />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -108,8 +112,11 @@
                     <a href="{% url 'category-detail' id=category.category_id %}" class="btn btn-primary pull-right">
                         Quay lại
                     </a>
+                    <a href="" class="btn btn-primary pull-right">
+                        Xóa
+                    </a>
                     <a href="{% url 'post-form-update' category_id=category.category_id post_id=category_post.category_post_id %}" class="btn btn-primary pull-right">
-                        Cập nhật
+                        Sửa
                     </a>
                     <div class="clearfix"></div>
                 </div>

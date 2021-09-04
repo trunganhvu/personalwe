@@ -36,14 +36,12 @@ def view_update_category_post_page(request, category_id, post_id):
     """
     context = {}
     try:
-        print('form update')
         category = CategoryService.get_category_detail(category_id)
         post = CategoryPostService.get_detail_post_by_id(post_id)
         context = {
             'category': category,
             'category_post': post
         }
-        print('query done')
     except Exception as error:
         print(error)
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
@@ -56,7 +54,6 @@ def insert_category_post_form(request, category_id):
     """
     if request.method == 'POST':
         try:
-            print('123 post')
             # Get data in form
             category_post_title = request.POST.get('category-post-title')
             category_post_url = request.POST.get('category-post-url')
@@ -67,8 +64,10 @@ def insert_category_post_form(request, category_id):
             category_post_image = request.FILES['category-post-image']
             category_post_display = request.POST.get('category-post-display')
             category_post_display_order = request.POST.get('category-post-display-order')
-            print('view 1')
-            category_post = CategoryPost(category_id=category_id,
+            category_post_description = str(mark_safe(category_post_description)).strip()
+            category_post_content = str(mark_safe(category_post_content)).strip()
+
+            category_post = CategoryPost(category_id_id=category_id,
                                 category_post_title=category_post_title,
                                 category_post_url=category_post_url,
                                 category_post_description=category_post_description,
@@ -77,10 +76,11 @@ def insert_category_post_form(request, category_id):
                                 category_post_image=category_post_image,
                                 display=category_post_display,
                                 display_order=category_post_display_order)
+            category = Category(category_id=category_id)
             context = {
-                'category_post': category_post
+                'category_post': category_post,
+                'category': category
             }
-            print('view 2')
             is_update_image = True
             check = validate_form(category_post, is_update_image)
             if check:
@@ -88,18 +88,69 @@ def insert_category_post_form(request, category_id):
                 messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
             else:
                 messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
-                return render(request, 'private/Category/categoryform.html', context=context)
+                return render(request, 'private/Category/categorypostform.html', context=context)
 
-        except Exception:
+        except Exception as error:
+            print(error)
             messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
-            return render(request, 'private/Category/categoryform.html')
-    return redirect('/category/' + category_id)
+            return render(request, 'private/Category/categorypostform.html')
+        return redirect('/category/' + category_id)
 
 def update_category_post_form(request, category_id, post_id):
     """
     Update post
     """
-    print(category_id, post_id)
+    if request.method == 'POST':
+        try:
+            is_update_image = True
+            # Get data in form
+            category_post_title = request.POST.get('category-post-title')
+            category_post_url = request.POST.get('category-post-url')
+            category_post_description = request.POST.get('category-post-description')
+            category_post_content = request.POST.get('category-post-content')
+            category_post_image_name = request.POST.get('category-post-image-name')
+            category_post_id = request.POST.get('category-post-id')
+            category_post_display = request.POST.get('category-post-display')
+            category_post_display_order = request.POST.get('category-post-display-order')
+            # Get image file not update or update
+            if 'category-post-image' in request.FILES:
+                category_post_image = request.FILES['category-post-image']
+            else:
+                is_update_image = False
+                category_post_image = request.POST.get('category-post-image-now')
+
+            # Mark content enable have code html
+            category_post_description = str(mark_safe(category_post_description)).strip()
+            category_post_content = str(mark_safe(category_post_content)).strip()
+
+            category_post = CategoryPost(category_post_id=category_post_id,
+                                category_id_id=category_id,
+                                category_post_title=category_post_title,
+                                category_post_url=category_post_url,
+                                category_post_description=category_post_description,
+                                category_post_content=category_post_content,
+                                category_post_image_name=category_post_image_name,
+                                category_post_image=category_post_image,
+                                display=category_post_display,
+                                display_order=category_post_display_order)
+            category = Category(category_id=category_id)
+            context = {
+                'category_post': category_post,
+                'category': category
+            }
+            check = validate_form(category_post, is_update_image)
+            if category_post_id == post_id and check:
+                CategoryPostService.update_post(category_post, is_update_image)
+                messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
+            else:
+                messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+                return render(request, 'private/Category/categorypostform.html', context=context)
+
+        except Exception as error:
+            print(error)
+            messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+            return render(request, 'private/Category/categorypostform.html')
+        return redirect('/category/' + category_id)
     return render(request, 'private/Category/categorypostform.html')
 
 def view_category_post_detail_page(request, category_id, post_id):
@@ -129,12 +180,6 @@ def validate_form(category_post, is_update_image):
         return False
     # Check url
     if category_post.category_post_url is None or not re.match(re_url, category_post.category_post_url):
-        return False
-    # Check content
-    if category_post.category_post_content is None or not re.match(re_url, category_post.category_post_content):
-        return False
-    # Check des
-    if category_post.category_post_description is None or not re.match(re_url, category_post.category_post_description):
         return False
     # Check image name
     if category_post.category_post_image_name is None or not re.match(re_url, category_post.category_post_image_name):
