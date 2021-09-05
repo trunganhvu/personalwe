@@ -171,6 +171,7 @@ def view_category_by_url_public_page(request, url):
     try:
         category = CategoryService.get_category_detail_display(url)
         list_post = CategoryPostService.get_all_post_display_in_category(category.category_id)
+        print(list_post.count())
         print(category)
         if category is not None:
             context = {

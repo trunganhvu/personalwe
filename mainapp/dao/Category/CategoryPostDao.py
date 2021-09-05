@@ -24,6 +24,13 @@ def get_all_post_display_by_category_id(id):
     list_post = CategoryPost.objects.filter(category_id=id, display=True).order_by('display_order')
     return list_post
 
+def get_limit_post_display_by_category_id(id):
+    """
+    Get post display in category (limit record)
+    """
+    list_post = CategoryPost.objects.filter(category_id=id, display=True).order_by('display_order')[:4]
+    return list_post
+
 def get_post_detail_by_id(id):
     """
     Get detail by id

@@ -36,16 +36,17 @@
                             </div>
                             <div class="row">
                                 {% for post in category.posts %}
-                                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-                                        <div class="icon-box">
+                                    <div class="col-md-6 col-lg-3 w-100 d-flex justify-content-center align-items-stretch mb-5 mb-lg-0">
+                                        <div class="icon-box" style="flex: 1">
                                             <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                                            <h4 class="title"><a href="{{ post.category_post_url }}">
+                                            <h4 class="title"><a href="{% url 'public-post' url=post.category_post_url %}" style="word-break: break-word;">
                                                 {{ post.category_post_title }}</a>
                                             </h4>
-                                            <p class="description">{{ post.category_post_description }}</p>
+                                            <p class="description text-break">{{ post.category_post_description }}</p>
                                         </div>
                                     </div>
                                 {% endfor %}
+
                             </div>
                         </div>
                     </section>
@@ -68,8 +69,8 @@
                                 <div class="col-lg-4 col-md-6 portfolio-item filter-app">
                                     <div class="portfolio-img"><img src="{{ post.category_post_image }}" class="img-fluid" alt=""></div>
                                     <div class="portfolio-info">
-                                        <h4>{{ post.category_post_title }}</h4>
-                                        <p>{{ post.category_post_description }}</p>
+                                        <h4 style="word-break: break-word;">{{ post.category_post_title }}</h4>
+                                        <p style="word-break: break-word;">{{ post.category_post_description }}</p>
                                         <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery"
                                                 class="venobox preview-link"
                                                 title="{{ post.category_post_title }}">
@@ -83,17 +84,18 @@
                         </div>
                     </section>
                 {% elif category.category_detail.display_type == 3 %}
-                    <section id="{{ category.category_detail.category_url }}" class="testimonials">
+                    <section id="{{ category.category_detail.category_url }}" class="testimonials"
+                        style="background: url(/{{ category.category_detail.category_image_default }}) no-repeat; ">
                         <div class="container">
                             <div class="owl-carousel testimonials-carousel">
                                 {% for post in category.posts %}
                                 <div class="testimonial-item">
                                     <img src="{{ post.category_post_image }}" class="testimonial-img" alt="">
-                                    <h3>{{ post.category_post_title }}</h3>
-                                    <h4>{{ post.category_post_description }}</h4>
+                                    <h3 style="word-break: break-word;">{{ post.category_post_title }}</h3>
+                                    <h4 style="word-break: break-word;">{{ post.category_post_description }}</h4>
                                     <p>
                                         <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                        {{ post.category_post_content }}
+                                        <p style="word-wrap: break-word;">{{ post.category_post_content }}</p>
                                         <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                                     </p>
                                 </div>

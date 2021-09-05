@@ -10,6 +10,7 @@
     display: none;
 }
 </style>
+<script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <div class="content">
     {% include 'private/message.html' %}
     <div class="container-fluid">
@@ -94,11 +95,14 @@
                                         <span class="asteriskField">*</span>
                                     </label>
                                     <div class="form-group">
-                                        <textarea class="form-control"
+                                        <textarea id="editor1" class="form-control"
                                             name="category-post-content"
                                             rows="5">{% if category_post.category_post_content %}{{ category_post.category_post_content }}
                                             {% endif %}</textarea>
                                     </div>
+                                    <script>
+                        CKEDITOR.replace( 'editor1' );
+                </script>
                                 </div>
                             </div>
                         </div>
