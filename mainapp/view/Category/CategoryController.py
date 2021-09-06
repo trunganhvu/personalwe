@@ -12,6 +12,9 @@ from django.contrib import messages
 from mainapp.Common import ConstValiable
 
 import re, os
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup
+import requests
 
 def view_category_page(request):
     """
@@ -171,8 +174,6 @@ def view_category_by_url_public_page(request, url):
     try:
         category = CategoryService.get_category_detail_display(url)
         list_post = CategoryPostService.get_all_post_display_in_category(category.category_id)
-        print(list_post.count())
-        print(category)
         if category is not None:
             context = {
                 'category': category,
@@ -180,7 +181,8 @@ def view_category_by_url_public_page(request, url):
             }
         else:
             return redirect('/') 
-    except Exception:
+    except Exception as error:
+        print(error)
         return redirect('/') 
     return render(request, 'public/Category/category.html', context=context)
 
@@ -188,10 +190,10 @@ def validate_form_insert(category_name, category_url, category_image_name, categ
     """
     Validate data form insert category
     """
-    re_name = "^[A-Za-z0-9_ ]*$"
+    re_name = "^[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵzA-Za-z0-9_ ]*$"
     re_url = "^[A-Za-z0-9_-]*$"
     # Check name
-    if category_name is None or not re.match(re_name, category_name):
+    if category_name is None or not re.match(re_name, category_name.lower()):
         return False
     # Check url
     if category_url is None or not re.match(re_url, category_url):

@@ -37,33 +37,44 @@
 <div class="section top-section home-page">
     <div class="hero-container w-container">
         <div class="w-clearfix">
-        {% for post in posts %}
-            <div
-                data-w-id="e8c4e4c4-cea0-8f1e-cb08-86aed56ea0ae"
-                style="
-                    -webkit-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-                    -moz-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-                    -ms-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-                    transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-                    opacity: 0;
-                "
-                class="_100block"
-            >
-                <a href="{% url 'public-post' url=post.category_post_url %}" class="hero-tile w-inline-block">
-                    <div class="row">
-                    <div class="tile-text col-md-8" style="word-break: break-word;">
-                        {{ post.category_post_title }}
-                    </div>
-                    <div class="tile-text-time col-md-4" style="word-break: break-word;">
-                        {{ post.created_at|date:'d/m/Y' }}
-                    </div>
-                    <div class="tile-image"
-                        style="background-image: url(/{{ post.category_post_image }});"
-                        ><div class="tile-overlay"></div></div>
-                    </div>
-                </a>
-            </div>
-        {% endfor %}
+        {% if category.display_type == 2 %}
+            <video width="320" height="240" controls="controls" class="video-stream"
+                x-webkit-airplay="allow" data-youtube-id="N9oxmRT2YWw"
+                src="https://www.youtube.com/embed?v=2xWkATdMQms"
+                >
+            </video>
+
+
+        
+        {% else %}
+            {% for post in posts %}
+                <div
+                    data-w-id="e8c4e4c4-cea0-8f1e-cb08-86aed56ea0ae"
+                    style="
+                        -webkit-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                        -moz-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                        -ms-transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                        transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+                        opacity: 0;
+                    "
+                    class="_100block"
+                >
+                    <a href="{% url 'public-post' url=post.category_post_url %}" class="hero-tile w-inline-block">
+                        <div class="row">
+                        <div class="tile-text col-md-8" style="word-break: break-word;">
+                            <h3>{{ post.category_post_title }}</h3>
+                        </div>
+                        <div class="tile-text-time col-md-4" style="word-break: break-word;">
+                            {{ post.created_at|date:'d/m/Y' }}
+                        </div>
+                        <div class="tile-image"
+                            style="background-image: url(/{{ post.category_post_image }});"
+                            ><div class="tile-overlay"></div></div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
         </div>
     </div>
 </div>

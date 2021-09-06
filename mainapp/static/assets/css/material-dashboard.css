@@ -13630,9 +13630,12 @@ select.form-control {
 }
 
 textarea {
-  height: auto !important;
+  /* height: auto !important; */
   resize: none;
   line-height: 1.428571 !important;
+}
+.textarea-important {
+  height: auto !important;
 }
 
 .form-group input[type=file] {

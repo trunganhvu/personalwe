@@ -217,10 +217,10 @@
      * Validate category name
      */
     function validateCategoryName(categoryName) {
-        let re = new RegExp("^[A-Za-z0-9_ ]*$");
+        let re = new RegExp("^[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵzA-Za-z0-9_ ]*$");
         let display = 'none';
         let html = '';
-        if (re.test(categoryName) == false) {
+        if (re.test(categoryName.toLowerCase()) == false) {
             display = 'block';
             html = 'Category name: Nhập ký tự trong bảng chữ cái, số, khoảng cách.';
         } 

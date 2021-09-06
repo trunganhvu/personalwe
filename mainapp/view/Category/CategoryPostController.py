@@ -85,7 +85,6 @@ def insert_category_post_form(request, category_id):
             is_update_image = True
             check = validate_form(category_post, is_update_image)
             print(check)
-            check = False
             if check:
                 CategoryPostService.insert_post(category_post)
                 messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
@@ -199,7 +198,7 @@ def validate_form(category_post, is_update_image):
     re_name = "^[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵzA-Za-z0-9_ ]*$"
     re_url = "^[A-Za-z0-9_-]*$"
     # Check title
-    if category_post.category_post_title is None or not re.match(re_name, category_post.category_post_title):
+    if category_post.category_post_title is None or not re.match(re_name, category_post.category_post_title.lower()):
         return False
     # Check url
     if category_post.category_post_url is None or not re.match(re_url, category_post.category_post_url):

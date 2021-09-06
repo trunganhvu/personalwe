@@ -79,7 +79,7 @@
                                         <span class="asteriskField">*</span>
                                     </label>
                                     <div class="form-group">
-                                        <textarea class="form-control" 
+                                        <textarea class="form-control textarea-important" 
                                             name="category-post-description" 
                                             rows="5">{% if category_post.category_post_description %}{{ category_post.category_post_description }}
                                             {% endif %}
@@ -101,8 +101,8 @@
                                             {% endif %}</textarea>
                                     </div>
                                     <script>
-                        CKEDITOR.replace( 'editor1' );
-                </script>
+                                        CKEDITOR.replace( 'editor1' );
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -164,13 +164,13 @@
                                     </label>
                                     <select name="category-post-display" id="display" class="form-control">
                                         <option value="false"
-                                                {% if category_post.display == False %}
+                                                {% if category_post.display %}
                                                     selected
                                                 {% endif %}
                                                 >Không hiển thị
                                         </option>
                                         <option value="true"
-                                                {% if category_post.display == True %}
+                                                {% if category_post.display %}
                                                     selected
                                                 {% endif %}>Hiển thị
                                         </option>

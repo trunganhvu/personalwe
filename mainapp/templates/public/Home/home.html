@@ -55,7 +55,9 @@
                         <div class="container">
                             <div class="section-title">
                                 <span>{{ category.category_detail.category_name }}</span>
-                                <h2>{{ category.category_detail.category_name }}</h2>
+                                <h2><a href="{% url 'public-category' url=category.category_detail.category_url %}">
+                                    {{ category.category_detail.category_name }}</a>
+                                </h2>
                                 <p>{{ category.category_detail.category_url }}</p>
                             </div>
                             <ul id="portfolio-flters" class="d-flex justify-content-center">
@@ -67,16 +69,17 @@
                             <div class="row portfolio-container">
                                 {% for post in category.posts %}
                                 <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                                    <div class="portfolio-img"><img src="{{ post.category_post_image }}" class="img-fluid" alt=""></div>
+                                    <div class="portfolio-img"><img src="{{ post.category_post_image }}" class="img-fluid" alt="{{ post.category_post_image_name }}"></div>
                                     <div class="portfolio-info">
-                                        <h4 style="word-break: break-word;">{{ post.category_post_title }}</h4>
-                                        <p style="word-break: break-word;">{{ post.category_post_description }}</p>
-                                        <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery"
-                                                class="venobox preview-link"
-                                                title="{{ post.category_post_title }}">
-                                                <i class="bx bx-plus"></i>
+                                        <a href="{% url 'public-post' url=post.category_post_url %}" >
+                                            <h4 style="word-break: break-word;">{{ post.category_post_title }}</h4>
+                                            <p style="word-break: break-word;">{{ post.category_post_description }}</p>
+                                            <a href="{{ post.category_post_image }}" data-gall="portfolioGallery"
+                                                    class="venobox preview-link"
+                                                    title="{{ post.category_post_title }}">
+                                                    <i class="bx bx-plus"></i>
+                                            </a>
                                         </a>
-                                        <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -90,7 +93,7 @@
                             <div class="owl-carousel testimonials-carousel">
                                 {% for post in category.posts %}
                                 <div class="testimonial-item">
-                                    <img src="{{ post.category_post_image }}" class="testimonial-img" alt="">
+                                    <img src="{{ post.category_post_image }}" class="testimonial-img" alt="{{ post.category_post_image_name }}">
                                     <h3 style="word-break: break-word;">{{ post.category_post_title }}</h3>
                                     <h4 style="word-break: break-word;">{{ post.category_post_description }}</h4>
                                     <p>

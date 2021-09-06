@@ -67,7 +67,7 @@ def get_all_post_display_in_category(id):
             cached_data = {}
     return cached_data
 
-def get_limit_post_display_in_category(id):
+def get_limit_post_display_in_category(id, number_post):
     """
     Get post display in category (limit record)
     """
@@ -75,7 +75,7 @@ def get_limit_post_display_in_category(id):
     cached_data = cache.get(key_cache)
     if not cached_data:
         # Get post in DB
-        post_list = CategoryPostDao.get_limit_post_display_by_category_id(id)
+        post_list = CategoryPostDao.get_limit_post_display_by_category_id(id, number_post)
         # Have post to return
         if post_list.count() > 0:
             # Set list post into cache
