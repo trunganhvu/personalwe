@@ -180,6 +180,7 @@ def view_category_post_detail_public_page(request, url):
         post = CategoryPostService.get_detail_post_public_by_url(url)
 
         if post is not None:
+            print(post.updated_at)
             context = {
                 'post': post
             }

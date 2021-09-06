@@ -5,7 +5,7 @@
     <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
         <div class="w-container">
             <a href="/" class="w-nav-brand">
-                <div class="logo-text">{{ post.category_id.category_name }}</strong></div>
+                <div class="logo-text" style="word-break: break-word;">{{ post.category_id.category_name }}</strong></div>
             </a>
             <nav role="navigation" class="nav-menu w-nav-menu">
                 <a href="/" class="nav-link w-nav-link">Home</a><a href="/about" aria-current="page" class="nav-link w-nav-link w--current">About</a><a href="/portfolio" class="nav-link w-nav-link">Portfolio</a>
@@ -14,20 +14,23 @@
             <div class="menu-button w-nav-button"><div class="w-icon-nav-menu"></div></div>
         </div>
     </div>
-    <h1>{{ post.category_post_title }}</h1>
+    <h1 style="word-break: break-word;">{{ post.category_post_title }}</h1>
     <div class="hero-overlay"></div>
 </div>
 <div class="section">
     <div class="w-container">
         <div class="w-richtext">
-            <h2>{{ post.category_post_title }}</h2>
-            <span>{{ post.category_post_description }}</span>
-            <figure style="max-width: 40%;" id="w-node-e6757538a5de-034a9e39" class="w-richtext-align-floatright w-richtext-figure-type-image">
-                <div><img src="https://assets.website-files.com/5e4b197bdc74af0daa4a9e2d/5e4b197bdc74af0db24a9e5b_skateboard.jpg" alt="" /></div>
-            </figure>
-            <p>
-                {{ post.category_post_content }}    
-            </p>
+            <h2 style="word-break: break-word;">{{ post.category_post_title }}</h2>
+            <small>
+                <strong>{{ post.created_at|date:'d/m/Y' }}</strong>
+                {{ post.created_at|date:'H:i:s' }}
+            </small><br><br>
+            <span style="word-break: break-word;">{{ post.category_post_description }}</span>
+            <div style="word-break: break-word;">
+                {% autoescape off %}
+                {{ post.category_post_content }} 
+                {% endautoescape %}   
+            </div>
             
         </div>
     </div>

@@ -1,5 +1,8 @@
 {% extends 'public/base.html' %}
 {% block section %}
+<style>
+
+</style>
 <div class="hero-section home-page-hero"
     style="background-image: url(/{{ category.category_image_default }})">
     <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
@@ -44,15 +47,20 @@
                     transform: translate3d(0, 0, 0) scale3d(0.96, 0.96, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
                     opacity: 0;
                 "
-                class="_33block"
+                class="_100block"
             >
                 <a href="{% url 'public-post' url=post.category_post_url %}" class="hero-tile w-inline-block">
-                    <div class="tile-text" style="word-break: break-word;">
+                    <div class="row">
+                    <div class="tile-text col-md-8" style="word-break: break-word;">
                         {{ post.category_post_title }}
+                    </div>
+                    <div class="tile-text-time col-md-4" style="word-break: break-word;">
+                        {{ post.created_at|date:'d/m/Y' }}
                     </div>
                     <div class="tile-image"
                         style="background-image: url(/{{ post.category_post_image }});"
                         ><div class="tile-overlay"></div></div>
+                    </div>
                 </a>
             </div>
         {% endfor %}

@@ -7,7 +7,7 @@ class CategoryPost(models.Model):
     """
     category_post_id = models.AutoField(primary_key=True)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-    category_post_content = models.CharField(max_length=1000)
+    category_post_content = models.TextField()
     category_post_description = models.CharField(max_length=600)
     category_post_image_name = models.CharField(max_length=100)
     category_post_image = models.CharField(max_length=255)
