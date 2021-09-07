@@ -1,32 +1,42 @@
-{% extends 'public/base.html' %}
+{% extends 'public/Category/base.html' %}
 {% block section %}
 <div class="hero-section about-page"
     style="background-image: url(/{{ post.category_id.category_image_default }})">
     <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
         <div class="w-container">
             <a href="/" class="w-nav-brand">
-                <div class="logo-text" style="word-break: break-word;">{{ post.category_id.category_name }}</strong></div>
+                <div id="logo-text" class="logo-text work-break uppercase"></strong></div>
             </a>
             <nav role="navigation" class="nav-menu w-nav-menu">
-                <a href="/" class="nav-link w-nav-link">Home</a><a href="/about" aria-current="page" class="nav-link w-nav-link w--current">About</a><a href="/portfolio" class="nav-link w-nav-link">Portfolio</a>
-                <a href="/blog" class="nav-link w-nav-link">Blog</a><a href="#" data-w-id="c66b3b9e-8533-cf7e-3626-5291fef080a4" class="nav-link contact w-nav-link">Contact</a>
+                {% for ca in list_category %}
+                    {% if ca.category_name|stringformat:"s" == category.category_name|stringformat:"s" %}
+                    <a href="{% url 'public-category' url=ca.category_url %}" data-w-id="c66b3b9e-8533-cf7e-3626-5291fef080a4" class="nav-link contact w-nav-link">
+                        {{ ca.category_name }}
+                    </a>
+                    
+                    {% else %}
+                    <a href="{% url 'public-category' url=ca.category_url %}" class="nav-link w-nav-link">
+                        {{ ca.category_name }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
             </nav>
             <div class="menu-button w-nav-button"><div class="w-icon-nav-menu"></div></div>
         </div>
     </div>
-    <h1 style="word-break: break-word;">{{ post.category_post_title }}</h1>
+    <h1 class="work-break">{{ post.category_id.category_name }}</h1>
     <div class="hero-overlay"></div>
 </div>
 <div class="section">
     <div class="w-container">
         <div class="w-richtext">
-            <h2 style="word-break: break-word;">{{ post.category_post_title }}</h2>
+            <h2 class="work-break">{{ post.category_post_title }}</h2>
             <small>
                 <strong>{{ post.created_at|date:'d/m/Y' }}</strong>
                 {{ post.created_at|date:'H:i:s' }}
             </small><br><br>
-            <span style="word-break: break-word;">{{ post.category_post_description }}</span>
-            <div style="word-break: break-word;">
+            <span class="work-break">{{ post.category_post_description }}</span>
+            <div class="work-break">
                 {% autoescape off %}
                 {{ post.category_post_content }} 
                 {% endautoescape %}   

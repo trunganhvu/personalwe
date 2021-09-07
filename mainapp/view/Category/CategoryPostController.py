@@ -11,12 +11,13 @@ from mainapp.service.Category import CategoryService, CategoryPostService
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from mainapp.Common import ConstValiable
-
+from django.contrib.auth.decorators import login_required
 import re, os
 
+@login_required(login_url='/login/')
 def view_insert_category_post_page(request, category_id):
     """
-    View page insert post
+    View page insert post - need auth
     """
     context = {}
     try:
@@ -30,9 +31,10 @@ def view_insert_category_post_page(request, category_id):
         return redirect('/category')
     return render(request, 'private/Category/categorypostform.html', context)
 
+@login_required(login_url='/login/')
 def view_update_category_post_page(request, category_id, post_id):
     """
-    View page insert post
+    View page insert post - need auth
     """
     context = {}
     try:
@@ -48,9 +50,10 @@ def view_update_category_post_page(request, category_id, post_id):
         return redirect('/category')
     return render(request, 'private/Category/categorypostform.html', context)
     
+@login_required(login_url='/login/')
 def insert_category_post_form(request, category_id):
     """
-    Insert new post
+    Insert new post - need auth
     """
     if request.method == 'POST':
         try:
@@ -98,9 +101,10 @@ def insert_category_post_form(request, category_id):
             return render(request, 'private/Category/categorypostform.html')
         return redirect('/category/' + category_id)
 
+@login_required(login_url='/login/')
 def update_category_post_form(request, category_id, post_id):
     """
-    Update post
+    Update post - need auth
     """
     if request.method == 'POST':
         try:
@@ -155,9 +159,10 @@ def update_category_post_form(request, category_id, post_id):
         return redirect('/category/' + category_id)
     return render(request, 'private/Category/categorypostform.html')
 
+@login_required(login_url='/login/')
 def view_category_post_detail_page(request, category_id, post_id):
     """
-    View detail post by id
+    View detail post by id - need auth
     """
     try:
         category = CategoryService.get_category_detail(category_id)
@@ -177,10 +182,10 @@ def view_category_post_detail_public_page(request, url):
     """
     try:
         post = CategoryPostService.get_detail_post_public_by_url(url)
-
+        list_category = CategoryService.get_category_display()
         if post is not None:
-            print(post.updated_at)
             context = {
+                'list_category': list_category,
                 'post': post
             }
             return render(request, 'public/Category/categorypostdetail.html', context=context)

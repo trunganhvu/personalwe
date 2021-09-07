@@ -1,6 +1,5 @@
 from mainapp.model.Category import Category
 from django.conf import settings
-from django.conf.urls import url
 from django.shortcuts import render
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view
@@ -10,15 +9,12 @@ from mainapp.service.Category import CategoryService, CategoryPostService
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from mainapp.Common import ConstValiable
+from django.contrib.auth.decorators import login_required
 
-import re, os
-from urllib.request import Request, urlopen
-from bs4 import BeautifulSoup
-import requests
-
+@login_required(login_url='/login/')
 def view_category_page(request):
     """
-    View page category
+    View page category - need auth
     """
     category_list = CategoryService.get_all_category()
     context = {
@@ -27,15 +23,17 @@ def view_category_page(request):
     print(context)
     return render(request, 'private/Category/category.html', context)
 
+@login_required(login_url='/login/')
 def view_category_form_page(request):
     """
-    View form update, insert category
+    View form update, insert category - need auth
     """
     return render(request, 'private/Category/categoryform.html')
 
+@login_required(login_url='/login/')
 def insert_category_form(request):
     """
-    Insert new category
+    Insert new category - need auth
     """
     if request.method == 'POST':
         try:
@@ -71,9 +69,10 @@ def insert_category_form(request):
             return render(request, 'private/Category/categoryform.html')
         return redirect('/category')
 
+@login_required(login_url='/login/')
 def get_category_detail_page(request, id):
     """
-    Get detail category
+    Get detail category - need auth
     """
     context = {}
     try:
@@ -99,9 +98,10 @@ def get_category_detail_page(request, id):
         return redirect('/category')
     return render(request, 'private/Category/categorydetail.html', context=context)
 
+@login_required(login_url='/login/')
 def view_category_form_update_page(request, id):
     """
-    View form update category
+    View form update category - need auth
     """
     context = {}
     try:
@@ -114,9 +114,10 @@ def view_category_form_update_page(request, id):
         return redirect('/category')
     return render(request, 'private/Category/categoryform.html', context=context)
 
+@login_required(login_url='/login/')
 def update_category_form(request, id):
     """
-    Update category by id
+    Update category by id - need auth
     """
     if request.method == 'POST':
         try:
@@ -172,10 +173,12 @@ def view_category_by_url_public_page(request, url):
     View category in public page
     """
     try:
+        list_category = CategoryService.get_category_display()
         category = CategoryService.get_category_detail_display(url)
         list_post = CategoryPostService.get_all_post_display_in_category(category.category_id)
         if category is not None:
             context = {
+                'list_category': list_category,
                 'category': category,
                 'posts': list_post
             }

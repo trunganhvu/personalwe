@@ -7,6 +7,7 @@ from mainapp.service.Header import BannerTitleService
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from mainapp.Common import ConstValiable
+from django.contrib.auth.decorators import login_required
 
 @api_view(['GET'])
 def get_banner_title(request):
@@ -16,6 +17,7 @@ def get_banner_title(request):
     context = BannerTitleService.get_banner_title()
     return Response(context)
 
+@login_required(login_url='/login/')
 def update_banner_title_form(request):
     """
     Get data post to update banner title

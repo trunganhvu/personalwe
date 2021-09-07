@@ -1,4 +1,4 @@
-{% extends 'public/base.html' %}
+{% extends 'public/Category/base.html' %}
 {% block section %}
 <style>
 
@@ -8,14 +8,21 @@
     <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="nav w-nav">
         <div class="w-container">
             <a href="/" aria-current="page" class="w-nav-brand w--current">
-                <div class="logo-text">{{ category.category_name}}</strong></div>
+                <div id="logo-text" class="logo-text work-break uppercase"></strong></div>
             </a>
             <nav role="navigation" class="nav-menu w-nav-menu">
-                <a href="/" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
-                <a href="/about" class="nav-link w-nav-link">About</a>
-                <a href="/portfolio" class="nav-link w-nav-link">Portfolio</a>
-                <a href="/blog" class="nav-link w-nav-link">Blog</a>
-                <a href="#" data-w-id="c66b3b9e-8533-cf7e-3626-5291fef080a4" class="nav-link contact w-nav-link">Contact</a>
+                {% for ca in list_category %}
+                    {% if ca.category_name|stringformat:"s" == category.category_name|stringformat:"s" %}
+                    <a href="{% url 'public-category' url=ca.category_url %}" data-w-id="c66b3b9e-8533-cf7e-3626-5291fef080a4" class="nav-link contact w-nav-link">
+                        {{ ca.category_name }}
+                    </a>
+                    
+                    {% else %}
+                    <a href="{% url 'public-category' url=ca.category_url %}" class="nav-link w-nav-link">
+                        {{ ca.category_name }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
             </nav>
             <div class="menu-button w-nav-button"><div class="w-icon-nav-menu"></div></div>
         </div>
@@ -43,9 +50,6 @@
                 src="https://www.youtube.com/embed?v=2xWkATdMQms"
                 >
             </video>
-
-
-        
         {% else %}
             {% for post in posts %}
                 <div
@@ -61,10 +65,10 @@
                 >
                     <a href="{% url 'public-post' url=post.category_post_url %}" class="hero-tile w-inline-block">
                         <div class="row">
-                        <div class="tile-text col-md-8" style="word-break: break-word;">
+                        <div class="tile-text col-md-8 work-break">
                             <h3>{{ post.category_post_title }}</h3>
                         </div>
-                        <div class="tile-text-time col-md-4" style="word-break: break-word;">
+                        <div class="tile-text-time col-md-4 work-break">
                             {{ post.created_at|date:'d/m/Y' }}
                         </div>
                         <div class="tile-image"

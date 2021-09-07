@@ -6,9 +6,9 @@ from mainapp.view.Header import HeaderConntroller, BannerTitleController
 from mainapp.view.Home import DashboardController
 from mainapp.view.Category import CategoryController
 from mainapp.view.Category import CategoryPostController
-
+from mainapp.view.User import UserController
 urlpatterns = [
-    # ---------------- Url đăng nhập ----------------
+    # ---------------- Url manager ----------------
     path('delivery/', DeliveryController.view_all_delivery_page, name='delivery'),
 
     path('', HomeController.view_home_page, name='home'),
@@ -31,7 +31,14 @@ urlpatterns = [
     path('post/<str:url>/', CategoryPostController.view_category_post_detail_public_page, name='public-post'),
     path('category/<str:url>/', CategoryController.view_category_by_url_public_page, name='public-category'),
 
+    # ---------------- Url login ----------------
+    path('login/', UserController.view_login_page, name='login'),
+    path('user-login/', UserController.user_login_form, name='user-login'),
 
+    # ---------------- Url logout ----------------
+    path('logout/', UserController.user_logout, name='logout'),
+
+    
     # ---------------- API ----------------
     path('api/header/', HeaderConntroller.get_header_path, name='api-header'),
     path('api/banner-title/', BannerTitleController.get_banner_title, name='api-banner-title'),

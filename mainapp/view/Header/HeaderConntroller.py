@@ -8,6 +8,7 @@ from django.views.decorators.cache import cache_page
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from mainapp.Common import ConstValiable
+from django.contrib.auth.decorators import login_required
 
 @api_view(['GET'])
 def get_header_path(request):
@@ -17,12 +18,14 @@ def get_header_path(request):
     context = HeaderService.get_path_header()
     return Response(context)
 
+@login_required(login_url='/login/')
 def view_header_page(request):
     """
     View page manager header
     """
     return render(request, 'private/Header/header.html')
 
+@login_required(login_url='/login/')
 def insert_header_image_form(request):
     """
     Get data post to update header image

@@ -35,6 +35,8 @@ CACHE_TIME = 30 * 60
 IMAGE_PATH_STATIC = 'static/media/images'
 IMAGE_USER = os.path.join(BASE_DIR, 'mainapp/static/media/images')
 APP_NAME1 = 'mainapp'
+
+SESSION_COOKIE_AGE = 120*60
 # Application definition
 
 INSTALLED_APPS = [
@@ -66,7 +68,7 @@ ROOT_URLCONF = 'personalweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

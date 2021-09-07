@@ -1,3 +1,9 @@
-.asteriskField{
+.asteriskField {
     color: #dc3545;
+}
+.work-break {
+    word-break: break-word;
+}
+.uppercase {
+    text-transform: uppercase;
 }
