@@ -57,6 +57,7 @@ def insert_category(category):
         # Clean cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY)
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_DISPLAY)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_CATEGORY_DETAIL_DISPLAY + str(category_db.category_url))
 
         # Set category into cache
         key_cache = str(KEY_CACHE_API_CATEGORY_ID) + str(category_db.category_id)
@@ -113,6 +114,7 @@ def update_category(category, is_update_image):
         # Clean cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY)
         CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_DISPLAY)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_CATEGORY_DETAIL_DISPLAY + str(category_updated.category_url))
 
         # Reset category into cache
         key_cache = str(KEY_CACHE_API_CATEGORY_ID) + str(category_updated.category_id)
@@ -158,3 +160,22 @@ def get_category_detail_display(url):
         cache.set(key_cache, category_list, settings.CACHE_TIME)
         cached_data = category_list 
     return cached_data
+
+def delete_category_by_id(category_id):
+    """
+    Delete category by id
+    """
+    category = get_category_detail(category_id)
+    if category is not None:
+        # Delete DB
+        CategoryDao.delete_category_by_id(category_id)
+
+        # Delete image
+        path = str(settings.BASE_DIR) + '/' + settings.APP_NAME1 + '/' + category.category_image_default
+        os.remove(path)
+
+        # Delete cache
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_DISPLAY)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_ID + str(category_id))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_CATEGORY_DETAIL_DISPLAY + str(category.category_url))

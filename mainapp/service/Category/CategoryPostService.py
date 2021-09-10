@@ -206,3 +206,28 @@ def update_post(post, is_update_image):
             os.remove(path2)
         print('error: ' + str(error))
         raise error
+
+def delete_category_post_by_id(id):
+    """
+    Delete post by id
+    """
+    category_post = get_detail_post_by_id(id)
+    category_id = 0
+    if category_post is not None:
+        category_id = category_post.category_id_id
+        category_post_image = category_post.category_post_image
+        # Delete post
+        CategoryPostDao.delete_category_post(id)
+
+        # Delete image
+        path = str(settings.BASE_DIR) + '/' + settings.APP_NAME1 + '/' + category_post_image
+        os.remove(path)
+
+        # Delete cache
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_POST)
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_POST_IN_CATEGORY + str(category_id))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_CATEGORY_POST_DISPLAY_IN_CATEGORY + str(category_id))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_CATEGORY_POST_DETAIL_DISPLAY_BY_URL + str(category_post.category_post_url))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_CATEGORY_POST_DISPLAY_LIMIT_IN_CATEGORY + str(category_id))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_API_CATEGORY_POST_ID + str(category_post.category_post_id))
+    return category_id

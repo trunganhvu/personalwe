@@ -23,8 +23,8 @@
                 (n.className += t + "js"), ("ontouchstart" in o || (o.DocumentTouch && c instanceof DocumentTouch)) && (n.className += t + "touch");
             })(window, document);
         </script>
-        <link href="{% static 'image/icon/icon-tab.jpg' %}" rel="shortcut icon" type="image/x-icon" />
-         <link href="{% static 'image/icon/icon-tab.jpg' %}" rel="apple-touch-icon" />
+        <link href="{% static 'image/icon/icon-tab1.jpg' %}" rel="shortcut icon" type="image/x-icon" />
+         <link href="{% static 'image/icon/icon-tab1.jpg' %}" rel="apple-touch-icon" />
         {% load bootstrap4 %}
         {% comment %} {% bootstrap_css %}
         {% bootstrap_javascript jquery='full' %} {% endcomment %}
@@ -76,7 +76,7 @@
                     link.rel = 'icon';
                     document.getElementsByTagName('head')[0].appendChild(link);
                 }
-                link.href = '{% static 'image/icon/icon-tab.jpg' %}';
+                link.href = '{% static 'image/icon/icon-tab1.jpg' %}';
             }
         </script>
         <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->

@@ -159,6 +159,20 @@ def update_category_post_form(request, category_id, post_id):
         return redirect('/category/' + category_id)
     return render(request, 'private/Category/categorypostform.html')
 
+def delete_category_post_by_id(request, post_id):
+    """
+    Delete post by id
+    """
+    try:
+        category_id = CategoryPostService.delete_category_post_by_id(post_id)
+        messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
+
+        return redirect('/category/' + str(category_id))
+    except Exception as error:
+        print(error)
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+        return redirect('/category/')
+
 @login_required(login_url='/login/')
 def view_category_post_detail_page(request, category_id, post_id):
     """

@@ -112,7 +112,9 @@
                     <a href="{% url 'category-detail' id=category.category_id %}" class="btn btn-primary pull-right">
                         Quay lại
                     </a>
-                    <a href="" class="btn btn-primary pull-right">
+                    <a href="{% url 'post-delete' post_id=category_post.category_post_id %}"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
+                            class="btn btn-primary pull-right">
                         Xóa
                     </a>
                     <a href="{% url 'post-form-update' category_id=category.category_id post_id=category_post.category_post_id %}" class="btn btn-primary pull-right">

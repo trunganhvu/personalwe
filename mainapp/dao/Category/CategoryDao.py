@@ -61,3 +61,10 @@ def get_category_detail_diplay(url):
     """
     category = Category.objects.filter(category_url=url).first()
     return category
+
+def delete_category_by_id(id):
+    """
+    Delete category by id
+    """
+    category = Category.objects.get(pk=id)
+    category.delete()

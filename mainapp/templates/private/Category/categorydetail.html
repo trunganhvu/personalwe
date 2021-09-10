@@ -117,7 +117,9 @@
                             </div>
                         </div>
                         <a href="{% url 'category' %}" class="btn btn-primary pull-right">Quay lại</a>
-                        <a href="" class="btn btn-primary pull-right">Xóa</a>
+                        <a href="{% url 'category-delete' category_id=category.category_id %}"
+                                onclick="return confirm('Bạn có chắc chắn muốn xóa?')" 
+                                class="btn btn-primary pull-right">Xóa</a>
                         {% if category.category_id %}
                             <a href="{% url 'category-form-update' id=category.category_id %}" class="btn btn-primary pull-right">Sửa</a>
                         {% endif %}

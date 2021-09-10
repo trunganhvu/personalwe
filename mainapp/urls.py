@@ -30,6 +30,8 @@ urlpatterns = [
     path('category/<str:category_id>/post-form/<str:post_id>/update/', CategoryPostController.update_category_post_form, name='post-update'),
     path('post/<str:url>/', CategoryPostController.view_category_post_detail_public_page, name='public-post'),
     path('category/<str:url>/', CategoryController.view_category_by_url_public_page, name='public-category'),
+    path('post/<int:post_id>/delete', CategoryPostController.delete_category_post_by_id, name='post-delete'),
+    path('category/<int:category_id>/delete', CategoryController.delete_category_by_id, name='category-delete'),
 
     # ---------------- Url login ----------------
     path('login/', UserController.view_login_page, name='login'),

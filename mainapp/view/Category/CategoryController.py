@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from django.contrib import messages
 from mainapp.Common import ConstValiable
 from django.contrib.auth.decorators import login_required
-
+import re
 @login_required(login_url='/login/')
 def view_category_page(request):
     """
@@ -162,6 +162,18 @@ def update_category_form(request, id):
             messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
             return redirect('/category-form/' + str(id))
         return redirect('/category')
+
+def delete_category_by_id(request, category_id):
+    """
+    Delete category by id
+    """
+    try:
+        category_id = CategoryService.delete_category_by_id(category_id)
+        messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
+
+    except Exception as error:
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+    return redirect('/category/')
 
 def get_category_display(request):
     """

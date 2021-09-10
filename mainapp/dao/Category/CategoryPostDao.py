@@ -81,3 +81,10 @@ def update_category_post(post):
     category_post.display_order=post.display_order
     category_post.save()
     return category_post
+
+def delete_category_post(id):
+    """
+    Delete post by id
+    """
+    post = CategoryPost.objects.get(pk=id)
+    post.delete()
