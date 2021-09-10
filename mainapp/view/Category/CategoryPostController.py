@@ -159,9 +159,10 @@ def update_category_post_form(request, category_id, post_id):
         return redirect('/category/' + category_id)
     return render(request, 'private/Category/categorypostform.html')
 
+@login_required(login_url='/login/')
 def delete_category_post_by_id(request, post_id):
     """
-    Delete post by id
+    Delete post by id - need auth
     """
     try:
         category_id = CategoryPostService.delete_category_post_by_id(post_id)

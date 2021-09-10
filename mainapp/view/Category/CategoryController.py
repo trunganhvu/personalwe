@@ -163,9 +163,10 @@ def update_category_form(request, id):
             return redirect('/category-form/' + str(id))
         return redirect('/category')
 
+@login_required(login_url='/login/')
 def delete_category_by_id(request, category_id):
     """
-    Delete category by id
+    Delete category by id - need auth
     """
     try:
         category_id = CategoryService.delete_category_by_id(category_id)
