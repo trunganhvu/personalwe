@@ -1,0 +1,145 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+#msg-category-name,
+#msg-category-url,
+#msg-category-image-name,
+#msg-category-image,
+#msg-category-display-order {
+    display: none;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Dòng sản phẩm</h4>
+                </div>
+                <div class="card-body">
+                {% if product_type.product_type_id %}
+                    <form method="post" autocomplete="on"
+                        enctype="multipart/form-data"
+                        action="{% url 'product-type-update' product_type_id=product_type.product_type_id %}">
+                    <input type="hidden" name="type-id" value="{{ product_type.product_type_id }}"/>
+                {% else %}
+                    <form method="post" autocomplete="on" action="{% url 'product-type-insert' %}" enctype="multipart/form-data">
+                {% endif %}
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="text-danger">
+                                <ul>
+                                    <li id="msg-category-name"></li>
+                                    <li id="msg-category-url"></li>
+                                    <li id="msg-category-image-name"></li>
+                                    <li id="msg-category-image"></li>
+                                    <li id="msg-category-display-order"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Mã dòng sản phẩm
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" name="type-code" class="form-control" 
+                                            onchange="validateCategoryUrl(this.value)"
+                                            maxlength="1000" 
+                                            required
+                                            {% if product_type.product_type_code %}
+                                                value="{{ product_type.product_type_code }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Dòng sản phẩm
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" name="type-name" class="form-control"
+                                            onchange="validateCategoryName(this.value)"
+                                            maxlength="1000"
+                                            required
+                                            {% if product_type.product_type_name %}
+                                                value="{{ product_type.product_type_name }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Mô tả
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <textarea class="form-control textarea-important" 
+                                            name="type-description" 
+                                            rows="10"
+                                            maxlength="1000"
+                                            onchange=""
+                                            required
+                                            >{% if product_type.product_type_description %}{{ product_type.product_type_description }}
+                                            {% endif %}
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        {% if product_type.product_type_id %}
+                            <a href="{% url 'product-type-detail' product_type_id=product_type.product_type_id %}" class="btn btn-primary pull-right">
+                                Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>
+                        {% else %}
+                            <a href="{% url 'product-type' %}" class="btn btn-primary pull-right">Quay lại</a>
+                            <button type="submit" class="btn btn-primary pull-right">Tạo</button>
+                        {% endif %}
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    /**
+     * Validate category name
+     */
+    function validateCategoryName(categoryName) {
+        let re = new RegExp("^[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵzA-Za-z0-9_ ]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(categoryName.toLowerCase()) == false) {
+            display = 'block';
+            html = 'Category name: Nhập ký tự trong bảng chữ cái, số, khoảng cách.';
+        } 
+        document.getElementById("msg-category-name").style.display = display;
+        document.getElementById("msg-category-name").innerHTML = html;
+    }
+
+    /**
+     * Validate category name
+     */
+    function validateCategoryUrl(categoryUrl) {
+        let re = new RegExp("^[A-Za-z0-9-_]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(categoryUrl) == false) {
+            display = 'block';
+            html = 'Mã dòng sản phẩm: Chứa ký tự không có dấu và dấu cách.';
+        }
+        document.getElementById("msg-category-url").style.display = display;
+        document.getElementById("msg-category-url").innerHTML = html;
+    }
+    
+</script>
+{% endblock %}

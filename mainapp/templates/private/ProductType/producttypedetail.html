@@ -1,0 +1,80 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Dòng sản phẩm</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Mã dòng sản phẩm
+                                </label>
+                                <input type="text" name="type-code" class="form-control"  
+                                        disabled
+                                        {% if product_type.product_type_code %}
+                                            value="{{ product_type.product_type_code }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Dòng sản phẩm
+                                </label>
+                                <input type="text" name="type-name" class="form-control"
+                                        disabled
+                                        {% if product_type.product_type_name %}
+                                            value="{{ product_type.product_type_name }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Mô tả
+                                </label>
+                                <textarea class="form-control textarea-important" rows="10"
+                                        disabled
+                                        >{% if product_type.product_type_description %}{{ product_type.product_type_description }}
+                                        {% endif %}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'product-type' %}" class="btn btn-primary pull-right">
+                        Quay lại
+                    </a>
+                    <a href="{% url 'product-type-delete' product_type_id=product_type.product_type_id %}"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
+                            class="btn btn-primary pull-right">
+                        Xóa
+                    </a>
+                    <a href="{% url 'product-type-form-update' product_type_id=product_type.product_type_id %}" class="btn btn-primary pull-right">
+                        Sửa
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    
+</script>
+{% endblock %}

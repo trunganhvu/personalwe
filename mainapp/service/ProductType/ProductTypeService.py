@@ -31,7 +31,7 @@ def get_product_type_detail_by_id(id):
     cached_data = cache.get(key_cache)
     if not cached_data:
         # Get detail in DB
-        product_type = ProductTypeDao.view_product_type_detail_by_id(id)
+        product_type = ProductTypeDao.get_product_type_detail_by_id(id)
 
         # Set into cache
         cache.set(key_cache, product_type, settings.CACHE_TIME)
@@ -46,8 +46,10 @@ def insert_product_type(product_type):
     p_type = ProductTypeDao.insert_product_type(product_type)
 
     # Set into cache
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_TYPE)
+
     key_cache = KEY_CACHE_GET_PRODUCT_TYPE_DETAIL_BY_ID + str(p_type.product_type_id)
-    cache.set(key_cache, product_type, settings.CACHE_TIME)
+    cache.set(key_cache, p_type, settings.CACHE_TIME)
 
 def update_product_type(product_type):
     """
@@ -59,6 +61,8 @@ def update_product_type(product_type):
     # Set into cache
     key_cache = KEY_CACHE_GET_PRODUCT_TYPE_DETAIL_BY_ID + str(p_type.product_type_id)
     CacheUtil.clean_cache_by_key(key_cache)
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_TYPE)
+
     cache.set(key_cache, product_type, settings.CACHE_TIME)
 
 def delete_product_type_by_id(id):
@@ -71,3 +75,4 @@ def delete_product_type_by_id(id):
 
         # Delete cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_TYPE_DETAIL_BY_ID + str(id))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_TYPE)

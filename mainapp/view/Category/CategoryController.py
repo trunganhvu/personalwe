@@ -20,7 +20,6 @@ def view_category_page(request):
     context = {
         'categorys': category_list
     }
-    print(context)
     return render(request, 'private/Category/category.html', context)
 
 @login_required(login_url='/login/')

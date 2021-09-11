@@ -1,0 +1,67 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+.col-id {
+    width: 10%;
+}
+.col-name {
+    width: 30%;
+}
+.col-url {
+    width: 30%;
+}
+.col-display {
+    width: 10%;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách loại sản phẩm</h4>
+                        <a href="{% url 'product-type-form' %}" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-url">Mã</th>
+                                    <th class="col-name">Dòng sản phẩm</th>
+                                </thead>
+                                <tbody>
+                                {% for product_type in product_type_list %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'product-type-detail' product_type_id=product_type.product_type_id %}">
+                                                {{ product_type.product_type_id }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'product-type-detail' product_type_id=product_type.product_type_id %}">
+                                                {{ product_type.product_type_code }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ product_type.product_type_name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    
+</script>
+{% endblock %}

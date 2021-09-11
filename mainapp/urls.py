@@ -7,6 +7,8 @@ from mainapp.view.Home import DashboardController
 from mainapp.view.Category import CategoryController
 from mainapp.view.Category import CategoryPostController
 from mainapp.view.User import UserController
+from mainapp.view.ProductType import ProductTypeController
+
 urlpatterns = [
     # ---------------- Url manager ----------------
     path('delivery/', DeliveryController.view_all_delivery_page, name='delivery'),
@@ -32,6 +34,16 @@ urlpatterns = [
     path('category/<str:url>/', CategoryController.view_category_by_url_public_page, name='public-category'),
     path('post/<int:post_id>/delete', CategoryPostController.delete_category_post_by_id, name='post-delete'),
     path('category/<int:category_id>/delete', CategoryController.delete_category_by_id, name='category-delete'),
+
+    # ---------------- Url product type admin ---------------- 
+    path('product-type/', ProductTypeController.get_all_product_type, name='product-type'),
+    path('product-type/<int:product_type_id>/', ProductTypeController.view_product_type_detail_by_id, name='product-type-detail'),
+    path('product-type-form/', ProductTypeController.view_product_type_insert_form_page, name='product-type-form'),
+    path('product-type-form/<int:product_type_id>/', ProductTypeController.view_product_type_update_form_page, name='product-type-form-update'),
+    path('product-type-form/insert/', ProductTypeController.insert_product_type, name='product-type-insert'),
+    path('product-type-form/<int:product_type_id>/update', ProductTypeController.update_product_type, name='product-type-update'),
+    path('product-type/<int:product_type_id>/delete', ProductTypeController.delete_product_type_by_id, name='product-type-delete'),
+
 
     # ---------------- Url login ----------------
     path('login/', UserController.view_login_page, name='login'),

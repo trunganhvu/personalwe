@@ -27,22 +27,28 @@
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
-                        <li class="nav-item active">
+                        <li class="nav-item" id="dashboard">
                             <a class="nav-link" href="{% url 'dashboard' %}">
                                 <i class="material-icons">dashboard</i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="header">
                             <a class="nav-link" href="{% url 'header' %}">
                                 <i class="material-icons">library_books</i>
                                 <p>Cài đặt</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="category">
                             <a class="nav-link" href="{% url 'category' %}">
                                 <i class="material-icons">library_books</i>
                                 <p>Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="product-type">
+                            <a class="nav-link" href="{% url 'product-type' %}">
+                                <i class="material-icons">library_books</i>
+                                <p>Dòng sản phẩm</p>
                             </a>
                         </li>
                     </ul>
@@ -110,7 +116,7 @@
                                         <a class="dropdown-item" href="#">Log out</a>
                                     </div>
                                 </li>
-                                    <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
 
                             </ul>
                         </div>
@@ -135,7 +141,26 @@
                 }
                 link.href = '{% static 'image/icon/icon-tab1.jpg' %}';
             }
-            setIcon();
+
+            /**
+             * Set active
+             */
+            function setActiveOptionInMenu() {
+                let lis = document.querySelectorAll('.sidebar-wrapper li[id]');
+                let pathUrl = window.location.pathname;
+                for (let i = 0; i < lis.length; i++) {
+                    if (pathUrl.includes(lis[i].id)) {
+                        document.getElementById(lis[i].id).classList.add("active");
+                    }
+                }
+            }
+
+            window.onload = function() {
+                // Set Icon
+                setIcon();
+                // Set image
+                setActiveOptionInMenu();
+            };
         </script>
         {% comment %}
         <script src="../assets/js/core/jquery.min.js"></script>
