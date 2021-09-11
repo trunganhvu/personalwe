@@ -1,4 +1,3 @@
-import re
 from mainapp.model.ProductType import ProductType
 from django.conf import settings
 from django.conf.urls import url
@@ -10,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from mainapp.service.ProductType import ProductTypeService
 from mainapp.Common import ConstValiable
-
+from mainapp.service.ProductType import ProductSizeService
 
 @login_required(login_url='/login/')
 def get_all_product_type(request):
@@ -28,12 +27,19 @@ def view_product_type_detail_by_id(request, product_type_id):
     """
     View type detail by id
     """
-    product_type = ProductTypeService.get_product_type_detail_by_id(product_type_id)
-    print(product_type)
-    context = {
-        'product_type': product_type
-    }
-    return render(request, 'private/ProductType/producttypedetail.html', context)
+    try:
+        product_type = ProductTypeService.get_product_type_detail_by_id(product_type_id)
+        list_product_size = ProductSizeService.get_all_product_size_in_product_type(product_type_id)
+
+        context = {
+            'product_type': product_type,
+            'list_product_size': list_product_size
+        }
+        return render(request, 'private/ProductType/producttypedetail.html', context)
+    except Exception:
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+        return redirect('/product-type')
+
 
 @login_required(login_url='/login/')
 def view_product_type_insert_form_page(request):

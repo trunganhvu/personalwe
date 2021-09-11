@@ -71,6 +71,46 @@
               </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Bảng size</h4>
+                        <a href="{% url 'product-size-form' product_type_id=product_type.product_type_id %}" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-url">Mã size</th>
+                                    <th class="col-name">Tên size</th>
+                                </thead>
+                                <tbody>
+                                {% for product_size in list_product_size %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'product-size-detail' product_type_id=product_type.product_type_id product_size_id=product_size.product_size_id %}">
+                                                {{ product_size.product_size_id }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'product-size-detail' product_type_id=product_type.product_type_id product_size_id=product_size.product_size_id %}">
+                                                {{ product_size.product_size_code }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ product_size.product_size_name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="{% static 'js/webjs/fetchdata.js' %}"></script>

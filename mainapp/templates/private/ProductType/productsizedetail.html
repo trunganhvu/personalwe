@@ -1,0 +1,116 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Chi tiết size</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Code
+                                </label>
+                                <input type="text" name="type-code" class="form-control"  
+                                        disabled
+                                        {% if product_size.product_size_code %}
+                                            value="{{ product_size.product_size_code }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Tên
+                                </label>
+                                <input type="text" name="type-name" class="form-control"  
+                                        disabled
+                                        {% if product_size.product_size_name %}
+                                            value="{{ product_size.product_size_name }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Chiều cao từ
+                                    </label>
+                                    <input type="number" name="size-height-min" class="form-control" disabled
+                                            {% if product_size.product_size_height_min %}
+                                                value="{{ product_size.product_size_height_min }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Đến
+                                    </label>
+                                    <input type="number" name="size-heigth-max" class="form-control" 
+                                            disabled
+                                            {% if product_size.product_size_height_max %}
+                                                value="{{ product_size.product_size_height_max }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Chiều rộng từ
+                                    </label>
+                                    <input type="number" name="size-width-min" class="form-control" disabled
+                                            {% if product_size.product_size_width_min %}
+                                                value="{{ product_size.product_size_width_min }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Đến
+                                    </label>
+                                    <input type="number" name="size-width-max" class="form-control" disabled
+                                            {% if product_size.product_size_width_max %}
+                                                value="{{ product_size.product_size_width_max }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                    <a href="{% url 'product-type-detail' product_type_id=product_type_id %}" 
+                        class="btn btn-primary pull-right">
+                        Quay lại
+                    </a>
+                    <a href="{% url 'product-size-delete' product_type_id=product_type_id product_size_id=product_size.product_size_id %}"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
+                            class="btn btn-primary pull-right">
+                        Xóa
+                    </a>
+                    <a href="{% url 'product-size-form-update' product_type_id=product_type_id product_size_id=product_size.product_size_id %}" 
+                        class="btn btn-primary pull-right">
+                        Sửa
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    
+</script>
+{% endblock %}
