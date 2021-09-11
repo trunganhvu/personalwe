@@ -88,7 +88,7 @@
                                 </thead>
                                 <tbody>
                                 {% for product_size in list_product_size %}
-                                    <tr>
+                                    <tr onclick="window.location='{% url 'product-size-detail' product_type_id=product_type.product_type_id product_size_id=product_size.product_size_id %}';">
                                         <td>
                                             <a href="{% url 'product-size-detail' product_type_id=product_type.product_type_id product_size_id=product_size.product_size_id %}">
                                                 {{ product_size.product_size_id }}

@@ -163,7 +163,7 @@
                                 <tbody>
                                 {% for category_post in category_posts_display_true %}
                                     {% if category_post.display %}
-                                    <tr>
+                                    <tr onclick="window.location='{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}';">
                                         <td>
                                             <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}">
                                                 {{ category_post.category_post_id }}
@@ -217,7 +217,7 @@
                                 <tbody>
                                 {% for category_post in category_posts_display_false %}
                                     {% if not category_post.display %}
-                                    <tr>
+                                    <tr onclick="window.location='{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}';">
                                         <td>
                                             <a href="{% url 'post' category_id=category.category_id post_id=category_post.category_post_id %}">
                                                 {{ category_post.category_post_id }}

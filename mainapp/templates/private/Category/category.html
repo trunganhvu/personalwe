@@ -39,7 +39,7 @@
                                 <tbody>
                                 {% for category in categorys %}
                                     {% if category.display %}
-                                    <tr>
+                                    <tr onclick="window.location='{% url 'category-detail' id=category.category_id %}';">
                                         <td>
                                             <a href="{% url 'category-detail' id=category.category_id %}">
                                                 {{ category.category_id }}
@@ -89,7 +89,7 @@
                             <tbody>
                             {% for category in categorys %}
                             {% if not category.display %}
-                                <tr>
+                                <tr onclick="window.location='{% url 'category-detail' id=category.category_id %}';">
                                     <td>
                                         <a href="{% url 'category-detail' id=category.category_id %}">
                                             {{ category.category_id }}

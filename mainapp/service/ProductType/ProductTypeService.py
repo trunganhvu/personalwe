@@ -63,7 +63,7 @@ def update_product_type(product_type):
     CacheUtil.clean_cache_by_key(key_cache)
     CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_TYPE)
 
-    cache.set(key_cache, product_type, settings.CACHE_TIME)
+    cache.set(key_cache, p_type, settings.CACHE_TIME)
 
 def delete_product_type_by_id(id):
     """

@@ -35,7 +35,7 @@
                                 </thead>
                                 <tbody>
                                 {% for product_type in product_type_list %}
-                                    <tr>
+                                    <tr onclick="window.location='{% url 'product-type-detail' product_type_id=product_type.product_type_id %}';">
                                         <td>
                                             <a href="{% url 'product-type-detail' product_type_id=product_type.product_type_id %}">
                                                 {{ product_type.product_type_id }}

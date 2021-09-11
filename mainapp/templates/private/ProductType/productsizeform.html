@@ -63,7 +63,7 @@
                                         <span class="asteriskField">*</span>
                                     </label>
                                     <input type="text" name="size-name" class="form-control" 
-                                            onchange="validateCategoryUrl(this.value)"
+                                            onchange="validateCategoryName(this.value)"
                                             maxlength="255" 
                                             required
                                             {% if product_size.product_size_name %}
@@ -79,7 +79,7 @@
                                     <label class="bmd-label-floating">Chiều cao từ
                                     </label>
                                     <input type="number" name="size-height-min" class="form-control" 
-                                            min="1" max="1000"
+                                            min="1" max="1000" placeholder="cm"
                                             {% if product_size.product_size_height_min %}
                                                 value="{{ product_size.product_size_height_min }}"
                                             {% endif %}
@@ -91,7 +91,7 @@
                                     <label class="bmd-label-floating">Đến
                                     </label>
                                     <input type="number" name="size-height-max" class="form-control" 
-                                            min="1" max="1000"
+                                            min="1" max="1000" placeholder="cm"
                                             {% if product_size.product_size_height_max %}
                                                 value="{{ product_size.product_size_height_max }}"
                                             {% endif %}
@@ -105,7 +105,7 @@
                                     <label class="bmd-label-floating">Chiều rộng từ
                                     </label>
                                     <input type="number" name="size-width-min" class="form-control" 
-                                            min="1" max="1000" 
+                                            min="1" max="1000" placeholder="cm"
                                             {% if product_size.product_size_width_min %}
                                                 value="{{ product_size.product_size_width_min }}"
                                             {% endif %}
@@ -117,7 +117,7 @@
                                     <label class="bmd-label-floating">Đến
                                     </label>
                                     <input type="number" name="size-width-max" class="form-control" 
-                                            min="1" max="1000" 
+                                            min="1" max="1000" placeholder="cm"
                                             {% if product_size.product_size_width_max %}
                                                 value="{{ product_size.product_size_width_max }}"
                                             {% endif %}
