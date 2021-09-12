@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.conf.urls import url
 from django.shortcuts import render
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view
@@ -16,7 +14,6 @@ def view_product_color_detail_by_id(request, product_type_id, product_color_id):
     View color detail by id - need auth
     """
     product_color = ProductColorService.get_product_color_detail_by_id(product_color_id)
-    print(product_color_id)
     context = {
         'product_color': product_color,
         'product_type_id': product_type_id
