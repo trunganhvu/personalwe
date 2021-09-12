@@ -25,7 +25,7 @@ def get_all_product_color_in_type(product_type_id):
 
 def get_product_color_detail_by_id(id):
     """
-    View type detail by id
+    View color detail by id
     """
     key_cache = KEY_CACHE_GET_PRODUCT_COLOR_DETAIL_BY_ID + str(id)
     cached_data = cache.get(key_cache)
@@ -46,7 +46,7 @@ def insert_product_color(product_color):
     p_color = ProductColorDao.insert_product_color(product_color)
 
     # Set into cache
-    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_COLOR_IN_TYPE + str(p_color.product_type_id))
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_COLOR_IN_TYPE + str(p_color.product_type_id_id))
 
     key_cache = KEY_CACHE_GET_PRODUCT_COLOR_DETAIL_BY_ID + str(p_color.product_color_id)
     cache.set(key_cache, p_color, settings.CACHE_TIME)
@@ -61,7 +61,7 @@ def update_product_color(product_color):
     # Set into cache
     key_cache = KEY_CACHE_GET_PRODUCT_COLOR_DETAIL_BY_ID + str(p_color.product_color_id)
     CacheUtil.clean_cache_by_key(key_cache)
-    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_COLOR_IN_TYPE + str(p_color.product_type_id))
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_COLOR_IN_TYPE + str(p_color.product_type_id_id))
 
     cache.set(key_cache, p_color, settings.CACHE_TIME)
 
@@ -76,4 +76,4 @@ def delete_product_color_by_id(id):
 
         # Delete cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_COLOR_DETAIL_BY_ID + str(id))
-        CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_COLOR_IN_TYPE + str(product_color.product_type_id))
+        CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_COLOR_IN_TYPE + str(product_color.product_type_id_id))

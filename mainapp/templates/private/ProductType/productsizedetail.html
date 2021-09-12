@@ -41,54 +41,54 @@
                         </div>
                     </div>
                     <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Chiều cao từ
-                                    </label>
-                                    <input type="number" name="size-height-min" class="form-control" disabled
-                                            {% if product_size.product_size_height_min %}
-                                                value="{{ product_size.product_size_height_min }}"
-                                            {% endif %}
-                                            >
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Đến
-                                    </label>
-                                    <input type="number" name="size-heigth-max" class="form-control" 
-                                            disabled
-                                            {% if product_size.product_size_height_max %}
-                                                value="{{ product_size.product_size_height_max }}"
-                                            {% endif %}
-                                            >
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Chiều cao từ
+                                </label>
+                                <input type="number" name="size-height-min" class="form-control" disabled
+                                        {% if product_size.product_size_height_min %}
+                                            value="{{ product_size.product_size_height_min }}"
+                                        {% endif %}
+                                        >
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Chiều rộng từ
-                                    </label>
-                                    <input type="number" name="size-width-min" class="form-control" disabled
-                                            {% if product_size.product_size_width_min %}
-                                                value="{{ product_size.product_size_width_min }}"
-                                            {% endif %}
-                                            >
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Đến
-                                    </label>
-                                    <input type="number" name="size-width-max" class="form-control" disabled
-                                            {% if product_size.product_size_width_max %}
-                                                value="{{ product_size.product_size_width_max }}"
-                                            {% endif %}
-                                            >
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Đến
+                                </label>
+                                <input type="number" name="size-heigth-max" class="form-control" 
+                                        disabled
+                                        {% if product_size.product_size_height_max %}
+                                            value="{{ product_size.product_size_height_max }}"
+                                        {% endif %}
+                                        >
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Chiều rộng từ
+                                </label>
+                                <input type="number" name="size-width-min" class="form-control" disabled
+                                        {% if product_size.product_size_width_min %}
+                                            value="{{ product_size.product_size_width_min }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Đến
+                                </label>
+                                <input type="number" name="size-width-max" class="form-control" disabled
+                                        {% if product_size.product_size_width_max %}
+                                            value="{{ product_size.product_size_width_max }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
                     <a href="{% url 'product-type-detail' product_type_id=product_type_id %}" 
                         class="btn btn-primary pull-right">
                         Quay lại

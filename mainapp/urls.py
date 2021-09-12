@@ -7,8 +7,7 @@ from mainapp.view.Home import DashboardController
 from mainapp.view.Category import CategoryController
 from mainapp.view.Category import CategoryPostController
 from mainapp.view.User import UserController
-from mainapp.view.ProductType import ProductTypeController
-from mainapp.view.ProductType import ProductSizeController
+from mainapp.view.ProductType import ProductTypeController, ProductSizeController, ProductColorController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -60,6 +59,16 @@ urlpatterns = [
     path('product-type/<int:product_type_id>/product-size-form/<int:product_size_id>/', ProductSizeController.view_product_size_update_form_page, name='product-size-form-update'),
     path('product-type/<int:product_type_id>/product-size/<int:product_size_id>/update/', ProductSizeController.update_product_size, name='product-size-update'),
     path('product-type/<int:product_type_id>/product-size/<int:product_size_id>/delete/', ProductSizeController.delete_product_size_by_id, name='product-size-delete'),
+
+    # ---------------- Url product color admin ----------------
+    path('product-type/<int:product_type_id>/product-color/<int:product_color_id>', ProductColorController.view_product_color_detail_by_id, name='product-color-detail'),
+    path('product-type/<int:product_type_id>/product-color-form/', ProductColorController.view_product_color_insert_form_page, name='product-color-form'),
+    path('product-type/<int:product_type_id>/product-color-form/<int:product_color_id>/', ProductColorController.view_product_color_update_form_page, name='product-color-form-update'),
+    path('product-type/<int:product_type_id>/product-color-form/insert/', ProductColorController.insert_product_color, name='product-color-insert'),
+    path('product-type/<int:product_type_id>/product-color-form/<int:product_color_id>/update/', ProductColorController.update_product_color, name='product-color-update'),
+    path('product-type/<int:product_type_id>/product-color-form/<int:product_color_id>/delete/', ProductColorController.delete_product_color_by_id, name='product-color-delete'),
+
+
 
 
     # ---------------- Url login ----------------

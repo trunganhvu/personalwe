@@ -17,16 +17,16 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Size</h4>
+                  <h4 class="card-title">Màu</h4>
                 </div>
                 <div class="card-body">
-                {% if product_size.product_size_id %}
+                {% if product_color.product_color_id %}
                     <form method="post" autocomplete="on"
                         enctype="multipart/form-data"
-                        action="{% url 'product-size-update' product_type_id=product_type_id product_size_id=product_size.product_size_id %}">
+                        action="{% url 'product-color-update' product_type_id=product_type_id product_color_id=product_color.product_color_id %}">
                 {% else %}
                     <form method="post" autocomplete="on"  enctype="multipart/form-data"
-                    action="{% url 'product-size-insert' product_type_id=product_type_id %}">
+                    action="{% url 'product-color-insert' product_type_id=product_type_id %}">
                 {% endif %}
                         {% csrf_token %}
                         <input type="hidden" name="type-id" value="{{ product_type_id }}"/>
@@ -47,12 +47,12 @@
                                     <label class="bmd-label-floating">Code
                                         <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" name="size-code" class="form-control" 
+                                    <input type="text" name="color-code" class="form-control" 
                                             onchange="validateCategoryUrl(this.value)"
                                             maxlength="25" 
                                             required
-                                            {% if product_size.product_size_code %}
-                                                value="{{ product_size.product_size_code }}"
+                                            {% if product_color.product_color_code %}
+                                                value="{{ product_color.product_color_code }}"
                                             {% endif %}
                                             >
                                 </div>
@@ -62,77 +62,27 @@
                                     <label class="bmd-label-floating">Tên
                                         <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" name="size-name" class="form-control" 
+                                    <input type="text" name="color-name" class="form-control" 
                                             onchange="validateCategoryName(this.value)"
                                             maxlength="255" 
                                             required
-                                            {% if product_size.product_size_name %}
-                                                value="{{ product_size.product_size_name }}"
+                                            {% if product_color.product_color_name %}
+                                                value="{{ product_color.product_color_name }}"
                                             {% endif %}
                                             >
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Chiều cao từ
-                                    </label>
-                                    <input type="number" name="size-height-min" class="form-control" 
-                                            min="1" max="1000" placeholder="cm"
-                                            {% if product_size.product_size_height_min %}
-                                                value="{{ product_size.product_size_height_min }}"
-                                            {% endif %}
-                                            >
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Đến
-                                    </label>
-                                    <input type="number" name="size-height-max" class="form-control" 
-                                            min="1" max="1000" placeholder="cm"
-                                            {% if product_size.product_size_height_max %}
-                                                value="{{ product_size.product_size_height_max }}"
-                                            {% endif %}
-                                            >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Chiều rộng từ
-                                    </label>
-                                    <input type="number" name="size-width-min" class="form-control" 
-                                            min="1" max="1000" placeholder="cm"
-                                            {% if product_size.product_size_width_min %}
-                                                value="{{ product_size.product_size_width_min }}"
-                                            {% endif %}
-                                            >
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Đến
-                                    </label>
-                                    <input type="number" name="size-width-max" class="form-control" 
-                                            min="1" max="1000" placeholder="cm"
-                                            {% if product_size.product_size_width_max %}
-                                                value="{{ product_size.product_size_width_max }}"
-                                            {% endif %}
-                                            >
-                                </div>
-                            </div>
-                        </div>
-                        {% if product_size.product_size_id %}
-                            <a href="{% url 'product-size-detail' product_type_id=product_type_id product_size_id=product_size.product_size_id %}" 
-                                class="btn btn-primary pull-right">
+                        {% if product_color.product_color_id %}
+                            <a href="{% url 'product-color-detail' product_type_id=product_type_id product_color_id=product_color.product_color_id %}" class="btn btn-primary pull-right">
                                 Quay lại
                             </a>
                             <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>
                         {% else %}
-                            <a href="{% url 'product-type-detail' product_type_id=product_type_id %}" class="btn btn-primary pull-right">Quay lại</a>
+                            <a href="{% url 'product-type-detail' product_type_id=product_type_id %}"
+                                class="btn btn-primary pull-right">
+                                Quay lại
+                            </a>
                             <button type="submit" class="btn btn-primary pull-right">Tạo</button>
                         {% endif %}
                         <div class="clearfix"></div>

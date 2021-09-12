@@ -7,9 +7,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from mainapp.service.ProductType import ProductTypeService
+from mainapp.service.ProductType import ProductTypeService, ProductSizeService, ProductColorService
 from mainapp.Common import ConstValiable
-from mainapp.service.ProductType import ProductSizeService
 
 @login_required(login_url='/login/')
 def get_all_product_type(request):
@@ -30,10 +29,12 @@ def view_product_type_detail_by_id(request, product_type_id):
     try:
         product_type = ProductTypeService.get_product_type_detail_by_id(product_type_id)
         list_product_size = ProductSizeService.get_all_product_size_in_product_type(product_type_id)
-
+        list_product_color = ProductColorService.get_all_product_color_in_type(product_type_id)
+        
         context = {
             'product_type': product_type,
-            'list_product_size': list_product_size
+            'list_product_size': list_product_size,
+            'list_product_color': list_product_color
         }
         return render(request, 'private/ProductType/producttypedetail.html', context)
     except Exception:

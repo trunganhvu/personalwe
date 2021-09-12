@@ -5,7 +5,7 @@ def get_all_product_color_in_type(product_type_id):
     """
     Get all color in type
     """
-    list_product_color = ProductColor.objects.first(product_type_id=product_type_id)
+    list_product_color = ProductColor.objects.filter(product_type_id=product_type_id).order_by('-product_color_id')
     return list_product_color
 
 def get_product_color_detail_by_id(product_color_id):
@@ -20,7 +20,7 @@ def insert_product_color(product_color):
     Insert product color
     """
     p_color = ProductColor(product_color_code=product_color.product_color_code,
-                            product_color_name=product_color.product_color_code,
+                            product_color_name=product_color.product_color_name,
                             product_type_id=product_color.product_type_id,
                             created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     p_color.save()
@@ -32,8 +32,8 @@ def update_product_color(product_color):
     """
     p_color = ProductColor.objects.get(pk=product_color.product_color_id)
     p_color.product_color_code=product_color.product_color_code
-    p_color.product_color_name=product_color.product_color_code,
-    p_color.product_type_id=product_color.product_type_id,
+    p_color.product_color_name=product_color.product_color_name
+    p_color.product_type_id=product_color.product_type_id
     p_color.save()
     return p_color
 
