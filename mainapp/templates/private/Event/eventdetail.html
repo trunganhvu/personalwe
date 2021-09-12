@@ -1,0 +1,160 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Sự kiện</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Tên sự kiện
+                                </label>
+                                <input type="text" name="event-name" class="form-control" 
+                                        disabled
+                                        {% if event.event_name %}
+                                            value="{{ event.event_name }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Khẩu hiệu
+                                </label>
+                                <input type="text" name="event-slogun" class="form-control"
+                                        disabled
+                                        {% if event.event_slogun %}
+                                            value="{{ event.event_slogun }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Mô tả
+                                </label>
+                                <div class="form-group">
+                                    <textarea name="event-description"
+                                            class="form-control textarea-important" 
+                                            disabled
+                                            >{% if event.event_description %}{{ event.event_description }}
+                                            {% endif %}
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Chú thích
+                                </label>
+                                <textarea name="event-note"
+                                    class="form-control textarea-important" 
+                                    disabled
+                                    >{% if event.event_description %}{{ event.event_description }}
+                                    {% endif %}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Tên ảnh
+                                </label>
+                                <input type="text" name="event-image-name" class="form-control"
+                                    disabled
+                                    {% if event.event_image_banner_name %}
+                                        value="{{ event.event_image_banner_name }}"
+                                    {% endif %}
+                                    >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Vị trí ảnh
+                                </label>
+                                <input type="text" name="event-image-name" class="form-control"
+                                    disabled
+                                    {% if event.event_image_banner_path %}
+                                        value="{{ event.event_image_banner_path }}"
+                                    {% endif %}
+                                    >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Bắt đầu từ
+                                </label>
+                                <input type="text" name="event-image-name" class="form-control"
+                                    disabled
+                                    {% if event.event_start %}
+                                        value="{{ event.event_start|date:'d-m-Y'}}, {{ event.event_start|date:'H:i'}}"
+                                    {% endif %}
+                                    >
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="event-display-type" class="bmd-label-floating">Đến
+                                </label>
+                                <input type="text" name="event-image-name" class="form-control"
+                                    disabled
+                                    {% if event.event_end %}
+                                        value="{{ event.event_end|date:'d-m-Y'}}, {{ event.event_end|date:'H:i'}}"
+                                    {% endif %}
+                                    >
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Trạng thái hoặt động
+                                </label>
+                                <input type="text" name="event-image-name" class="form-control"
+                                    disabled
+                                    {% if event.active %}
+                                        value="{{ event.active }}"
+                                    {% endif %}
+                                    >
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'event' %}" class="btn btn-primary pull-right">Quay lại</a>
+                    <a href="{% url 'event-delete' event_id=event.event_id %}" 
+                        onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
+                        class="btn btn-primary pull-right">
+                        Xóa
+                    </a>
+                    <a href="{% url 'event-form-update' event_id=event.event_id %}"
+                        class="btn btn-primary pull-right">
+                        Sửa
+                    </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Hiển tại</h4>
+                    </div>
+                    <div class="card-body"></div>
+                    <img class="img" src="/{{ event.event_image_banner_path }}"
+                        id="image-event-preview"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

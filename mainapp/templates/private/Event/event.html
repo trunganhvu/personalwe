@@ -1,0 +1,180 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+.col-id {
+    width: 10%;
+}
+.col-name {
+    width: 30%;
+}
+.col-url {
+    width: 30%;
+}
+.col-display {
+    width: 10%;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách sự kiện đang diễn ra</h4>
+                        <a href="{% url 'event-form' %}" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Sự kiện</th>
+                                    <th class="col-url">Bắt đầu</th>
+                                    <th class="col-display">Kết thúc</th>
+                                </thead>
+                                <tbody>
+                                {% for event in list_event_running %}
+                                    <tr onclick="window.location='{% url 'event-detail' event_id=event.event_id %}';">
+                                        <td>
+                                            {{ event.event_id }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_name }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_start|date:'d-m-Y, H:i' }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_end|date:'d-m-Y, H:i' }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách sự kiện sắp diễn ra</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Sự kiện</th>
+                                    <th class="col-url">Bắt đầu</th>
+                                    <th class="col-display">Kết thúc</th>
+                                </thead>
+                                <tbody>
+                                {% for event in list_event_is_comming %}
+                                    <tr onclick="window.location='{% url 'event-detail' event_id=event.event_id %}';">
+                                        <td>
+                                            {{ event.event_id }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_name }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_start|date:'d-m-Y, H:i' }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_end|date:'d-m-Y, H:i' }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách sự kiện đã xảy ra</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Sự kiện</th>
+                                    <th class="col-url">Bắt đầu</th>
+                                    <th class="col-display">Kết thúc</th>
+                                </thead>
+                                <tbody>
+                                {% for event in list_event_passed %}
+                                    <tr onclick="window.location='{% url 'event-detail' event_id=event.event_id %}';">
+                                        <td>
+                                            {{ event.event_id }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_name }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_start|date:'d-m-Y, H:i' }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_end|date:'d-m-Y, H:i' }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách sự kiện không hoạt động</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Sự kiện</th>
+                                    <th class="col-url">Bắt đầu</th>
+                                    <th class="col-display">Kết thúc</th>
+                                </thead>
+                                <tbody>
+                                {% for event in list_event_not_active %}
+                                    <tr onclick="window.location='{% url 'event-detail' event_id=event.event_id %}';">
+                                        <td>
+                                            {{ event.event_id }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_name }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_start|date:'d-m-Y, H:i' }}
+                                        </td>
+                                        <td>
+                                            {{ event.event_end|date:'d-m-Y, H:i' }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

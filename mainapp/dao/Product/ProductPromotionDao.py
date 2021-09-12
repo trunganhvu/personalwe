@@ -14,8 +14,8 @@ def get_all_promotion_active_in_product(product_id):
     """
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     list_promotion = ProductPromotion.objects.filter(product_id=product_id,
-                                                    product_promotion_start_gte=now,
-                                                    product_promotion_end_lte=now)
+                                                    product_promotion_start__gte=now,
+                                                    product_promotion_end__lte=now)
     return list_promotion
 
 def insert_promotion(product_promotion):

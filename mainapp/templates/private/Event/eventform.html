@@ -1,0 +1,316 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+#msg-event-name,
+#msg-event-url,
+#msg-event-image-name,
+#msg-event-image,
+#msg-event-start-end {
+    display: none;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Sự kiện</h4>
+                </div>
+                <div class="card-body">
+                {% if event.event_id %}
+                    <form method="post" autocomplete="on" enctype="multipart/form-data"
+                        action="{% url 'event-update' event_id=event.event_id %}">
+                    <input type="hidden" name="event-id" value="{{ event.event_id }}"/>
+                {% else %}
+                    <form method="post" autocomplete="on" enctype="multipart/form-data"
+                        action="{% url 'event-insert' %}">
+                {% endif %}
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="text-danger">
+                                <ul>
+                                    <li id="msg-event-name"></li>
+                                    <li id="msg-event-url"></li>
+                                    <li id="msg-event-image-name"></li>
+                                    <li id="msg-event-image"></li>
+                                    <li id="msg-event-start-end"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Tên sự kiện
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" name="event-name" class="form-control" 
+                                            onchange="validateeventName(this.value)"
+                                            maxlength="255" required
+                                            {% if event.event_name %}
+                                                value="{{ event.event_name }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Khẩu hiệu
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" name="event-slogun" class="form-control"
+                                            onchange="validateeventName(this.value)"
+                                            maxlength="500" required
+                                            {% if event.event_slogun %}
+                                                value="{{ event.event_slogun }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Mô tả
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <div class="form-group">
+                                        <textarea name="event-description"
+                                                class="form-control textarea-important" 
+                                                rows="5" maxlength="1000" required
+                                                >{% if event.event_description %}{{ event.event_description }}
+                                                {% endif %}
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Chú thích
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <textarea name="event-note"
+                                            class="form-control textarea-important" 
+                                            maxlength="1000" rows="5" required
+                                            >{% if event.event_description %}{{ event.event_description }}
+                                            {% endif %}
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Tên ảnh
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input type="text" name="event-image-name" class="form-control"
+                                            onchange="validateeventUrl(this.value)"
+                                            maxlength="50" required
+                                            {% if event.event_image_banner_name %}
+                                                value="{{ event.event_image_banner_name }}"
+                                            {% endif %}
+                                            >
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="image-header" class="bmd-label-floating">Chọn ảnh
+                                    {% if not event.event_image_banner_path %}
+                                        <span class="asteriskField">*</span>
+                                    {% endif %}
+                                </label>
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                    {% if event.event_image_banner_name %}
+                                        <input type="hidden" name="event-image-now" value="{{ event.event_image_banner_path }}"/>
+                                        <input type="file"
+                                            id="image-header"
+                                            class="form-control-file custom-file-input"
+                                            name="event-image" 
+                                            accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
+                                            onchange="document.getElementById('image-event-preview').src = window.URL.createObjectURL(this.files[0]);
+                                                    document.getElementById('image-event-preview').classList.remove('d-none');"
+                                            >
+                                            <label class="custom-file-label" for="inputGroupFile01">{{ event.event_image_banner_name }}</label>
+                                    {% else %}
+                                        <input type="file"
+                                            id="image-header"
+                                            class="form-control-file custom-file-input"
+                                            name="event-image" required 
+                                            accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
+                                            onchange="document.getElementById('image-event-preview').src = window.URL.createObjectURL(this.files[0]);
+                                                    document.getElementById('image-event-preview').classList.remove('d-none');"
+                                            >
+                                        <label class="custom-file-label" for="inputGroupFile01">Ảnh đuôi .png, .webp, .jpg</label>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Bắt đầu từ
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input id="event-start" type="datetime-local" class="form-control"
+                                        name="event-start" required
+                                        onchange="validateStart(this.value)"
+                                        {% if event.event_start %}
+                                            value="{{event.event_start|date:'Y-m-d'}}T{{event.event_start|date:'H:i'}}"                                        
+                                        {% endif %}>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="event-display-type" class="bmd-label-floating">Đến
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <input id="event-end" type="datetime-local" class="form-control" 
+                                        name="event-end" required
+                                        onchange="validateEnd(this.value)"
+                                        {% if event.event_end %}
+                                            value="{{event.event_end|date:'Y-m-d'}}T{{event.event_end|date:'H:i'}}"                                        
+                                        {% endif %}>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Trạng thái hoặt động
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <select name="active" id="display" class="form-control">
+                                        <option value="false"
+                                                {% if event.active %}
+                                                    selected
+                                                {% endif %}
+                                                >Không hoạt động
+                                        </option>
+                                        <option value="true"
+                                                {% if event.active %}
+                                                    selected
+                                                {% endif %}>Hoạt động
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        {% if event.event_id %}
+                            <a href="{% url 'event-detail' event_id=event.event_id %}" class="btn btn-primary pull-right">
+                                Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>
+                        {% else %}
+                            <a href="{% url 'event' %}" class="btn btn-primary pull-right">Quay lại</a>
+                            <button type="submit" class="btn btn-primary pull-right">Tạo</button>
+                        {% endif %}
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Xem trước</h4>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    {% if event.event_image_banner_path %}
+                        <img class="img" src="/{{ event.event_image_banner_path }}" id="image-event-preview"/>
+                    {% else %}
+                        <img class="img" id="image-event-preview"/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript">
+    /**
+     * Validate event name
+     */
+    function validateeventName(eventName) {
+        let re = new RegExp("^[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵzA-Za-z0-9_ ]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(eventName.toLowerCase()) == false) {
+            display = 'block';
+            html = 'event name: Nhập ký tự trong bảng chữ cái, số, khoảng cách.';
+        } 
+        document.getElementById("msg-event-name").style.display = display;
+        document.getElementById("msg-event-name").innerHTML = html;
+    }
+
+    /**
+     * Validate event name
+     */
+    function validateeventUrl(eventUrl) {
+        let re = new RegExp("^[A-Za-z0-9-_]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(eventUrl) == false) {
+            display = 'block';
+            html = 'Đường dẫn tương ứng: Nhập ký tự trong bảng chữ cái, số.';
+        }
+        document.getElementById("msg-event-url").style.display = display;
+        document.getElementById("msg-event-url").innerHTML = html;
+    }
+
+    /**
+     * Validate event image name
+     */
+    function validateeventImageName(eventImageName) {
+        let re = new RegExp("^[A-Za-z0-9-_]*$");
+        let display = 'none';
+        let html = '';
+        if (re.test(eventImageName) == false) {
+            display = 'block';
+            html = 'Tên ảnh mặc định: Nhập ký tự trong bảng chữ cái, số, khoảng cách.';
+        } 
+        document.getElementById("msg-event-image-name").style.display = display;
+        document.getElementById("msg-event-image-name").innerHTML = html;
+    }
+    
+    /**
+     * validate event end start
+     */
+    function validateStart(start) {
+        let end = document.getElementById('event-end').value;
+        let dateStart = new Date(start);
+        let dateEnd = new Date(end);
+        let ele = document.getElementById("msg-event-start-end");
+        let display = 'none';
+        let html = '';
+        if (dateStart.getTime() > dateEnd.getTime()) {
+            display = 'block';
+            html = 'Ngày bắt đầu phải nhỏ hơn ngày kết thúc.';
+        }
+        ele.style.display = display;
+        ele.innerHTML = html;
+    }
+
+    /**
+     * validate event end start
+     */
+    function validateEnd(end) {
+        let start = document.getElementById('event-end').value;
+        let dateStart = new Date(start);
+        let dateEnd = new Date(end);
+        let ele = document.getElementById("msg-event-start-end");
+        let display = 'none';
+        let html = '';
+        if (dateStart.getTime() > dateEnd.getTime()) {
+            display = 'block';
+            html = 'Ngày bắt đầu phải nhỏ hơn ngày kết thúc.';
+        }
+        ele.style.display = display;
+        ele.innerHTML = html;
+    }
+</script>
+{% endblock %}
