@@ -94,7 +94,6 @@ def get_event_detail_by_id(event_id):
     key_cache = KEY_CACHE_GET_EVENT_DETAIL_ID + str(event_id)
     cached_data = cache.get(key_cache)
     if not cached_data:
-        print('k co cache')
         # Get all in DB
         event = EventDao.get_event_detail_by_id(event_id)
 
@@ -136,7 +135,6 @@ def insert_event(event):
         print(error)
         if full_path_image != '':
             Util.delete_image_in_media(full_path_image)
-            print('ser error 1')
 
         raise error
 

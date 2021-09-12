@@ -35,7 +35,6 @@ def view_event_detail_by_id(request, event_id):
     View event detail by id
     """
     try:
-        print(event_id)
         event = EventService.get_event_detail_by_id(event_id)
 
         context = {
@@ -62,8 +61,6 @@ def view_event_update_form_page(request, event_id):
     """
     try:
         event = EventService.get_event_detail_by_id(event_id)
-        print(event.event_end)
-        print(type(event.event_end))
         context = {
             'event': event
         }
