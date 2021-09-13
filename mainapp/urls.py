@@ -4,11 +4,11 @@ from mainapp.view.Delivery import DeliveryController
 from mainapp.view.Home import HomeController
 from mainapp.view.Header import HeaderConntroller, BannerTitleController
 from mainapp.view.Home import DashboardController
-from mainapp.view.Category import CategoryController
-from mainapp.view.Category import CategoryPostController
+from mainapp.view.Category import CategoryController, CategoryPostController
 from mainapp.view.User import UserController
 from mainapp.view.ProductType import ProductTypeController, ProductSizeController, ProductColorController
 from mainapp.view.Event import EventController
+from mainapp.view.Product import ProductController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -69,6 +69,9 @@ urlpatterns = [
     path('product-type/<int:product_type_id>/product-color-form/<int:product_color_id>/update/', ProductColorController.update_product_color, name='product-color-update'),
     path('product-type/<int:product_type_id>/product-color-form/<int:product_color_id>/delete/', ProductColorController.delete_product_color_by_id, name='product-color-delete'),
 
+    # ---------------- Url product admin ----------------
+    path('products/', ProductController.view_all_product_page, name='product'),
+    
     # ---------------- Url event admin ----------------
     path('event/', EventController.view_all_event, name='event'),
     path('event-form/', EventController.view_event_insert_form_page, name='event-form'),

@@ -1,8 +1,7 @@
 from mainapp.model.Event import Event
 from django.conf import settings
 from django.conf.urls import url
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from datetime import datetime
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -16,8 +15,8 @@ def view_all_event(request):
     """
     Get all event - need auth
     """
-    list_event_running = EventService.get_all_event_active_running()
     list_event_is_comming = EventService.get_all_event_active_is_comming()
+    list_event_running = EventService.get_all_event_active_running()
     list_event_passed = EventService.get_all_event_active_is_passed()
     list_event_not_active = EventService.get_all_event_not_active()
 

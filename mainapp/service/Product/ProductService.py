@@ -25,7 +25,7 @@ def get_all_product_in_type(product_type_id):
 
 def get_product_detail_by_id(id):
     """
-    View  detail by id
+    View detail by id
     """
     key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(id)
     cached_data = cache.get(key_cache)

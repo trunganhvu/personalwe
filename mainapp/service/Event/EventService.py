@@ -1,6 +1,8 @@
 from django.core.cache import cache
 from mainapp.Common import CacheUtil
 from django.conf import settings
+from datetime import datetime
+from django.utils import timezone
 
 from mainapp.dao.Event import EventDao
 from mainapp.Common import Util
@@ -46,7 +48,21 @@ def get_all_event_active_running():
     """
     Get all event running
     """
+    # Get current date
+    now = datetime.now(tz=timezone.utc)
     cached_data = cache.get(KEY_CACHE_GET_ALL_EVENT_ACTIVE_RUNNING)
+    if cached_data:
+        for data in cached_data:
+            start = data.event_start
+            end = data.event_end
+            # now is event or now is not event
+            if not (start < now and now < end) :
+                cached_data = None
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_PASSED)
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_RUNNING)
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_IS_COMMING)
+                break
+
     if not cached_data:
         # Get all in DB
         list_event = EventDao.get_all_event_active_running()
@@ -54,14 +70,27 @@ def get_all_event_active_running():
         if list_event.count() > 0:
             # Set into cache
             cache.set(KEY_CACHE_GET_ALL_EVENT_ACTIVE_RUNNING, list_event, settings.CACHE_TIME)
-            cached_data = list_event 
+            cached_data = list_event
     return cached_data
 
 def get_all_event_active_is_comming():
     """
     Get all event is comming
     """
+    # Get current date
+    now = datetime.now(tz=timezone.utc)
     cached_data = cache.get(KEY_CACHE_GET_ALL_EVENT_ACTIVE_IS_COMMING)
+    if cached_data:
+        for data in cached_data:
+            start = data.event_start
+            end = data.event_end
+            # now is event or now is not event
+            if not (now < start and now < end):
+                cached_data = None
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_PASSED)
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_RUNNING)
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_IS_COMMING)
+                break
     if not cached_data:
         # Get all in DB
         list_event = EventDao.get_all_event_active_is_comming()
@@ -76,7 +105,20 @@ def get_all_event_active_is_passed():
     """
     Get all event is passed
     """
+    # Get current date
+    now = datetime.now(tz=timezone.utc)
     cached_data = cache.get(KEY_CACHE_GET_ALL_EVENT_ACTIVE_PASSED)
+    if cached_data:
+        for data in cached_data:
+            start = data.event_start
+            end = data.event_end
+            # now is event or now is not event
+            if not (now > start and now > end):
+                cached_data = None
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_PASSED)
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_RUNNING)
+                CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_EVENT_ACTIVE_IS_COMMING)
+                break
     if not cached_data:
         # Get all in DB
         list_event = EventDao.get_all_event_active_is_passed()

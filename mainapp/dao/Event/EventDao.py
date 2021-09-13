@@ -1,5 +1,5 @@
 from mainapp.model.Event import Event
-from datetime import datetime, date
+from datetime import datetime
 from django.core.cache import cache
 from mainapp.Common import CacheUtil
 from django.conf import settings
@@ -28,7 +28,7 @@ def get_all_event_active_running():
     Get all event running
     """
     # Get current date
-    now = datetime.now()
+    now = datetime.now(tz=timezone.utc)
 
     list_event = Event.objects.filter(active=True, event_start__lte=now, event_end__gte=now)
     return list_event
@@ -38,7 +38,7 @@ def get_all_event_active_is_comming():
     Get all event is comming
     """
     # Get current date
-    now = datetime.now()
+    now = datetime.now(tz=timezone.utc)
 
     list_event = Event.objects.filter(active=True, event_start__gte=now, event_end__gte=now)
     return list_event
@@ -48,7 +48,7 @@ def get_all_event_active_is_passed():
     Get all event is passed
     """
     # Get current date
-    now = datetime.now()
+    now = datetime.now(tz=timezone.utc)
 
     list_event = Event.objects.filter(active=True, event_start__lte=now, event_end__lte=now)
     return list_event

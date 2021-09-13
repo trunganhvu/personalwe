@@ -33,9 +33,16 @@ def update_product_detail(product_detail):
     p_detail.save()
     return p_detail
 
-def delete_product_detail(product_detail_id):
+def delete_product_detail_by_pk(product_detail_id):
     """
     Delete product detail by id
     """
     p_detail = ProductDetail.objects.get(pk=product_detail_id)
+    p_detail.delete()
+
+def delete_product_detail_by_product_id(product_id):
+    """
+    Delete product detail by id
+    """
+    p_detail = ProductDetail.objects.filter(product_id=product_id)
     p_detail.delete()

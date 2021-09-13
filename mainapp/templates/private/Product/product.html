@@ -1,0 +1,62 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+.col-id {
+    width: 10%;
+}
+.col-name {
+    width: 30%;
+}
+.col-url {
+    width: 30%;
+}
+.col-display {
+    width: 10%;
+}
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        {% for product_type in list_product_type %}
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Dòng sản phẩm {{ product_type.product_type.product_type_name }}</h4>
+                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Code</th>
+                                    <th class="col-url">Tên</th>
+                                </thead>
+                                <tbody>
+                                {% for product in product_type.list_product %}
+                                    <tr onclick="window.location='';">
+                                        <td>
+                                            {{ product.product_id }}
+                                        </td>
+                                        <td>
+                                            {{ product.product_code }}
+                                        </td>
+                                        <td>
+                                            {{ product.product_name }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
