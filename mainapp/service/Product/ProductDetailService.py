@@ -4,7 +4,7 @@ from django.conf import settings
 
 from mainapp.dao.Product import ProductDetailDao
 
-KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID = 'context-product-detail-in-'
+KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID = 'context-detail-product-detail-in-'
 
 
 def get_all_detail_product_by_product_id(product_id):
@@ -14,7 +14,8 @@ def get_all_detail_product_by_product_id(product_id):
     key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(product_id)
     cached_data = cache.get(key_cache)
     if not cached_data:
-        # Get detail in DB
+
+        # Get detail color, size
         list_product_detail = ProductDetailDao.get_all_detail_product_by_product_id(product_id)
 
         # Set into cache

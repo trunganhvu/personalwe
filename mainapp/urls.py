@@ -71,6 +71,7 @@ urlpatterns = [
 
     # ---------------- Url product admin ----------------
     path('products/', ProductController.view_all_product_page, name='product'),
+    path('products/<int:product_id>/', ProductController.view_product_detail_page, name='product-detail'),
     
     # ---------------- Url event admin ----------------
     path('event/', EventController.view_all_event, name='event'),

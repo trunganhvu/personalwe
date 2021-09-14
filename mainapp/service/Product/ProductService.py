@@ -27,12 +27,13 @@ def get_product_detail_by_id(id):
     """
     View detail by id
     """
+    print('ser 1')
     key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(id)
     cached_data = cache.get(key_cache)
     if not cached_data:
         # Get detail in DB
         product = ProductDao.get_product_detail_by_id(id)
-
+        print('ser 3')
         # Set into cache
         cache.set(key_cache, product, settings.CACHE_TIME)
         cached_data = product 

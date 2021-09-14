@@ -29,9 +29,16 @@ def update_image(product_image):
     p_image.save()
     return p_image
 
-def delete_image(product_image_id):
+def delete_image_by_id(product_image_id):
     """
     Delete image by id
     """
     p_image = ProductImage.objects.get(pk=product_image_id)
+    p_image.delete()
+
+def delete_all_product_image_by_product_id(product_id):
+    """
+    Delete product image by product id
+    """
+    p_image = ProductImage.objects.filter(product_id=product_id)
     p_image.delete()

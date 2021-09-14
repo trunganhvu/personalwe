@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from mainapp.Common import Util
-from mainapp.service.Product import ProductService
+from mainapp.service.Product import ProductService, ProductDetailService, ProductImageService
 from mainapp.service.ProductType import ProductTypeService, ProductColorService, ProductSizeService
 from mainapp.Common import ConstValiable
 
@@ -35,12 +35,31 @@ def view_product_detail_page(request, product_id):
     View product detail page
     """
     try:
-        product = ProductService.get_event_detail_by_id(product_id)
-        # list_p_detail = Pro
-        context = {
-            'product': product,
-        }
-        return render(request, 'private/Product/productdetail.html', context=context)
-    except Exception:
+        # Get base info product       
+        product = ProductService.get_product_detail_by_id(product_id)
+        print('con 2')
+        if product is not None:
+            # Get list detail info product
+            list_p_detail = ProductDetailService.get_all_detail_product_by_product_id(product.product_id)
+            print('con 3')
+            print(list_p_detail)
+            for p_detail in list_p_detail:
+                print(p_detail.product_color_id.product_color_name)
+            
+            # Get list image of product
+            list_p_image = ProductImageService.get_all_product_image_by_product_id(product.product_id)
+
+            # Get list promotion of product
+
+            context = {
+                'product': product,
+                'list_product_detail': list_p_detail,
+                'list_product_image': list_p_image
+            }
+            return render(request, 'private/Product/productdetail.html', context=context)
+        else:
+            raise Exception('Product not exist')
+    except Exception as error:
+        print(error)
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
-        return redirect('/product-type')
+        return redirect('/products/')

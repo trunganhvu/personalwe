@@ -1,0 +1,138 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Chi tiết sản phẩm</h4>
+                        <a href="{% url 'product' %}" class="btn btn-secondary pull-right">Quay lại</a>
+                        <a href="" class="btn btn-secondary pull-right">Xóa</a>
+                        <a href="" class="btn btn-secondary pull-right">Sửa</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Mã sản phẩm</label>
+                                    <input type="text" class="form-control" 
+                                        disabled
+                                        {% if product.product_code %}
+                                            value=" {{ product.product_code }}"
+                                        {% endif %}>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Tên sản phẩm</label>
+                                    <input type="text" class="form-control"
+                                        disabled
+                                        {% if product.product_name %}
+                                            value="{{ product.product_name }}"
+                                        {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-detail">
+                            <div class="row">
+                                <div class="col-md-12"><br><br>
+                                    <h5><strong>Chi tiết</strong></h5>
+                                </div>    
+                            </div>
+                            {% for product_detail in list_product_detail %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Màu
+                                        </label>
+                                        <input type="text" class="form-control" 
+                                                disabled
+                                                {% if product_detail.product_color_id.product_color_name %}
+                                                    value=" {{ product_detail.product_color_id.product_color_name }}"
+                                                {% endif %}
+                                                >
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Size</label>
+                                        <input type="text" class="form-control"
+                                            disabled
+                                            {% if product_detail.product_size_id.product_size_name %}
+                                                value="{{ product_detail.product_size_id.product_size_name }}"
+                                            {% endif %}>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Tổng</label>
+                                        <input type="text" class="form-control"
+                                                disabled
+                                                {% if product_detail.number_of_product %}
+                                                    value="{{ product_detail.number_of_product }}"
+                                                {% endif %}>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Đã bán</label>
+                                        <input type="text" class="form-control"
+                                                disabled
+                                                {% if product_detail.number_of_product %}
+                                                    value="{{ product_detail.number_of_product }}"
+                                                {% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="product-detail">
+                            <div class="row justify-content-between">
+                                <div class="col-md-6 col-6"><br><br><br>
+                                    <h5><strong>Ảnh</strong></h5>
+                                </div>
+                                <div class="col-md-6 col-6"><br><br>
+                                    <a href="" class="btn btn-primary float-right">Chỉnh sửa ảnh</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                {% for product_image in list_product_image %}
+                                    <div class="col-md-4 p-2">
+                                        <img src="/{{product_image.product_image_path}}" 
+                                            alt="{{product_image.product_image_name}}"
+                                            class="img-fluid">
+                                    </div>
+                                    <div class="col-md-4 p-2">
+                                        <img src="/{{product_image.product_image_path}}" 
+                                            alt="{{product_image.product_image_name}}"
+                                            class="img-fluid">
+                                    </div>
+                                    <div class="col-md-4 p-2">
+                                        <img src="/{{product_image.product_image_path}}" 
+                                            alt="{{product_image.product_image_name}}"
+                                            class="img-fluid">
+                                    </div>
+                                    <div class="col-md-4 p-2">
+                                        <img src="/{{product_image.product_image_path}}" 
+                                            alt="{{product_image.product_image_name}}"
+                                            class="img-fluid">
+                                    </div><div class="col-md-4 p-2">
+                                        <img src="/{{product_image.product_image_path}}" 
+                                            alt="{{product_image.product_image_name}}"
+                                            class="img-fluid">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

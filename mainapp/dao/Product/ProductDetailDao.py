@@ -5,7 +5,21 @@ def get_all_detail_product_by_product_id(product_id):
     """
     Get detail by product id
     """
-    list_detail = ProductDetail.objects.filter(product_id=product_id)
+    print('dao 0')
+    # list_detail = ProductDetail.objects.filter(product_id=product_id).select_related('product_color_id__product_color_id',
+    #                                                                                 'product_color_id__product_color_code',
+    #                                                                                 'product_color_id__product_color_name',
+    #                                                                                 'product_size_id__product_size_id',
+    #                                                                                 'product_size_id__product_size_code',
+    #                                                                                 'product_size_id__product_size_name',
+    #                                                                                 'product_size_id__product_size_height_max',
+    #                                                                                 'product_size_id__product_size_height_min',
+    #                                                                                 'product_size_id__product_size_width_max',
+    #                                                                                 'product_size_id__product_size_width_min')
+    list_detail = ProductDetail.objects.filter(product_id=product_id).select_related('product_color_id',
+                                                                                    'product_size_id',
+                                                                                    )
+    print('dao 1')
     return list_detail
 
 def insert_product_detail(product_detail):
