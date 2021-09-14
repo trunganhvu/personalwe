@@ -37,14 +37,9 @@ def view_product_detail_page(request, product_id):
     try:
         # Get base info product       
         product = ProductService.get_product_detail_by_id(product_id)
-        print('con 2')
         if product is not None:
             # Get list detail info product
             list_p_detail = ProductDetailService.get_all_detail_product_by_product_id(product.product_id)
-            print('con 3')
-            print(list_p_detail)
-            for p_detail in list_p_detail:
-                print(p_detail.product_color_id.product_color_name)
             
             # Get list image of product
             list_p_image = ProductImageService.get_all_product_image_by_product_id(product.product_id)
