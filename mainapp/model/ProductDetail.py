@@ -12,6 +12,7 @@ class ProductDetail(models.Model):
     product_color_id = models.ForeignKey(ProductColor, on_delete=models.CASCADE)
     product_size_id = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
     number_of_product = models.IntegerField(default=0)
+    product_in_stock = models.IntegerField(default=0)
     product_original_price = models.DecimalField(max_digits=12, decimal_places=2)
     product_public_price = models.DecimalField(max_digits=12, decimal_places=2)
     created_at = models.DateTimeField(null=False)

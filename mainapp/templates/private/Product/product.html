@@ -25,7 +25,10 @@
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Dòng sản phẩm {{ product_type.product_type.product_type_name }}</h4>
-                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                        <a href="{% url 'product-detail-form-insert' product_type_id=product_type.product_type.product_type_id %}"
+                            class="btn btn-secondary pull-right">
+                            Mới
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

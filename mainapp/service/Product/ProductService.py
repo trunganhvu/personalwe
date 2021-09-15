@@ -1,9 +1,9 @@
 from django.core.cache import cache
 from mainapp.Common import CacheUtil
 from django.conf import settings
-
+from django.db import transaction
 from mainapp.dao.Product import ProductDao
-
+from mainapp.service.Product import ProductDetailService
 KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE = 'context-all-product-in-type-'
 KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID = 'context-product-detail-in-'
 
@@ -46,10 +46,11 @@ def insert_product(product):
     p = ProductDao.insert_product(product)
 
     # Set into cache
-    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
+    # CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
 
-    key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p.product_id)
-    cache.set(key_cache, p, settings.CACHE_TIME)
+    # key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p.product_id)
+    # cache.set(key_cache, p, settings.CACHE_TIME)
+    return p
 
 def update_product(product):
     """
@@ -77,3 +78,18 @@ def delete_product_by_id(id):
         # Delete cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(id))
         CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(product.product_type_id_id))
+
+def insert_product_and_detail(product, list_product_detail):
+    """
+    Insert product and insert product detail
+    """
+    # pro = ProductDao.insert_product_and_detail(product, list_product_detail)
+    with transaction.atomic():
+        # Insert into table product
+        p = insert_product(product)
+
+        # Insert into table detail
+        for product_detail in list_product_detail:
+            product_detail.product_id = p
+            ProductDetailService.insert_product_detail(product_detail)
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))

@@ -7,3 +7,7 @@
 .uppercase {
     text-transform: uppercase;
 }
+.my-scroll-content-html {
+    height:500px;
+    overflow-y: scroll;
+}

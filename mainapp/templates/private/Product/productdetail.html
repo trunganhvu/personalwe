@@ -13,7 +13,7 @@
                         <h4 class="card-title">Chi tiết sản phẩm</h4>
                         <a href="{% url 'product' %}" class="btn btn-secondary pull-right">Quay lại</a>
                         <a href="" class="btn btn-secondary pull-right">Xóa</a>
-                        <a href="" class="btn btn-secondary pull-right">Sửa</a>
+                        <a href="{% url 'product-detail-form-update' product_id=product.product_id %}" class="btn btn-secondary pull-right">Sửa</a>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -35,6 +35,30 @@
                                         {% if product.product_name %}
                                             value="{{ product.product_name }}"
                                         {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Mô tả</label>
+                                    <div class="form-group">
+                                        <div>{{ product.product_description }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Nội dung</label>
+                                    <div class="form-group">
+                                        <div class="my-scroll-content-html">
+                                            {% autoescape off %}
+                                                {{ product.product_detail }}
+                                            {% endautoescape %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +97,7 @@
                                         <label class="bmd-label-floating">Tổng</label>
                                         <input type="text" class="form-control"
                                                 disabled
-                                                {% if product_detail.number_of_product %}
+                                                {% if product_detail.number_of_product >= 0 %}
                                                     value="{{ product_detail.number_of_product }}"
                                                 {% endif %}>
                                     </div>
@@ -83,9 +107,8 @@
                                         <label class="bmd-label-floating">Đã bán</label>
                                         <input type="text" class="form-control"
                                                 disabled
-                                                {% if product_detail.number_of_product %}
-                                                    value="{{ product_detail.number_of_product }}"
-                                                {% endif %}>
+                                                    value="{{ product_detail.product_in_stock }}"
+                                                >
                                     </div>
                                 </div>
                             </div>

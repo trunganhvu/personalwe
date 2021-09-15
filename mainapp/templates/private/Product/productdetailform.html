@@ -1,0 +1,350 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+</style>
+<script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Chi tiết sản phẩm</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if product.product_id %}
+                        <form method="post" autocomplete="on"
+                            action="" enctype="multipart/form-data">
+                            <input type="hidden" name="" value=""/>
+                        {% else %}
+                        <form method="post" autocomplete="on" enctype="multipart/form-data"
+                            action="{% url 'product-detail-insert' product_type_id=product_type.product_type_id %}">
+                        {% endif %}
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Mã sản phẩm
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" 
+                                            required name="product-code"
+                                            {% if product.product_code %}
+                                                value=" {{ product.product_code }}"
+                                            {% endif %}>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Tên sản phẩm
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <input type="text" class="form-control"
+                                            required name="product-name"
+                                            {% if product.product_name %}
+                                                value="{{ product.product_name }}"
+                                            {% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Mô tả
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="form-group">
+                                            <textarea class="form-control textarea-important" 
+                                                name="product-description" required
+                                                rows="5">{% if product.product_description %}{{ product.product_description }}
+                                                {% endif %}
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Chi tiết sản phẩm
+                                            <span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="form-group">
+                                            <textarea id="editor1" class="form-control"
+                                                name="product-detail" required
+                                                rows="7">{% if product.product_detail %}{{ product.product_detail }}
+                                                {% endif %}
+                                            </textarea>
+                                        </div>
+                                        <script>
+                                            CKEDITOR.replace( 'editor1' );
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-detail" id="product-detail">
+                                <div class="row">
+                                    <div class="col-md-12"><br><br>
+                                        <h5><strong>Chi tiết</strong></h5>
+                                        <input type="button" onclick="addInput()" value="Add input field">
+                                    </div>    
+                                </div>
+                                {% if list_product_detail %}
+                                    {% for product_detail in list_product_detail %}
+                                    <div class="row item-product-detail" id="item-product-detail">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Màu
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <select name="color" class="form-control" required>
+                                                    {% for product_color in list_p_color %}
+                                                        <option value="{{product_color.product_color_id}}"
+                                                            {% if product_color.product_color_id == product_detail.product_color_id.product_color_id %}
+                                                                selected                                                    
+                                                            {% endif %}
+                                                        >
+                                                            {{product_color.product_color_code}} - {{product_color.product_color_name}}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Size
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <select name="size" class="form-control" required>
+                                                    {% for product_size in list_p_size %}
+                                                        <option value="{{product_size.product_size_id}}"
+                                                            {% if product_size.product_size_id == product_detail.product_size_id.product_size_id %}
+                                                                selected                                                    
+                                                            {% endif %}
+                                                        >
+                                                            {{product_size.product_size_code}} - {{product_size.product_size_name}}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Tổng
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="number" class="form-control"
+                                                    required name="number-of-product"
+                                                    {% if product_detail.number_of_product %}
+                                                        value="{{ product_detail.number_of_product }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Giá nhập
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="text" class="form-control"
+                                                     name="product-original-price"
+                                                    {% if product_detail.product_original_price %}
+                                                        value="{{ product_detail.product_original_price }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Giá bán
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="text" class="form-control"
+                                                     name="product-public-price"
+                                                    {% if product_detail.product_public_price %}
+                                                        value="{{ product_detail.product_public_price }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Tồn kho</label>
+                                                <input type="number" class="form-control"
+                                                    name="product-in-stock"
+                                                    {% if product_detail.product_in_stock >= 0 %}
+                                                        value="{{ product_detail.product_in_stock }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="row item-product-detail" id="item-product-detail">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Màu
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <select name="color" class="form-control" required>
+                                                    {% comment %} <option value="0">Lựa chọn</option> {% endcomment %}
+                                                    {% for product_color in list_p_color %}
+                                                        <option value="{{product_color.product_color_id}}">
+                                                            {{product_color.product_color_code}} - {{product_color.product_color_name}}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Size
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <select name="size" class="form-control" required>
+                                                    {% comment %} <option value="0">Lựa chọn</option> {% endcomment %}
+                                                    {% for product_size in list_p_size %}
+                                                        <option value="{{product_size.product_size_id}}">
+                                                            {{product_size.product_size_code}} - {{product_size.product_size_name}}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Tổng
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input name="number-of-product" type="number" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Giá nhập
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="text" class="form-control"
+                                                     name="product-original-price">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Giá bán
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="text" class="form-control"
+                                                     name="product-public-price">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Tồn kho</label>
+                                                <input type="number" class="form-control"
+                                                    name="product-in-stock">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="my-4">
+                                {% if product.product_id %}
+                                    <a href="{% url 'product-detail' product_id=product.product_id %}" 
+                                        class="btn btn-primary pull-right">
+                                        Quay lại
+                                    </a>
+                                    <button type="submit" class="btn btn-primary pull-right">Cập nhật</button>
+                                {% else %}
+                                    <a href="{% url 'product' %}" 
+                                        class="btn btn-primary pull-right">
+                                        Quay lại
+                                    </a>
+                                    <button type="submit" class="btn btn-primary pull-right">Tạo</button>
+                                {% endif %}
+                            </div>
+                            <input type="hidden" id="number-item-detail" name="number-item-detail" value="1"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var count = 1;
+    function addInput() {
+        var div1 = document.createElement('div');
+        div1.innerHTML = '<div class="row item-product-detail" id="item-product-detail-add">\n'+
+'                                    <div class="col-md-2">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Màu\n'+
+'                                                <span class="asteriskField">*</span>\n'+
+'                                            </label>\n'+
+'                                            <select name="color" class="form-control" required>\n'+
+'                                                <option value="0">Lựa chọn</option>\n'+
+'                                                {% for product_color in list_p_color %}\n'+
+'                                                    <option value="{{product_color.product_color_id}}">\n'+
+'                                                        {{product_color.product_color_code}} - {{product_color.product_color_name}}\n'+
+'                                                    </option>\n'+
+'                                                {% endfor %}\n'+
+'                                            </select>\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-2">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Size\n'+
+'                                                <span class="asteriskField">*</span>\n'+
+'                                            </label>\n'+
+'                                            <select name="size" class="form-control" required>\n'+
+'                                                <option value="0">Lựa chọn</option>\n'+
+'                                                {% for product_size in list_p_size %}\n'+
+'                                                    <option value="{{product_size.product_size_id}}">\n'+
+'                                                        {{product_size.product_size_code}} - {{product_size.product_size_name}}\n'+
+'                                                    </option>\n'+
+'                                                {% endfor %}\n'+
+'                                            </select>\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-2">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Tổng\n'+
+'                                                <span class="asteriskField">*</span>\n'+
+'                                            </label>\n'+
+'                                            <input name="number-of-product" type="number" class="form-control"\n'+
+'                                                required>\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-2">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Giá nhập\n'+
+'                                                <span class="asteriskField">*</span>\n'+
+'                                            </label>\n'+
+'                                            <input type="text" class="form-control"\n'+
+'                                                 name="product-original-price">\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-2">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Giá bán\n'+
+'                                                <span class="asteriskField">*</span>\n'+
+'                                            </label>\n'+
+'                                            <input type="text" class="form-control"\n'+
+'                                                 name="product-public-price">\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-2">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Tồn kho</label>\n'+
+'                                            <input type="number" name="product-in-stock" class="form-control">\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                </div>';
+
+          
+        document.getElementById('product-detail').appendChild(div1);
+        count++;
+        document.getElementById("number-item-detail").value = count;
+    }
+    
+</script>
+{% endblock %}

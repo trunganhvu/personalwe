@@ -53,8 +53,10 @@
                             <div class="form-group">
                                 <label class="bmd-label-floating">Nội dung</label>
                                 <div class="form-group">
-                                    <div class="">
-                                        {{ category_post.category_post_content }}
+                                    <div class="my-scroll-content-html">
+                                        {% autoescape off %}
+                                            {{ category_post.category_post_content }}
+                                        {% endautoescape %}
                                     </div>
                                 </div>
                             </div>

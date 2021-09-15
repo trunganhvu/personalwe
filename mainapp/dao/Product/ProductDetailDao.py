@@ -1,11 +1,11 @@
 from mainapp.model.ProductDetail import ProductDetail
 from datetime import datetime
+from django.utils import timezone
 
 def get_all_detail_product_by_product_id(product_id):
     """
     Get detail by product id
     """
-    print('dao 0')
     # list_detail = ProductDetail.objects.filter(product_id=product_id).select_related('product_color_id__product_color_id',
     #                                                                                 'product_color_id__product_color_code',
     #                                                                                 'product_color_id__product_color_name',
@@ -19,7 +19,6 @@ def get_all_detail_product_by_product_id(product_id):
     list_detail = ProductDetail.objects.filter(product_id=product_id).select_related('product_color_id',
                                                                                     'product_size_id',
                                                                                     )
-    print('dao 1')
     return list_detail
 
 def insert_product_detail(product_detail):
@@ -31,7 +30,7 @@ def insert_product_detail(product_detail):
                             product_public_price=product_detail.product_public_price,
                             product_color_id=product_detail.product_color_id,
                             product_size_id=product_detail.product_size_id,
-                            created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                            created_at=datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S"))
     p_detail.save()
     return p_detail
 

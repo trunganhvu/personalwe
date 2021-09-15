@@ -10,7 +10,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=255)
     product_type_id = models.ForeignKey(ProductType, on_delete=models.CASCADE)
     product_description = models.CharField(max_length=1000)
-    product_detail = models.CharField(max_length=1000)
+    product_detail = models.TextField()
     created_at = models.DateTimeField(null=False)
     updated_at = models.DateTimeField(null=True, auto_now=True)
 

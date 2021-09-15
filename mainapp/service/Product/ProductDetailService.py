@@ -34,3 +34,15 @@ def delete_product_by_id(product_id):
 
         # Delete cache
         CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(product_id))
+
+def insert_product_detail(product_detail):
+    """
+    Insert product detail
+    """
+    p_detail = ProductDetailDao.insert_product_detail(product_detail)
+
+    # Set into cache
+    # CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(product_detail.product_id.product_id))
+
+    # key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p_detail.product_type_id)
+    # cache.set(key_cache, p_type, settings.CACHE_TIME)
