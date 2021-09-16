@@ -15,7 +15,7 @@ from mainapp.model.Product import Product
 @login_required(login_url='/login/')
 def view_all_product_page(request):
     """
-    View all product
+    View all product - need auth
     """
     product_types = ProductTypeService.get_all_product_type()
     list_product_type = []
@@ -34,7 +34,7 @@ def view_all_product_page(request):
 @login_required(login_url='/login/')
 def view_product_detail_page(request, product_id):
     """
-    View product detail page
+    View product detail page - need auth
     """
     try:
         # Get base info product       
@@ -65,7 +65,7 @@ def view_product_detail_page(request, product_id):
 @login_required(login_url='/login/')
 def view_update_product_detail_form_page(request, product_id):
     """
-    Page update product detail
+    Page update product detail - need auth
     """
     try:
         # Get base info product       
@@ -97,7 +97,7 @@ def view_update_product_detail_form_page(request, product_id):
 @login_required(login_url='/login/')
 def view_insert_product_detail_form_page(request, product_type_id):
     """
-    Page insert product detail
+    Page insert product detail - need auth
     """
     try:
         # Get product type       
@@ -126,7 +126,7 @@ def view_insert_product_detail_form_page(request, product_type_id):
 @login_required(login_url='/login/')
 def insert_product_and_product_detail(request, product_type_id):
     """
-    Insert product and product detail
+    Insert product and product detail - need auth
     """
     try:
         if request.method == 'POST':
@@ -196,6 +196,30 @@ def insert_product_and_product_detail(request, product_type_id):
                     return render(request, 'private/Product/productdetailform.html', context=context)
             else:
                 raise Exception('Product not exist')
+    except Exception as error:
+        print(error)
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+        return redirect('/products/')
+
+@login_required(login_url='/login/')
+def view_modify_product_image_page(request, product_id):
+    """
+    View detail, insert, delete product image page - need auth
+    """
+    try:
+        # Get base info product       
+        product = ProductService.get_product_detail_by_id(product_id)
+        if product is not None:
+            # Get list image of product
+            list_p_image = ProductImageService.get_all_product_image_by_product_id(product.product_id)
+
+            context = {
+                'product': product,
+                'list_product_image': list_p_image,
+            }
+            return render(request, 'private/Product/productimagedetail.html', context=context)
+        else:
+            raise Exception('Product not exist')
     except Exception as error:
         print(error)
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
