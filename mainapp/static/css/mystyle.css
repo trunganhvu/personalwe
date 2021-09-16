@@ -11,3 +11,9 @@
     height:500px;
     overflow-y: scroll;
 }
+.truncate-long-texts-140 {
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}

@@ -42,8 +42,7 @@ def view_product_detail_page(request, product_id):
         if product is not None:
             # Get list detail info product
             list_p_detail = ProductDetailService.get_all_detail_product_by_product_id(product.product_id)
-            for pd in list_p_detail:
-                print(pd.product_detail_id)
+
             # Get list image of product
             list_p_image = ProductImageService.get_all_product_image_by_product_id(product.product_id)
 

@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <div class="row">
         <a href="{% url 'product-detail' product_id=product.product_id %}" class="btn btn-primary pull-left">
-            Quay lại
+            ◄ Quay lại
         </a>
         </div>
         <div class="row">
@@ -17,7 +17,11 @@
             <div class="col-md-4">
                 <div class="card card-profile">
                     <div class="card-header card-header-primary">
-                        <button type="submit" class="btn btn-secondary pull-right">Xóa</button>
+                        <form method="post" autocomplete="on" enctype="multipart/form-data"
+                            action="{% url 'product-image-delete' product_id=product.product_id %}">
+                            <input type="hidden" name="product-image-id" 
+                                value="{{ product_image.product_image_id }}"/>
+                            <button type="submit" class="btn btn-secondary pull-right">Xóa</button>
                     </div>
                     <div class="card-body">
                     </div>
@@ -28,33 +32,35 @@
             </div>
             {% endfor %}
             <div class="col-md-4">
-                <div class="card card-profile">
-                    <div class="card-header card-header-primary">
-                        <button type="submit" class="btn btn-secondary pull-right">Thêm</button>
+                <form method="post" autocomplete="on"
+                    action="{% url 'product-image-insert' product_id=product.product_id %}" enctype="multipart/form-data">
+                    <input type="hidden" name="" value=""/>
+                    {% csrf_token %}
+                    <div class="card card-profile">
+                        <div class="card-header card-header-primary">
+                            <button type="submit" class="btn btn-secondary pull-right">Thêm</button>
+                            <label class="btn btn-secondary pull-right truncate-long-texts-140" for="product-image" >
+                                <input id="product-image" type="file" multiple="multiple" 
+                                    name="product-image" style="display:none"
+                                    onchange="$('#multfile-label').html(
+                                        (this.files.length == 1) ? this.files[0].name : this.files.length + ' files');
+                                        $(this).parent().addClass('btn-success')
+                                        document.getElementById('image-category-preview').src = window.URL.createObjectURL(this.files[0]);
+                                        document.getElementById('image-category-preview').classList.remove('d-none');">
+                                <span id="multfile-label">Files&hellip;</span>
+                            </label>
+                        </div>
+                        <div class="card-body"></div>
+                        <img src="" 
+                            alt=""
+                            class="img-fluid" id="image-category-preview">
                     </div>
-                    <div class="card-body">
-                        <form>
-                            <input type="file"
-                                id="image-header"
-                                class="form-control-file custom-file-input"
-                                name="category-image" 
-                                accept="image/png, image/jpeg, image/webp, image/apng, image/gif"
-                                onchange="document.getElementById('image-category-preview').src = window.URL.createObjectURL(this.files[0]);
-                                        document.getElementById('image-category-preview').classList.remove('d-none');"
-                                required
-                                >
-                            <label class="custom-file-label" for="inputGroupFile01">Ảnh đuôi .png, .webp, .jpg</label>
-                        </form>
-                    </div>
-                    <img src="" 
-                        alt=""
-                        class="img-fluid" id="image-category-preview">
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+{% comment %} <script src="{% static 'js/webjs/fetchdata.js' %}"></script> {% endcomment %}
 <script type="text/javascript">
     
 </script>

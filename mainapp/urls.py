@@ -8,7 +8,7 @@ from mainapp.view.Category import CategoryController, CategoryPostController
 from mainapp.view.User import UserController
 from mainapp.view.ProductType import ProductTypeController, ProductSizeController, ProductColorController
 from mainapp.view.Event import EventController
-from mainapp.view.Product import ProductController
+from mainapp.view.Product import ProductController, ProductImageController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -76,6 +76,8 @@ urlpatterns = [
     path('products/<int:product_type_id>/products-detail-form/', ProductController.view_insert_product_detail_form_page, name='product-detail-form-insert'),
     path('products/<int:product_type_id>/products-detail-form/insert/', ProductController.insert_product_and_product_detail, name='product-detail-insert'),
     path('products/<int:product_id>/images/', ProductController.view_modify_product_image_page, name='product-image-detail'),
+    path('products/<int:product_id>/images/insert/', ProductImageController.insert_product_image_in_product, name='product-image-insert'),
+    path('products/<int:product_id>/images/delete/', ProductImageController.delete_product_image_by_image_id, name='product-image-delete'),
     
 
     # ---------------- Url event admin ----------------

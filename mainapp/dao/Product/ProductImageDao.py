@@ -1,5 +1,6 @@
 from mainapp.model.ProductImage import ProductImage
 from datetime import datetime
+from django.utils import timezone
 
 def get_all_image_in_product(product_id):
     """
@@ -8,6 +9,13 @@ def get_all_image_in_product(product_id):
     list_image = ProductImage.objects.filter(product_id=product_id)
     return list_image
 
+def get_product_image_by_image_id(product_image_id):
+    """
+    Get product image by image id
+    """
+    product_image = ProductImage.objects.get(pk=product_image_id)
+    return product_image
+
 def insert_image(product_image):
     """
     Insert image
@@ -15,7 +23,7 @@ def insert_image(product_image):
     p_image = ProductImage(product_image_name=product_image.product_image_name,
                             product_image_path=product_image.product_image_path,
                             product_id=product_image.product_id,
-                            created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                            created_at=datetime.now(tz=timezone.utc))
     p_image.save()
     return p_image
 
