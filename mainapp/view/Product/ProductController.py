@@ -201,6 +201,86 @@ def insert_product_and_product_detail(request, product_type_id):
         return redirect('/products/')
 
 @login_required(login_url='/login/')
+def update_product_and_product_detail(request, product_type_id, product_id):
+    """
+    Update product and product detail - need auth
+    """
+    try:
+        if request.method == 'POST':
+            # Get product type       
+            product_type = ProductTypeService.get_product_type_detail_by_id(product_type_id)
+            if product_type is not None:
+                # Get list size
+                list_p_size = ProductSizeService.get_all_product_size_in_product_type(product_type_id)
+
+                # Get list color
+                list_p_color = ProductColorService.get_all_product_color_in_type(product_type_id)
+
+                # Get data in request
+                product_code = request.POST.get('product-code')
+                product_name = request.POST.get('product-name')
+                product_description = request.POST.get('product-description')
+                product_detail = request.POST.get('product-detail')
+                number_item_detail = request.POST.get('number-item-detail')
+                color = request.POST.getlist('color')
+                size = request.POST.getlist('size')
+                number_of_product = request.POST.getlist('number-of-product')
+                product_original_price = request.POST.getlist('product-original-price')
+                product_public_price = request.POST.getlist('product-public-price')
+                product_in_stock = request.POST.getlist('product-in-stock')
+
+                # Make full list data
+                color = get_item_in_detail(number_item_detail, color)
+                size = get_item_in_detail(number_item_detail, size)
+                number_of_product = get_item_in_detail(number_item_detail, number_of_product)
+                product_original_price = get_item_in_detail(number_item_detail, product_original_price)
+                product_public_price = get_item_in_detail(number_item_detail, product_public_price)
+                product_in_stock = get_item_in_detail(number_item_detail, product_in_stock)
+
+                list_product_detail = []
+                for index in range(int(number_item_detail)):
+                    product = Product(product_id=product_id,
+                                        product_code=product_code,
+                                        product_name=product_name,
+                                        product_description=product_description,
+                                        product_detail=product_detail,
+                                        product_type_id_id=product_type_id)
+                    detail = ProductDetail(number_of_product=number_of_product[index],
+                                            product_original_price=product_original_price[index],
+                                            product_public_price=product_public_price[index],
+                                            product_color_id_id=color[index],
+                                            product_size_id_id=size[index],
+                                            product_id_id=product_id)
+                    list_product_detail.append(detail)
+                context = {
+                    'product': product,
+                    'list_product_detail': list_product_detail,
+                    'product_type': product_type,
+                    'list_p_size': list_p_size,
+                    'list_p_color': list_p_color
+                }
+                check = validate_list_data(product_code, product_name, product_description, 
+                                            color, size, number_of_product, 
+                                            product_original_price, product_public_price, product_in_stock)
+                print('controller check=' + str(check))
+                if check:
+                    print('befor insert')
+                    # Insert
+                    ProductService.update_product(product, list_product_detail)
+                    messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
+
+                    return redirect('/products/' + str())
+                else:
+                    messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+                    return render(request, 'private/Product/productdetailform.html', context=context)
+            else:
+                raise Exception('Product not exist')
+    except Exception as error:
+        print(error)
+        messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
+        return redirect('/products/')
+
+@login_required(login_url='/login/')
 def view_modify_product_image_page(request, product_id):
     """
     View detail, insert, delete product image page - need auth

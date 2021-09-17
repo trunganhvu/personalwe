@@ -57,14 +57,15 @@ def update_product(product):
     Update product
     """
     # Update to DB
-    p = ProductDao.update_product_(product)
+    p = ProductDao.update_product(product)
 
     # Set into cache
-    key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p.product_id)
-    CacheUtil.clean_cache_by_key(key_cache)
-    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
+    # key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p.product_id)
+    # CacheUtil.clean_cache_by_key(key_cache)
+    # CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
 
-    cache.set(key_cache, p, settings.CACHE_TIME)
+    # cache.set(key_cache, p, settings.CACHE_TIME)
+    return p
 
 def delete_product_by_id(id):
     """
@@ -93,3 +94,18 @@ def insert_product_and_detail(product, list_product_detail):
             product_detail.product_id = p
             ProductDetailService.insert_product_detail(product_detail)
     CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
+
+def update_product_and_detail(product, list_product_detail):
+    """
+    Update product and insert product detail
+    """
+    with transaction.atomic():
+        # Update into table product
+        p = update_product(product)
+
+        # Insert into table detail
+        for product_detail in list_product_detail:
+            product_detail.product_id = p
+            ProductDetailService.update_product_detail(product_detail)
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
+    CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p.product_id))

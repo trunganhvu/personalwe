@@ -88,12 +88,13 @@
                                 <div class="row">
                                     <div class="col-md-12"><br><br>
                                         <h5><strong>Chi tiết</strong></h5>
-                                        <input type="button" onclick="addInput()" value="Add input field">
+                                        <input type="button" class="btn btn-primary pull-right"
+                                                onclick="addInput()" value="Thêm thông tin">
                                     </div>    
                                 </div>
                                 {% if list_product_detail %}
                                     {% for product_detail in list_product_detail %}
-                                    <div class="row item-product-detail" id="item-product-detail">
+                                    <div class="row item-product-detail" id="item-product-detail-id-{{product_detail.product_detail_id}}">
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Màu
@@ -132,18 +133,6 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label class="bmd-label-floating">Tổng
-                                                    <span class="asteriskField">*</span>
-                                                </label>
-                                                <input type="number" class="form-control"
-                                                    required name="number-of-product"
-                                                    {% if product_detail.number_of_product %}
-                                                        value="{{ product_detail.number_of_product }}"
-                                                    {% endif %}>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
                                                 <label class="bmd-label-floating">Giá nhập
                                                     <span class="asteriskField">*</span>
                                                 </label>
@@ -168,12 +157,30 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
+                                                <label class="bmd-label-floating">Tổng
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="number" class="form-control"
+                                                    required name="number-of-product"
+                                                    {% if product_detail.number_of_product %}
+                                                        value="{{ product_detail.number_of_product }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
                                                 <label class="bmd-label-floating">Tồn kho</label>
                                                 <input type="number" class="form-control"
                                                     name="product-in-stock"
                                                     {% if product_detail.product_in_stock >= 0 %}
                                                         value="{{ product_detail.product_in_stock }}"
                                                     {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <input type="button" class="btn btn-primary pull-right"
+                                                onclick="removeInput('item-product-detail-id-{{product_detail.product_detail_id}}')" value="Xóa">
                                             </div>
                                         </div>
                                     </div>
@@ -212,15 +219,6 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label class="bmd-label-floating">Tổng
-                                                    <span class="asteriskField">*</span>
-                                                </label>
-                                                <input name="number-of-product" type="number" class="form-control"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
                                                 <label class="bmd-label-floating">Giá nhập
                                                     <span class="asteriskField">*</span>
                                                 </label>
@@ -239,9 +237,30 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
+                                                <label class="bmd-label-floating">Tổng
+                                                    <span class="asteriskField">*</span>
+                                                </label>
+                                                <input type="number" class="form-control"
+                                                    required name="number-of-product"
+                                                    {% if product_detail.number_of_product %}
+                                                        value="{{ product_detail.number_of_product }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
                                                 <label class="bmd-label-floating">Tồn kho</label>
                                                 <input type="number" class="form-control"
-                                                    name="product-in-stock">
+                                                    name="product-in-stock"
+                                                    {% if product_detail.product_in_stock >= 0 %}
+                                                        value="{{ product_detail.product_in_stock }}"
+                                                    {% endif %}>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <input type="button" class="btn btn-primary pull-right"
+                                                onclick="removeInput('item-product-detail')" value="Xóa">
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +293,8 @@
     var count = 1;
     function addInput() {
         var div1 = document.createElement('div');
-        div1.innerHTML = '<div class="row item-product-detail" id="item-product-detail-add">\n'+
+        let id = '\'item-product-detail-add-' + count + '\'';
+        div1.innerHTML = '<div class="row item-product-detail" id="item-product-detail-add-' + count + '">\n'+
 '                                    <div class="col-md-2">\n'+
 '                                        <div class="form-group">\n'+
 '                                            <label class="bmd-label-floating">Màu\n'+
@@ -307,15 +327,6 @@
 '                                    </div>\n'+
 '                                    <div class="col-md-2">\n'+
 '                                        <div class="form-group">\n'+
-'                                            <label class="bmd-label-floating">Tổng\n'+
-'                                                <span class="asteriskField">*</span>\n'+
-'                                            </label>\n'+
-'                                            <input name="number-of-product" type="number" class="form-control"\n'+
-'                                                required>\n'+
-'                                        </div>\n'+
-'                                    </div>\n'+
-'                                    <div class="col-md-2">\n'+
-'                                        <div class="form-group">\n'+
 '                                            <label class="bmd-label-floating">Giá nhập\n'+
 '                                                <span class="asteriskField">*</span>\n'+
 '                                            </label>\n'+
@@ -334,8 +345,22 @@
 '                                    </div>\n'+
 '                                    <div class="col-md-2">\n'+
 '                                        <div class="form-group">\n'+
+'                                            <label class="bmd-label-floating">Tổng\n'+
+'                                                <span class="asteriskField">*</span>\n'+
+'                                            </label>\n'+
+'                                            <input name="number-of-product" type="number" class="form-control"\n'+
+'                                                required>\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-1">\n'+
+'                                        <div class="form-group">\n'+
 '                                            <label class="bmd-label-floating">Tồn kho</label>\n'+
 '                                            <input type="number" name="product-in-stock" class="form-control">\n'+
+'                                        </div>\n'+
+'                                    </div>\n'+
+'                                    <div class="col-md-1">\n'+
+'                                        <div class="form-group">\n'+
+'                                            <input type="button" class="btn btn-primary pull-right" onclick="removeInput(' + id + ')" value="Xoas">'+
 '                                        </div>\n'+
 '                                    </div>\n'+
 '                                </div>';
@@ -346,5 +371,10 @@
         document.getElementById("number-item-detail").value = count;
     }
     
+    function removeInput(value) {
+        console.log(value);
+        let myobj = document.getElementById(value);
+        myobj.remove();
+    }
 </script>
 {% endblock %}

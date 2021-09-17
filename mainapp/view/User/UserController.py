@@ -32,7 +32,7 @@ def user_login_form(request):
                 next = request.GET.get('next')
                 msg = UserService.user_login(request, username, password)
                 if msg == '':
-                    if next != '':
+                    if next is not None and next != '':
                         return redirect(next)
                     return redirect('/dashboard')
                 else:

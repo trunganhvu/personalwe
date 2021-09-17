@@ -46,3 +46,9 @@ def insert_product_detail(product_detail):
 
     # key_cache = KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p_detail.product_type_id)
     # cache.set(key_cache, p_type, settings.CACHE_TIME)
+
+def update_product_detail(product_detail):
+    """
+    Update product detail
+    """
+    p_detail = ProductDetailDao.update_product_detail(product_detail)
