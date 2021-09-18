@@ -30,6 +30,7 @@ def insert_product_detail(product_detail):
                             product_public_price=product_detail.product_public_price,
                             product_color_id=product_detail.product_color_id,
                             product_size_id=product_detail.product_size_id,
+                            number_of_product=product_detail.number_of_product,
                             created_at=datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S"))
     p_detail.save()
     return p_detail
@@ -38,11 +39,13 @@ def update_product_detail(product_detail):
     """
     Update product detail
     """
+    print('dao', product_detail.product_size_id)
     p_detail = ProductDetail.objects.get(pk=product_detail.product_detail_id)
     p_detail.product_original_price = product_detail.product_original_price
     p_detail.product_public_price = product_detail.product_public_price
     p_detail.product_color_id = product_detail.product_color_id
     p_detail.product_size_id = product_detail.product_size_id
+    p_detail.number_of_product = product_detail.number_of_product
     p_detail.save()
     return p_detail
 

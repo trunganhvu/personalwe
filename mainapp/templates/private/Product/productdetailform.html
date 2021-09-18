@@ -15,8 +15,8 @@
                     </div>
                     <div class="card-body">
                         {% if product.product_id %}
-                        <form method="post" autocomplete="on"
-                            action="" enctype="multipart/form-data">
+                        <form method="post" autocomplete="on" enctype="multipart/form-data"
+                            action="{% url 'product-detail-update' product_id=product.product_id product_type_id=product.product_type_id.product_type_id %}">
                             <input type="hidden" name="" value=""/>
                         {% else %}
                         <form method="post" autocomplete="on" enctype="multipart/form-data"
@@ -93,8 +93,14 @@
                                     </div>    
                                 </div>
                                 {% if list_product_detail %}
+                                <input type="hidden" id="number-item-detail" name="number-item-detail" 
+                                    value="{{list_product_detail|length}}"/>
                                     {% for product_detail in list_product_detail %}
                                     <div class="row item-product-detail" id="item-product-detail-id-{{product_detail.product_detail_id}}">
+                                        <input type="hidden" name="product-detail-id" 
+                                            {% if product_detail.product_detail_id %}
+                                                value="{{product_detail.product_detail_id}}"
+                                            {% endif %} />
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Màu
@@ -186,7 +192,11 @@
                                     </div>
                                     {% endfor %}
                                 {% else %}
+                                    <input type="hidden" id="number-item-detail" name="number-item-detail" value="1"/>
                                     <div class="row item-product-detail" id="item-product-detail">
+                                        <input type="hidden" name="product-detail-id" 
+                                            value="0"
+                                        />
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Màu
@@ -281,7 +291,6 @@
                                     <button type="submit" class="btn btn-primary pull-right">Tạo</button>
                                 {% endif %}
                             </div>
-                            <input type="hidden" id="number-item-detail" name="number-item-detail" value="1"/>
                         </form>
                     </div>
                 </div>
@@ -290,11 +299,12 @@
     </div>
 </div>
 <script>
-    var count = 1;
+    var count = document.getElementById("number-item-detail").value;
     function addInput() {
         var div1 = document.createElement('div');
         let id = '\'item-product-detail-add-' + count + '\'';
         div1.innerHTML = '<div class="row item-product-detail" id="item-product-detail-add-' + count + '">\n'+
+'                                    <input type="hidden" name="product-detail-id" value="0" >\n' +
 '                                    <div class="col-md-2">\n'+
 '                                        <div class="form-group">\n'+
 '                                            <label class="bmd-label-floating">Màu\n'+
@@ -375,6 +385,8 @@
         console.log(value);
         let myobj = document.getElementById(value);
         myobj.remove();
+        count--;
+        document.getElementById("number-item-detail").value = count;
     }
 </script>
 {% endblock %}

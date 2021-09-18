@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from decimal import *
 
 from mainapp.Common import Util
 from mainapp.service.Product import ProductService, ProductDetailService, ProductImageService
@@ -11,6 +12,7 @@ from mainapp.service.ProductType import ProductTypeService, ProductColorService,
 from mainapp.Common import ConstValiable
 from mainapp.model.ProductDetail import ProductDetail
 from mainapp.model.Product import Product
+from mainapp.view.Product.ProductDetailDto import ProductDetailDto 
 
 @login_required(login_url='/login/')
 def view_all_product_page(request):
@@ -201,11 +203,12 @@ def insert_product_and_product_detail(request, product_type_id):
         return redirect('/products/')
 
 @login_required(login_url='/login/')
-def update_product_and_product_detail(request, product_type_id, product_id):
+def update_product_and_product_detail(request, product_id, product_type_id):
     """
     Update product and product detail - need auth
     """
     try:
+        print('con 1')
         if request.method == 'POST':
             # Get product type       
             product_type = ProductTypeService.get_product_type_detail_by_id(product_type_id)
@@ -217,10 +220,10 @@ def update_product_and_product_detail(request, product_type_id, product_id):
                 list_p_color = ProductColorService.get_all_product_color_in_type(product_type_id)
 
                 # Get data in request
-                product_code = request.POST.get('product-code')
-                product_name = request.POST.get('product-name')
-                product_description = request.POST.get('product-description')
-                product_detail = request.POST.get('product-detail')
+                product_code = request.POST.get('product-code').strip()
+                product_name = request.POST.get('product-name').strip()
+                product_description = request.POST.get('product-description').strip()
+                product_detail = request.POST.get('product-detail').strip()
                 number_item_detail = request.POST.get('number-item-detail')
                 color = request.POST.getlist('color')
                 size = request.POST.getlist('size')
@@ -228,6 +231,7 @@ def update_product_and_product_detail(request, product_type_id, product_id):
                 product_original_price = request.POST.getlist('product-original-price')
                 product_public_price = request.POST.getlist('product-public-price')
                 product_in_stock = request.POST.getlist('product-in-stock')
+                product_detail_id = request.POST.getlist('product-detail-id')
 
                 # Make full list data
                 color = get_item_in_detail(number_item_detail, color)
@@ -236,22 +240,28 @@ def update_product_and_product_detail(request, product_type_id, product_id):
                 product_original_price = get_item_in_detail(number_item_detail, product_original_price)
                 product_public_price = get_item_in_detail(number_item_detail, product_public_price)
                 product_in_stock = get_item_in_detail(number_item_detail, product_in_stock)
+                product_detail_id = get_item_in_detail(number_item_detail, product_detail_id)
 
+                print(product_detail_id)
+                print('number', number_item_detail)
                 list_product_detail = []
+                product = Product(product_id=product_id,
+                                product_code=product_code,
+                                product_name=product_name,
+                                product_description=product_description,
+                                product_detail=product_detail,
+                                product_type_id_id=product_type_id)
                 for index in range(int(number_item_detail)):
-                    product = Product(product_id=product_id,
-                                        product_code=product_code,
-                                        product_name=product_name,
-                                        product_description=product_description,
-                                        product_detail=product_detail,
-                                        product_type_id_id=product_type_id)
-                    detail = ProductDetail(number_of_product=number_of_product[index],
+                    
+                    detail = ProductDetail(product_detail_id=product_detail_id[index],
+                                            number_of_product=number_of_product[index],
                                             product_original_price=product_original_price[index],
                                             product_public_price=product_public_price[index],
                                             product_color_id_id=color[index],
                                             product_size_id_id=size[index],
                                             product_id_id=product_id)
                     list_product_detail.append(detail)
+                print(list_product_detail)
                 context = {
                     'product': product,
                     'list_product_detail': list_product_detail,
@@ -264,12 +274,12 @@ def update_product_and_product_detail(request, product_type_id, product_id):
                                             product_original_price, product_public_price, product_in_stock)
                 print('controller check=' + str(check))
                 if check:
-                    print('befor insert')
-                    # Insert
-                    ProductService.update_product(product, list_product_detail)
+                    print('befor update')
+                    # Update
+                    ProductService.update_product_and_detail(product, list_product_detail)
                     messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
 
-                    return redirect('/products/' + str())
+                    return redirect('/products/' + str(product_id))
                 else:
                     messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
                     return render(request, 'private/Product/productdetailform.html', context=context)
@@ -322,6 +332,7 @@ def validate_list_data(product_code, product_name, product_description,
     """
     print('val 1')
     if len(str(product_code)) > 25 or len(str(product_name)) > 255 or len(str(product_description)) > 1000:
+        print(0)
         return False
     for n in color:
         if int(n) <= 0:
@@ -337,11 +348,11 @@ def validate_list_data(product_code, product_name, product_description,
             print(3)
             return False
     for n in product_original_price:
-        if int(n) < 0:
+        if Decimal(n) < 0:
             print(4)
             return False
     for n in product_public_price:
-        if int(n) < 0:
+        if Decimal(n) < 0:
             print(5)
             return False
     for n in product_in_stock:

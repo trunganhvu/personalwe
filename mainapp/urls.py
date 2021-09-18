@@ -73,6 +73,7 @@ urlpatterns = [
     path('products/', ProductController.view_all_product_page, name='product'),
     path('products/<int:product_id>/', ProductController.view_product_detail_page, name='product-detail'),
     path('products/<int:product_id>/detail-form/', ProductController.view_update_product_detail_form_page, name='product-detail-form-update'),
+    path('products/<int:product_id>/detail-form/update/<int:product_type_id>/', ProductController.update_product_and_product_detail, name='product-detail-update'),
     path('products/<int:product_type_id>/products-detail-form/', ProductController.view_insert_product_detail_form_page, name='product-detail-form-insert'),
     path('products/<int:product_type_id>/products-detail-form/insert/', ProductController.insert_product_and_product_detail, name='product-detail-insert'),
     path('products/<int:product_id>/images/', ProductController.view_modify_product_image_page, name='product-image-detail'),
