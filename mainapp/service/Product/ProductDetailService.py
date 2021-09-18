@@ -68,9 +68,7 @@ def update_product_detail(product_detail):
     """
     Update product detail
     """
-    print('ser 2 1')
     p_detail = ProductDetailDao.update_product_detail(product_detail)
-    print('ser 2 2')
 
 def delete_product_detail_by_pk(product_detail_id):
     """

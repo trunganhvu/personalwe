@@ -240,7 +240,6 @@ def update_product_and_product_detail(request, product_id, product_type_id):
                 product_in_stock = get_item_in_detail(number_item_detail, product_in_stock)
                 product_detail_id = get_item_in_detail(number_item_detail, product_detail_id)
 
-                print(product_in_stock)
                 list_product_detail = []
                 product = Product(product_id=product_id,
                                 product_code=product_code,
