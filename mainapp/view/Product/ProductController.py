@@ -12,7 +12,6 @@ from mainapp.service.ProductType import ProductTypeService, ProductColorService,
 from mainapp.Common import ConstValiable
 from mainapp.model.ProductDetail import ProductDetail
 from mainapp.model.Product import Product
-from mainapp.view.Product.ProductDetailDto import ProductDetailDto 
 
 @login_required(login_url='/login/')
 def view_all_product_page(request):
@@ -208,7 +207,6 @@ def update_product_and_product_detail(request, product_id, product_type_id):
     Update product and product detail - need auth
     """
     try:
-        print('con 1')
         if request.method == 'POST':
             # Get product type       
             product_type = ProductTypeService.get_product_type_detail_by_id(product_type_id)
@@ -242,8 +240,7 @@ def update_product_and_product_detail(request, product_id, product_type_id):
                 product_in_stock = get_item_in_detail(number_item_detail, product_in_stock)
                 product_detail_id = get_item_in_detail(number_item_detail, product_detail_id)
 
-                print(product_detail_id)
-                print('number', number_item_detail)
+                print(product_in_stock)
                 list_product_detail = []
                 product = Product(product_id=product_id,
                                 product_code=product_code,
@@ -252,16 +249,15 @@ def update_product_and_product_detail(request, product_id, product_type_id):
                                 product_detail=product_detail,
                                 product_type_id_id=product_type_id)
                 for index in range(int(number_item_detail)):
-                    
                     detail = ProductDetail(product_detail_id=product_detail_id[index],
                                             number_of_product=number_of_product[index],
                                             product_original_price=product_original_price[index],
                                             product_public_price=product_public_price[index],
                                             product_color_id_id=color[index],
                                             product_size_id_id=size[index],
+                                            product_in_stock=product_in_stock[index],
                                             product_id_id=product_id)
                     list_product_detail.append(detail)
-                print(list_product_detail)
                 context = {
                     'product': product,
                     'list_product_detail': list_product_detail,
@@ -274,7 +270,6 @@ def update_product_and_product_detail(request, product_id, product_type_id):
                                             product_original_price, product_public_price, product_in_stock)
                 print('controller check=' + str(check))
                 if check:
-                    print('befor update')
                     # Update
                     ProductService.update_product_and_detail(product, list_product_detail)
                     messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)

@@ -203,7 +203,7 @@
                                                     <span class="asteriskField">*</span>
                                                 </label>
                                                 <select name="color" class="form-control" required>
-                                                    {% comment %} <option value="0">Lựa chọn</option> {% endcomment %}
+                                                    <option value="0">Lựa chọn</option>
                                                     {% for product_color in list_p_color %}
                                                         <option value="{{product_color.product_color_id}}">
                                                             {{product_color.product_color_code}} - {{product_color.product_color_name}}
@@ -218,7 +218,7 @@
                                                     <span class="asteriskField">*</span>
                                                 </label>
                                                 <select name="size" class="form-control" required>
-                                                    {% comment %} <option value="0">Lựa chọn</option> {% endcomment %}
+                                                    <option value="0">Lựa chọn</option>
                                                     {% for product_size in list_p_size %}
                                                         <option value="{{product_size.product_size_id}}">
                                                             {{product_size.product_size_code}} - {{product_size.product_size_name}}
@@ -370,7 +370,7 @@
 '                                    </div>\n'+
 '                                    <div class="col-md-1">\n'+
 '                                        <div class="form-group">\n'+
-'                                            <input type="button" class="btn btn-primary pull-right" onclick="removeInput(' + id + ')" value="Xoas">'+
+'                                            <input type="button" class="btn btn-primary pull-right" onclick="removeInput(' + id + ')" value="Xóa">'+
 '                                        </div>\n'+
 '                                    </div>\n'+
 '                                </div>';
