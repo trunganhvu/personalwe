@@ -142,8 +142,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Khuyễn mãi hiện tại</h4>
-                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                        <h4 class="card-title">Ưu đãi hiện tại</h4>
+                        <a href="{% url 'product-promotion-form-insert' product_id=product.product_id %}" 
+                            class="btn btn-secondary pull-right">
+                            Mới
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -156,18 +159,18 @@
                                 </thead>
                                 <tbody>
                                 {% for p_promotion in list_p_promotion_is_running %}
-                                    <tr onclick="window.location='';">
+                                    <tr onclick="window.location='{% url 'product-promotion-detail' product_id=product.product_id product_promotion_id=p_promotion.product_promotion_id %}';">
                                         <td>
                                             {{ p_promotion.product_promotion_id }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.product_promotion_start }}
+                                            {{ p_promotion.product_promotion_start|date:'d-m-Y, H:i' }} 
                                         </td>
                                         <td>
-                                            {{ p_promotion.product_promotion_end }}
+                                            {{ p_promotion.product_promotion_end|date:'d-m-Y, H:i' }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.discount }}
+                                            {{ p_promotion.discount }}%
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -182,8 +185,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Khuyễn mãi sắp diễn ra</h4>
-                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                        <h4 class="card-title">Ưu đãi sắp diễn ra</h4>
+                        <a href="{% url 'product-promotion-form-insert' product_id=product.product_id %}" 
+                            class="btn btn-secondary pull-right">
+                            Mới
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -195,19 +201,19 @@
                                     <th class="col-url">Giảm giá</th>
                                 </thead>
                                 <tbody>
-                                {% for p_promotion in list_p_promotion_is_running %}
-                                    <tr onclick="window.location='';">
+                                {% for p_promotion in list_p_promotion_is_coming %}
+                                    <tr onclick="window.location='{% url 'product-promotion-detail' product_id=product.product_id product_promotion_id=p_promotion.product_promotion_id %}';">
                                         <td>
                                             {{ p_promotion.product_promotion_id }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.product_promotion_start }}
+                                            {{ p_promotion.product_promotion_start|date:'d-m-Y, H:i' }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.product_promotion_end }}
+                                            {{ p_promotion.product_promotion_end|date:'d-m-Y, H:i' }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.discount }}
+                                            {{ p_promotion.discount }}%
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -222,8 +228,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Khuyễn mãi sắp diễn ra</h4>
-                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                        <h4 class="card-title">Ưu đãi sắp diễn ra</h4>
+                        <a href="{% url 'product-promotion-form-insert' product_id=product.product_id %}" 
+                            class="btn btn-secondary pull-right">
+                            Mới
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -235,19 +244,19 @@
                                     <th class="col-url">Giảm giá</th>
                                 </thead>
                                 <tbody>
-                                {% for p_promotion in list_p_promotion_is_running %}
-                                    <tr onclick="window.location='';">
+                                {% for p_promotion in list_p_promotion_is_passed %}
+                                    <tr onclick="window.location='{% url 'product-promotion-detail' product_id=product.product_id product_promotion_id=p_promotion.product_promotion_id %}';">
                                         <td>
                                             {{ p_promotion.product_promotion_id }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.product_promotion_start }}
+                                            {{ p_promotion.product_promotion_start|date:'d-m-Y, H:i' }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.product_promotion_end }}
+                                            {{ p_promotion.product_promotion_end|date:'d-m-Y, H:i' }}
                                         </td>
                                         <td>
-                                            {{ p_promotion.discount }}
+                                            {{ p_promotion.discount }}%
                                         </td>
                                     </tr>
                                 {% endfor %}

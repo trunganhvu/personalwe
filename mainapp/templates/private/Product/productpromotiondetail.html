@@ -1,0 +1,92 @@
+{% extends 'private/base.html' %}
+{% load static %}
+{% block section %}
+<style>
+
+</style>
+<div class="content">
+    {% include 'private/message.html' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Chi tiết ưu đãi</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Thời gian bắt đầu
+                                </label>
+                                <input type="text" name="product-promotion-start" class="form-control"  
+                                        disabled
+                                        {% if product_promotion.product_promotion_start %}
+                                            value="{{ product_promotion.product_promotion_start|date:'d-m-Y, H:i' }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Thời gian kết thúc
+                                </label>
+                                <input type="text" name="product-promotion-start" class="form-control"  
+                                        disabled
+                                        {% if product_promotion.product_promotion_end %}
+                                            value="{{ product_promotion.product_promotion_end|date:'d-m-Y, H:i' }}"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Sự kiện
+                                </label>
+                                <input type="text" name="product-promotion-start" class="form-control"  
+                                        disabled
+                                        {% if product_promotion.event_id %}
+                                            value="{{ product_promotion.event_id }}"
+                                        {% else %}
+                                            value="Không có sự kiện"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Giảm giá
+                                </label>
+                                <input type="text" name="product-promotion-start" class="form-control"  
+                                        disabled
+                                        {% if product_promotion.discount %}
+                                            value="{{ product_promotion.discount }}%"
+                                        {% endif %}
+                                        >
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'product-detail' product_id=product.product_id %}" 
+                        class="btn btn-primary pull-right">
+                        Quay lại
+                    </a>
+                    <a href=""
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
+                            class="btn btn-primary pull-right">
+                        Xóa
+                    </a>
+                    <a href="{% url 'product-promotion-form-update' product_id=product.product_id product_promotion_id=product_promotion.product_promotion_id %}" 
+                        class="btn btn-primary pull-right">
+                        Sửa
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+</script>
+{% endblock %}

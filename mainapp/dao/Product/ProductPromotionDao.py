@@ -9,11 +9,18 @@ def get_all_promotion_in_product(product_id):
     list_promotion = ProductPromotion.objects.filter(product_id=product_id)
     return list_promotion
 
+def get_promotion_detail_by_promotion_id(product_promotion_id):
+    """
+    Get promotion detail by promotion id
+    """
+    product_promotion = ProductPromotion.objects.get(pk=product_promotion_id)
+    return product_promotion
+
 def get_all_promotion_active_in_product(product_id):
     """
     Get all promotion in product
     """
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now(tz=timezone.utc)
     list_promotion = ProductPromotion.objects.filter(product_id=product_id,
                                                     product_promotion_start__lte=now,
                                                     product_promotion_end__gte=now)
