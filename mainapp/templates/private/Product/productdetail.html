@@ -138,6 +138,126 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Khuyễn mãi hiện tại</h4>
+                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Thời gian bắt đầu</th>
+                                    <th class="col-url">Thời gian kết thúc</th>
+                                    <th class="col-url">Giảm giá</th>
+                                </thead>
+                                <tbody>
+                                {% for p_promotion in list_p_promotion_is_running %}
+                                    <tr onclick="window.location='';">
+                                        <td>
+                                            {{ p_promotion.product_promotion_id }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.product_promotion_start }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.product_promotion_end }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.discount }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Khuyễn mãi sắp diễn ra</h4>
+                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Thời gian bắt đầu</th>
+                                    <th class="col-url">Thời gian kết thúc</th>
+                                    <th class="col-url">Giảm giá</th>
+                                </thead>
+                                <tbody>
+                                {% for p_promotion in list_p_promotion_is_running %}
+                                    <tr onclick="window.location='';">
+                                        <td>
+                                            {{ p_promotion.product_promotion_id }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.product_promotion_start }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.product_promotion_end }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.discount }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Khuyễn mãi sắp diễn ra</h4>
+                        <a href="" class="btn btn-secondary pull-right">Mới</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="col-id">ID</th>
+                                    <th class="col-name">Thời gian bắt đầu</th>
+                                    <th class="col-url">Thời gian kết thúc</th>
+                                    <th class="col-url">Giảm giá</th>
+                                </thead>
+                                <tbody>
+                                {% for p_promotion in list_p_promotion_is_running %}
+                                    <tr onclick="window.location='';">
+                                        <td>
+                                            {{ p_promotion.product_promotion_id }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.product_promotion_start }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.product_promotion_end }}
+                                        </td>
+                                        <td>
+                                            {{ p_promotion.discount }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

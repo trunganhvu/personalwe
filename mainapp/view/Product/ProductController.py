@@ -7,7 +7,7 @@ from django.contrib import messages
 from decimal import *
 
 from mainapp.Common import Util
-from mainapp.service.Product import ProductService, ProductDetailService, ProductImageService
+from mainapp.service.Product import ProductService, ProductDetailService, ProductImageService, ProductPromotionService
 from mainapp.service.ProductType import ProductTypeService, ProductColorService, ProductSizeService
 from mainapp.Common import ConstValiable
 from mainapp.model.ProductDetail import ProductDetail
@@ -48,11 +48,17 @@ def view_product_detail_page(request, product_id):
             list_p_image = ProductImageService.get_all_product_image_by_product_id(product.product_id)
 
             # Get list promotion of product
+            list_p_promotion_is_running = ProductPromotionService.get_all_promotion_is_running_in_product_id(product.product_id)
+            list_p_promotion_is_coming = ProductPromotionService.get_all_promotion_is_coming_in_product_id(product.product_id)
+            list_p_promotion_is_passed = ProductPromotionService.get_all_promotion_is_passed_in_product_id(product.product_id)
 
             context = {
                 'product': product,
                 'list_product_detail': list_p_detail,
-                'list_product_image': list_p_image
+                'list_product_image': list_p_image,
+                'list_p_promotion_is_running': list_p_promotion_is_running,
+                'list_p_promotion_is_coming': list_p_promotion_is_coming,
+                'list_p_promotion_is_passed': list_p_promotion_is_passed,
             }
             return render(request, 'private/Product/productdetail.html', context=context)
         else:
