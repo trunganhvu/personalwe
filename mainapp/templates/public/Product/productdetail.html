@@ -3,6 +3,15 @@
 {% load static %}
 <link href="{% static 'css/product.css' %}" rel="stylesheet" type="text/css" />
 <style>
+.img-main {
+    height: 100%; 
+    width: 100%; 
+    object-fit: contain;
+}
+.img-showcase {
+    display: flex;
+    align-items: center;
+}
 </style>
 {% comment %} <div class="section">
     <div class="w-container">
@@ -48,7 +57,8 @@
                     <div class="img-showcase">
                         {% for product_image in list_product_image %}
                             <img src="/{{product_image.product_image_path}}"
-                                alt="{{product_image.product_image_name}}">
+                                alt="{{product_image.product_image_name}}" 
+                                class="img-main">
                         {% endfor %}
                     </div>
                 </div>
@@ -56,7 +66,7 @@
                     {% for product_image in list_product_image %}
                         <div class="img-item">
                             <a href="#" data-id="{{forloop.counter}}">
-                                <img src="/{{product_image.product_image_path}}"
+                                <img src="/{{product_image.product_image_path}}" class="img-main"
                                     alt="{{product_image.product_image_name}}">
                             </a>
                         </div>
