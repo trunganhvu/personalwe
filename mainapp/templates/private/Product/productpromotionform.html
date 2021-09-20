@@ -2,7 +2,9 @@
 {% load static %}
 {% block section %}
 <style>
-
+#msg-promotion-start-end {
+    display: none;
+}
 </style>
 <div class="content">
     {% include 'private/message.html' %}
@@ -14,54 +16,77 @@
                   <h4 class="card-title">Chi tiết ưu đãi</h4>
                 </div>
                 <div class="card-body">
+                {% if product_promotion.product_promotion_id %}
                     <form method="post" autocomplete="on" enctype="multipart/form-data"
-                        action="">
-                        <input type="hidden" name="" value=""/>
+                        action="{% url 'product-promotion-update' product_id=product.product_id product_promotion_id=product_promotion.product_promotion_id %}">
+                    <input type="hidden" name="product-promotion-id" 
+                        value="{{ product_promotion.product_promotion_id }}"/>
+                {% else %}
+                    <form method="post" autocomplete="on" enctype="multipart/form-data"
+                        action="{% url 'product-promotion-insert' product_id=product.product_id %}">
+                {% endif %}
+                        <input type="hidden" name="product-id" 
+                            value="{{ product.product_id }}"/>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="text-danger">
+                                <ul>
+                                    <li id="msg-promotion-start-end"></li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Thời gian bắt đầu
+                                        <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" name="product-promotion-start" class="form-control"  
-                                            required
-                                            {% if product_promotion.product_promotion_start %}
-                                                value="{{ product_promotion.product_promotion_start|date:'d-m-Y, H:i' }}"
-                                            {% endif %}
-                                            >
+                                    <input type="datetime-local" name="product-promotion-start" 
+                                        class="form-control" id="product-promotion-start"
+                                        required onchange="validateStart(this.value)"
+                                        {% if product_promotion.product_promotion_start %}
+                                            value="{{ product_promotion.product_promotion_start|date:'Y-m-d' }}T{{ product_promotion.product_promotion_start|date:'H:i' }}"
+                                        {% endif %}
+                                        >
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Thời gian kết thúc
+                                        <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" name="product-promotion-start" class="form-control"  
-                                            required
-                                            {% if product_promotion.product_promotion_end %}
-                                                value="{{ product_promotion.product_promotion_end|date:'d-m-Y, H:i' }}"
-                                            {% endif %}
-                                            >
+                                    <input type="datetime-local" name="product-promotion-end" 
+                                        class="form-control" id="product-promotion-end"
+                                        required onchange="validateEnd(this.value)"
+                                        {% if product_promotion.product_promotion_end %}
+                                            value="{{ product_promotion.product_promotion_end|date:'Y-m-d' }}T{{ product_promotion.product_promotion_end|date:'H:i' }}"
+                                        {% endif %}
+                                        >
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Sự kiện
                                     </label>
-                                    <input type="text" name="product-promotion-start" class="form-control"  
-                                            required
-                                            {% if product_promotion.event_id %}
-                                                value="{{ product_promotion.event_id }}"
-                                            {% else %}
-                                                value="Không có sự kiện"
-                                            {% endif %}
-                                            >
+                                    <select name="event" id="event" class="form-control">
+                                        <option value="0">Lựa chọn</option>
+                                        {% for event in list_event %}
+                                            <option value="{{event.event_id}}"
+                                                {% if event.event_id == product_promotion.event_id.event_id %}
+                                                    selected
+                                                {% endif %}>{{event.event_name}}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Giảm giá
+                                        <span class="asteriskField">*</span>
                                     </label>
-                                    <input type="text" name="product-promotion-start" class="form-control"  
-                                            required
+                                    <input type="number" name="discount" class="form-control"  
+                                            required min="0" max="100"
                                             {% if product_promotion.discount %}
                                                 value="{{ product_promotion.discount }}"
                                             {% endif %}
@@ -71,7 +96,7 @@
                         </div>
                         <div class="my-4">
                             {% if product_promotion.product_promotion_id %}
-                                <a href="" 
+                                <a href="{% url 'product-promotion-detail' product_id=product.product_id product_promotion_id=product_promotion.product_promotion_id %}" 
                                     class="btn btn-primary pull-right">
                                     Quay lại
                                 </a>
@@ -92,6 +117,40 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+    /**
+     * validate promotion end start
+     */
+    function validateStart(start) {
+        let end = document.getElementById('product-promotion-end').value;
+        let dateStart = new Date(start);
+        let dateEnd = new Date(end);
+        let ele = document.getElementById("msg-promotion-start-end");
+        let display = 'none';
+        let html = '';
+        if (dateStart.getTime() > dateEnd.getTime()) {
+            display = 'block';
+            html = 'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.';
+        }
+        ele.style.display = display;
+        ele.innerHTML = html;
+    }
+
+    /**
+     * validate promotion end start
+     */
+    function validateEnd(end) {
+        let start = document.getElementById('product-promotion-start').value;
+        let dateStart = new Date(start);
+        let dateEnd = new Date(end);
+        let ele = document.getElementById("msg-promotion-start-end");
+        let display = 'none';
+        let html = '';
+        if (dateStart.getTime() > dateEnd.getTime()) {
+            display = 'block';
+            html = 'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.';
+        }
+        ele.style.display = display;
+        ele.innerHTML = html;
+    }
 </script>
 {% endblock %}

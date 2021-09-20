@@ -84,6 +84,9 @@ urlpatterns = [
     path('products/<int:product_id>/promotion/<int:product_promotion_id>/', ProductPromotionController.view_detail_product_promotion_by_promotion_id, name='product-promotion-detail'),
     path('products/<int:product_id>/promotion-form/', ProductPromotionController.view_product_promotion_form_insert_page, name='product-promotion-form-insert'),
     path('products/<int:product_id>/promotion-form/<int:product_promotion_id>', ProductPromotionController.view_product_promotion_form_update_page, name='product-promotion-form-update'),
+    path('products/<int:product_id>/promotion-form-insert/', ProductPromotionController.insert_product_promotion, name='product-promotion-insert'),
+    path('products/<int:product_id>/promotion-form/<int:product_promotion_id>/update/', ProductPromotionController.update_product_promotion, name='product-promotion-update'),
+    path('products/<int:product_id>/promotion/<int:product_promotion_id>/delete/', ProductPromotionController.delete_product_promotion_by_promotion_id, name='product-promotion-delete'),
 
     # ---------------- Url event admin ----------------
     path('event/', EventController.view_all_event, name='event'),

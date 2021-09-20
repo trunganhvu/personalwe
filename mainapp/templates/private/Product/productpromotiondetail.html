@@ -46,7 +46,7 @@
                                 <input type="text" name="product-promotion-start" class="form-control"  
                                         disabled
                                         {% if product_promotion.event_id %}
-                                            value="{{ product_promotion.event_id }}"
+                                            value="{{ product_promotion.event_id.event_name }}"
                                         {% else %}
                                             value="Không có sự kiện"
                                         {% endif %}
@@ -70,7 +70,7 @@
                         class="btn btn-primary pull-right">
                         Quay lại
                     </a>
-                    <a href=""
+                    <a href="{% url 'product-promotion-delete' product_id=product.product_id product_promotion_id=product_promotion.product_promotion_id %}"
                             onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
                             class="btn btn-primary pull-right">
                         Xóa

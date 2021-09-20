@@ -54,12 +54,19 @@ def insert_promotion(product_promotion):
     """
     Insert promotion
     """
-    p_promotion = ProductPromotion(product_id=product_promotion.product_id,
-                                    discount=product_promotion.discount,
-                                    product_promotion_start=product_promotion.product_promotion_start,
-                                    product_promotion_end=product_promotion.product_promotion_end,
-                                    event_id=product_promotion.event_id,
-                                    created_at=datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S"))
+    if int(product_promotion.event_id_id) == 0:
+        p_promotion = ProductPromotion(product_id=product_promotion.product_id,
+                                        discount=product_promotion.discount,
+                                        product_promotion_start=product_promotion.product_promotion_start,
+                                        product_promotion_end=product_promotion.product_promotion_end,
+                                        created_at=datetime.now(tz=timezone.utc))
+    else:
+        p_promotion = ProductPromotion(product_id=product_promotion.product_id,
+                                        discount=product_promotion.discount,
+                                        product_promotion_start=product_promotion.product_promotion_start,
+                                        product_promotion_end=product_promotion.product_promotion_end,
+                                        event_id=product_promotion.event_id,
+                                        created_at=datetime.now(tz=timezone.utc))
     p_promotion.save()
     return p_promotion
 
@@ -71,7 +78,7 @@ def update_promotion(product_promotion):
     p_promotion.discount = product_promotion.discount
     p_promotion.product_promotion_start = product_promotion.product_promotion_start
     p_promotion.product_promotion_end = product_promotion.product_promotion_end
-    p_promotion.event_id = product_promotion.event_id
+    p_promotion.event_id = product_promotion.event_id_id
     p_promotion.save()
     return p_promotion
 

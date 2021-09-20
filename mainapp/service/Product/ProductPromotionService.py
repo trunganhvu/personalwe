@@ -76,13 +76,41 @@ def insert_product_promotion(product_promotion):
     """
     Insert promotion
     """
+    # Insert 
+    p_promotion = ProductPromotionDao.insert_promotion(product_promotion)
+
+    # Clean cache
+    CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_RUNNING_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+    CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_COMING_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+    CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_PASSED_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+
 
 def update_product_promotion(product_promotion):
     """
     Update promotion
     """
+    if int(product_promotion.event_id_id) == 0:
+        product_promotion.event_id_id = None
+    
+    p_promotion = ProductPromotionDao.update_promotion(product_promotion)
+
+    # Clean cache
+    CacheUtil.clean_cache_by_key(GET_PROMOTION_DETAIL_BY_PROMOTION_ID + str(p_promotion.product_promotion_id))
+    CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_RUNNING_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+    CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_COMING_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+    CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_PASSED_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
 
 def delete_product_promotion(product_promotion_id):
     """
     Delete product promotion by id
     """
+    p_promotion = get_product_promotion_detail_by_promotion_id(product_promotion_id)
+    if p_promotion is not None:
+        ProductPromotionDao.delete_promotion(p_promotion.product_promotion_id)
+
+        # Clean cache
+        CacheUtil.clean_cache_by_key(GET_PROMOTION_DETAIL_BY_PROMOTION_ID + str(p_promotion.product_promotion_id))
+        CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_RUNNING_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+        CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_COMING_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+        CacheUtil.clean_cache_by_key(GET_ALL_PROMOTION_IS_PASSED_IN_PRODUCT_ID + str(p_promotion.product_id.product_id))
+
