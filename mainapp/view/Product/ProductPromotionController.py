@@ -118,7 +118,7 @@ def insert_product_promotion(request, product_id):
                 if check:
                     print('befor insert')
                     # Insert
-                    # ProductPromotionService.insert_product_promotion(product_promotion)
+                    ProductPromotionService.insert_product_promotion(product_promotion)
                     messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
 
                     return redirect('/products/' + str(product_id))
@@ -216,5 +216,7 @@ def validate_list_data(product_promotion):
     Validate data
     """
     if int(product_promotion.discount) < 0 or int(product_promotion.discount) > 100:
+        return False
+    if product_promotion.product_promotion_start > product_promotion.product_promotion_end:
         return False
     return True
