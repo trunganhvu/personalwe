@@ -64,7 +64,7 @@ def get_product_detail_by_product_id(request, product_id):
         list_product_type = ProductTypeService.get_all_product_type()
 
         # Get list image of product
-        list_product_image = ProductImageService.get_one_product_image_by_product_id(product.product_id)
+        list_product_image = ProductImageService.get_all_product_image_by_product_id(product.product_id)
 
         # Get detail
         list_product_detail = ProductDetailService.get_all_detail_product_by_product_id(product.product_id)

@@ -817,7 +817,30 @@ textarea.w-select {
     margin-left: -10px;
     margin-right: -10px
 }
+.w-container1 {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1100px
+}
 
+.w-container1:after,
+.w-container1:before {
+    content: " ";
+    display: table;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    grid-column-end: 2;
+    grid-row-end: 2
+}
+
+.w-container1:after {
+    clear: both
+}
+
+.w-container1 .w-row {
+    margin-left: 0;
+    margin-right: 0
+}
 .w-row:after,
 .w-row:before {
     content: " ";
@@ -907,6 +930,9 @@ textarea.w-select {
     .w-container {
         max-width: 728px
     }
+    .w-container1 {
+        max-width: 728px
+    }
     .w-hidden-main {
         display: inherit!important
     }
@@ -971,6 +997,10 @@ textarea.w-select {
         margin-left: 0;
         margin-right: 0
     }
+    .w-container1 .w-row{
+        margin-left: 0;
+        margin-right: 0
+    }
     .w-col {
         width: 100%;
         left: auto;
@@ -1015,7 +1045,7 @@ textarea.w-select {
 }
 
 @media screen and (max-width:479px) {
-    .w-container {
+    .w-container, .w-container1 {
         max-width: none
     }
     .w-hidden-main {

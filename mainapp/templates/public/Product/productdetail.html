@@ -1,17 +1,119 @@
 {% extends 'public/Product/base.html' %}
 {% block section %}
+{% load static %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet" type="text/css" />
 <style>
-
 </style>
-<div class="section">
+{% comment %} <div class="section">
     <div class="w-container">
         <div class="w-dyn-list">
-            {{product}}
-            {{list_product_type}}        
-            {{list_product_image}}
-            {{list_product_detail}}
-
+            <div class="w-clearfix w-dyn-items w-row">
+                {% for product_image in list_product_image %}
+                <div class="project-block w-dyn-item w-col w-col-6">
+                    <figure class="view overlay rounded z-depth-1 main-img">
+                        <a href="/{{product_image.product_image_path}}"
+                            data-size="710x823">
+                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
+                            class="img-fluid z-depth-1">
+                        </a>
+                    </figure>
+                </div>
+                {% endfor %}
+                <div class="project-block w-dyn-item w-col w-col-6">
+                <h2>{{product.product_name}}</h2>
+                <p class="mb-2 text-muted text-uppercase small">
+                    {{product.product_code}}
+                </p>
+                {% for product_detail in list_product_detail %}
+                    <p>
+                        <span class="mr-1">
+                            <strong>
+                                {{product_detail.product_public_price}}
+                            </strong>
+                        </span>
+                    </p>
+                    <p class="pt-1">{{product.product_description}}</p>    
+                {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
+</div> {% endcomment %}
+<div class="section">
+    <div class="w-container1">
+    <div class="card-wrapper">
+        <div class="card">
+            <div class="product-imgs">
+                <div class="img-display">
+                    <div class="img-showcase">
+                        {% for product_image in list_product_image %}
+                            <img src="/{{product_image.product_image_path}}"
+                                alt="{{product_image.product_image_name}}">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="img-select">
+                    {% for product_image in list_product_image %}
+                        <div class="img-item">
+                            <a href="#" data-id="{{forloop.counter}}">
+                                <img src="/{{product_image.product_image_path}}"
+                                    alt="{{product_image.product_image_name}}">
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- card right -->
+            <div class="product-content">
+                <h2 class="product-title">{{product.product_code}} {{product.product_name}}</h2>
+                <a href="#" class="product-link">visit nike store</a>
+
+                <div class="product-price">
+                    <p class="last-price">Old Price: <span>$257.00</span></p>
+                    <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
+                </div>
+
+                <div class="product-detail">
+                    <h2>about this item: </h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eveniet veniam tempora fuga tenetur placeat sapiente architecto illum soluta consequuntur, aspernatur quidem at sequi ipsa!</p>
+                    <ul>
+                    <li>Color: <span>Black</span></li>
+                    <li>Available: <span>in stock</span></li>
+                    <li>Shipping Area: <span>All over the world</span></li>
+                    </ul>
+                </div>
+
+                <div class="purchase-info">
+                    <input type="number" min="0" value="1">
+                    <button type="button" class="btn">
+                    Add to Cart <i class="fas fa-shopping-cart"></i>
+                    </button>
+                    <button type="button" class="btn">Compare</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
+<script>
+const imgs = document.querySelectorAll('.img-select a');
+const imgBtns = [...imgs];
+let imgId = 1;
+
+imgBtns.forEach((imgItem) => {
+    imgItem.addEventListener('click', (event) => {
+        event.preventDefault();
+        imgId = imgItem.dataset.id;
+        slideImage();
+    });
+});
+
+function slideImage(){
+    const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
+
+    document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+}
+
+window.addEventListener('resize', slideImage);
+</script>
 {% endblock %}
