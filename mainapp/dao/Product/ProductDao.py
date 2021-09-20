@@ -4,6 +4,13 @@ from datetime import datetime
 from django.utils import timezone
 from django.db import transaction
 
+def get_all_product():
+    """
+    Get all product
+    """
+    list_product = Product.objects.all().order_by('-product_id')
+    return list_product
+
 def get_all_product_in_type(product_type_id):
     """
     Get all product

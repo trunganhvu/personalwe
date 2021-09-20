@@ -4,12 +4,29 @@ from django.conf import settings
 from django.db import transaction
 from mainapp.dao.Product import ProductDao
 from mainapp.service.Product import ProductDetailService
+
 KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE = 'context-all-product-in-type-'
 KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID = 'context-product-detail-in-'
+KEY_CACHE_GET_ALL_PRODUCT = 'context-get-all-product-detail-in-'
+
+def get_all_product():
+    """
+    Get all product
+    """
+    cached_data = cache.get(KEY_CACHE_GET_ALL_PRODUCT)
+    if not cached_data:
+        # Get all in DB
+        product_list = ProductDao.get_all_product()
+
+        if product_list.count() > 0:
+            # Set into cache
+            cache.set(KEY_CACHE_GET_ALL_PRODUCT, product_list, settings.CACHE_TIME)
+            cached_data = product_list 
+    return cached_data
 
 def get_all_product_in_type(product_type_id):
     """
-    Get all product 
+    Get all product in type
     """
     key_cache = KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(product_type_id)
     cached_data = cache.get(key_cache)

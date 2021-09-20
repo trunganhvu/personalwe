@@ -9,6 +9,7 @@ from mainapp.view.User import UserController
 from mainapp.view.ProductType import ProductTypeController, ProductSizeController, ProductColorController
 from mainapp.view.Event import EventController
 from mainapp.view.Product import ProductController, ProductImageController, ProductPromotionController
+from mainapp.view.ProductPublic import ProductController as PublicProductController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -87,6 +88,11 @@ urlpatterns = [
     path('products/<int:product_id>/promotion-form-insert/', ProductPromotionController.insert_product_promotion, name='product-promotion-insert'),
     path('products/<int:product_id>/promotion-form/<int:product_promotion_id>/update/', ProductPromotionController.update_product_promotion, name='product-promotion-update'),
     path('products/<int:product_id>/promotion/<int:product_promotion_id>/delete/', ProductPromotionController.delete_product_promotion_by_promotion_id, name='product-promotion-delete'),
+
+    # ---------------- Url shop public ----------------
+    path('shop/', PublicProductController.get_all_product, name='public-list-product'),
+    path('shop/type<int:product_type_id>/', PublicProductController.get_all_product_in_product_type_id, name='public-list-product-type'),
+    path('shop/product/<int:product_id>/', PublicProductController.get_product_detail_by_product_id, name='public-product-detail'),
 
     # ---------------- Url event admin ----------------
     path('event/', EventController.view_all_event, name='event'),

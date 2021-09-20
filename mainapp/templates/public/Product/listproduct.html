@@ -1,0 +1,47 @@
+{% extends 'public/Product/base.html' %}
+{% block section %}
+<style>
+
+</style>
+<div class="section">
+    <div class="w-container">
+        <div class="w-dyn-list">
+            <div role="list" class="w-clearfix w-dyn-items w-row">
+                {% if list_product|length > 0 %}
+                    {% for product in list_product %}
+                    <div role="listitem" class="project-block w-dyn-item w-col w-col-4">
+                        <a href="{% url 'public-product-detail' product_id=product.product.product_id %}"
+                            class="project-link w-inline-block">
+                            {% if product.product_image.product_image_path %}
+                                <div style="background-image: url('/{{product.product_image.product_image_path}}');" class="project-image"></div>
+                            {% else %}
+                                <div style="background-image: url('/static/assets/img/portfolio/portfolio-1.jpg');" class="project-image"></div>
+                            {% endif %}
+                            <div style="background-color: #b058da;" class="project-tag">Web Design</div>
+                            <div class="project-title work-break">
+                                {{ product.product.product_code }} - {{ product.product.product_name }}
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div role="listitem" class="project-block w-dyn-item w-col w-col-4">
+                       <h2>Chưa có sản phẩm.</h2>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} <div class="footer-section">
+    <div class="w-container">
+        <div class="w-row">
+            <div class="w-col w-col-3">
+                <a href="/" aria-current="page" class="logo-footer w-nav-brand w--current">
+                    <div class="logo-text footer-logo">{{ category.category_name}}</strong></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+{% endblock %}

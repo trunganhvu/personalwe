@@ -9,6 +9,13 @@ def get_all_image_in_product(product_id):
     list_image = ProductImage.objects.filter(product_id=product_id)
     return list_image
 
+def get_one_image_in_product(product_id):
+    """
+    Get one image in product
+    """
+    image = ProductImage.objects.filter(product_id=product_id).first()
+    return image
+
 def get_product_image_by_image_id(product_image_id):
     """
     Get product image by image id

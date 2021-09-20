@@ -7,6 +7,7 @@ from mainapp.Common import Util
 
 KEY_CACHE_GET_PRODUCT_IMAGE_BY_ID = 'context-image-product-image-detail-by-'
 KEY_CACHE_GET_ALL_PRODUCT_IMAGE_BY_PRODUCT_ID = 'context-image-get-all-product-image-by-product-id-'
+KEY_CACHE_GET_ONE_PRODUCT_IMAGE_BY_PRODUCT_ID = 'context-image-get-one-product-image-by-product-id-'
 KEY_CACHE_GET_PRODUCT_IMAGE_BY_IMAGE_ID = 'context-image-get-product-image-by-image-id-'
 
 
@@ -20,6 +21,21 @@ def get_all_product_image_by_product_id(product_id):
 
         # Get image
         list_product_detail = ProductImageDao.get_all_image_in_product(product_id)
+
+        # Set into cache
+        cache.set(key_cache, list_product_detail, settings.CACHE_TIME)
+        cached_data = list_product_detail 
+    return cached_data
+
+def get_one_product_image_by_product_id(product_id):
+    """
+    Get one image product by product id
+    """
+    key_cache = KEY_CACHE_GET_ONE_PRODUCT_IMAGE_BY_PRODUCT_ID + str(product_id)
+    cached_data = cache.get(key_cache)
+    if not cached_data:
+        # Get image
+        list_product_detail = ProductImageDao.get_one_image_in_product(product_id)
 
         # Set into cache
         cache.set(key_cache, list_product_detail, settings.CACHE_TIME)

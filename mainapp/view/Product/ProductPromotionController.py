@@ -36,7 +36,7 @@ def view_detail_product_promotion_by_promotion_id(request, product_id, product_p
 @login_required(login_url='/login/')
 def view_product_promotion_form_insert_page(request, product_id):
     """
-    View form insert product promotion
+    View form insert product promotion - need auth
     """
     try:
         # Get base info product       
@@ -60,7 +60,7 @@ def view_product_promotion_form_insert_page(request, product_id):
 @login_required(login_url='/login/')
 def view_product_promotion_form_update_page(request, product_id, product_promotion_id):
     """
-    View form update product promotion
+    View form update product promotion - need auth
     """
     try:
         # Get base info product       
@@ -85,9 +85,10 @@ def view_product_promotion_form_update_page(request, product_id, product_promoti
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         return redirect('/products/' + str(product_id))
 
+@login_required(login_url='/login/')
 def insert_product_promotion(request, product_id):
     """
-    Insert product promotion
+    Insert product promotion - need auth
     """
     try:
         if request.method == 'POST':
@@ -116,7 +117,6 @@ def insert_product_promotion(request, product_id):
                 check = validate_list_data(product_promotion)
                 print('controller check=' + str(check))
                 if check:
-                    print('befor insert')
                     # Insert
                     ProductPromotionService.insert_product_promotion(product_promotion)
                     messages.success(request, ConstValiable.MESSAGE_POPUP_SUCCESS)
@@ -141,9 +141,10 @@ def insert_product_promotion(request, product_id):
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         return redirect('/products/' + str(product_id))
 
+@login_required(login_url='/login/')
 def update_product_promotion(request, product_id, product_promotion_id):
     """
-    Update product promotion
+    Update product promotion - need auth
     """
     try:
         if request.method == 'POST':
@@ -199,6 +200,7 @@ def update_product_promotion(request, product_id, product_promotion_id):
         messages.error(request, ConstValiable.MESSAGE_POPUP_ERROR)
         return redirect('/products/' + str(product_id))
 
+@login_required(login_url='/login/')
 def delete_product_promotion_by_promotion_id(request, product_id, product_promotion_id):
     """
     Delete product promotion
