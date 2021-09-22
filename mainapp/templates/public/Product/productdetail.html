@@ -12,97 +12,120 @@
     display: flex;
     align-items: center;
 }
+.btnlike{
+    display : none;
+}
 </style>
-{% comment %} <div class="section">
-    <div class="w-container">
-        <div class="w-dyn-list">
-            <div class="w-clearfix w-dyn-items w-row">
-                {% for product_image in list_product_image %}
-                <div class="project-block w-dyn-item w-col w-col-6">
-                    <figure class="view overlay rounded z-depth-1 main-img">
-                        <a href="/{{product_image.product_image_path}}"
-                            data-size="710x823">
-                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg"
-                            class="img-fluid z-depth-1">
-                        </a>
-                    </figure>
-                </div>
-                {% endfor %}
-                <div class="project-block w-dyn-item w-col w-col-6">
-                <h2>{{product.product_name}}</h2>
-                <p class="mb-2 text-muted text-uppercase small">
-                    {{product.product_code}}
-                </p>
-                {% for product_detail in list_product_detail %}
-                    <p>
-                        <span class="mr-1">
-                            <strong>
-                                {{product_detail.product_public_price}}
-                            </strong>
-                        </span>
-                    </p>
-                    <p class="pt-1">{{product.product_description}}</p>    
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div> {% endcomment %}
 <div class="section">
     <div class="w-container1">
-    <div class="card-wrapper">
-        <div class="card">
-            <div class="product-imgs">
-                <div class="img-display">
-                    <div class="img-showcase">
+        <div class="card-wrapper">
+            <div class="card">
+                <div class="product-imgs">
+                    <div class="img-display">
+                        <div class="img-showcase">
+                            {% for product_image in list_product_image %}
+                                <img src="/{{product_image.product_image_path}}"
+                                    alt="{{product_image.product_image_name}}" 
+                                    class="img-main">
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="img-select">
                         {% for product_image in list_product_image %}
-                            <img src="/{{product_image.product_image_path}}"
-                                alt="{{product_image.product_image_name}}" 
-                                class="img-main">
+                            <div class="img-item">
+                                <a href="#" data-id="{{forloop.counter}}">
+                                    <img src="/{{product_image.product_image_path}}" class="img-main"
+                                        alt="{{product_image.product_image_name}}">
+                                </a>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
-                <div class="img-select">
-                    {% for product_image in list_product_image %}
-                        <div class="img-item">
-                            <a href="#" data-id="{{forloop.counter}}">
-                                <img src="/{{product_image.product_image_path}}" class="img-main"
-                                    alt="{{product_image.product_image_name}}">
-                            </a>
+                <div class="product-content">
+                    <h2 class="product-title1">{{product.product_code}} {{product.product_name}}</h2>
+                    {% comment %} <a href="#" class="product-link">visit nike store</a> {% endcomment %}
+
+                    <div class="product-price">
+                        <p class="last-price">Old Price: <span>$257.00</span></p>
+                        <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
+                    </div>
+
+                    <div class="purchase-info">
+                        <div class="w-row">
+                            <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
+                                Màu
+                            </div>
+                            <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
+                                <div class="w-row">
+                                {% for product_color in list_product_color %}
+                                    <label class="w-col w-col-tiny-3 w-col-small-3 w-col-medium-3 w-col-3 product-option">
+                                        <input class="btnlike color" type="checkbox" 
+                                            name="color[]" onclick="onlyOneColor(this)"
+                                            value="{{product_color.product_color_id}}">
+                                        <span>{{product_color.product_color_name}}</span>
+                                    </label>
+                                {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <!-- card right -->
-            <div class="product-content">
-                <h2 class="product-title">{{product.product_code}} {{product.product_name}}</h2>
-                <a href="#" class="product-link">visit nike store</a>
+                        <div class="w-row">
+                            <div class="w-row">
+                                <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
+                                    Size
+                                </div>
+                                <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
+                                    <div class="w-row">
+                                    {% for product_size in list_product_size %}
+                                        <label class="w-col w-col-tiny-3 w-col-small-3 w-col-medium-3 w-col-3 product-option">
+                                            <input class="btnlike size" type="checkbox" 
+                                                name="size[]" onclick="onlyOneSize(this)"
+                                                value="{{product_size.product_size_id}}">
+                                            <span>{{product_size.product_size_name}}</span>
+                                        </label>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-row">
+                            <div class="w-row">
+                                <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
+                                    Số lượng
+                                </div>
+                                <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
+                                    <div class="w-row">
+                                    <div class="number-input">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                                        <input class="quantity" min="1" name="quantity" value="1" type="number">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="button button-red-pink w-button">
+                        Thêm vào giỏ hàng<i class="bxs-cart-download"></i>
+                        </button>
+                        <button type="button" class="button button-red w-button">
+                        Mua ngay<i class="bxs-cart-download"></i>
+                        </button>
+                    </div>
 
-                <div class="product-price">
-                    <p class="last-price">Old Price: <span>$257.00</span></p>
-                    <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
-                </div>
-
-                <div class="product-detail">
-                    <h2>about this item: </h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo eveniet veniam tempora fuga tenetur placeat sapiente architecto illum soluta consequuntur, aspernatur quidem at sequi ipsa!</p>
-                    <ul>
-                    <li>Color: <span>Black</span></li>
-                    <li>Available: <span>in stock</span></li>
-                    <li>Shipping Area: <span>All over the world</span></li>
-                    </ul>
-                </div>
-
-                <div class="purchase-info">
-                    <input type="number" min="0" value="1">
-                    <button type="button" class="btn">
-                    Add to Cart <i class="fas fa-shopping-cart"></i>
-                    </button>
-                    <button type="button" class="btn">Compare</button>
+                    <div class="product-detail">
+                        {{product.product_description}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="w-container1">
+        <div class="">
+            <div class="w-row">
+                {% autoescape off %}
+                    {{product.product_detail}}
+                {% endautoescape %} 
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -117,10 +140,25 @@ imgBtns.forEach((imgItem) => {
         slideImage();
     });
 });
-
+function onlyOneColor(checkbox) {
+    var checkboxes = document.getElementsByName('checked');
+    document.querySelectorAll('.color').forEach(function(item) {
+        if (item !== checkbox) item.checked = false
+    });
+}
+function onlyOneSize(checkbox) {
+    var checkboxes = document.getElementsByName('checked');
+    document.querySelectorAll('.size').forEach(function(item) {
+        if (item !== checkbox) item.checked = false
+    });
+}
+/*
+$('input[type="checkbox"]').on('change', function() {
+    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+});
+*/
 function slideImage(){
     const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
-
     document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
 }
 

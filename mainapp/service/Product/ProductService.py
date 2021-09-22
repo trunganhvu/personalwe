@@ -154,6 +154,6 @@ def update_product_and_detail(product, list_product_detail):
             # Delete detail
             for p_detail_id in list_p_detail_delete:
                 ProductDetailService.delete_product_detail_by_pk(p_detail_id)
-
+        CacheUtil.clean_cache_by_key(KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(p.product_id))
         CacheUtil.clean_cache_by_key(KEY_CACHE_GET_ALL_PRODUCT_IN_TYPE + str(p.product_type_id_id))
         CacheUtil.clean_cache_by_key(ProductDetailService.KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID + str(product.product_id))

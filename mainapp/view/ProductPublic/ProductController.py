@@ -69,11 +69,39 @@ def get_product_detail_by_product_id(request, product_id):
         # Get detail
         list_product_detail = ProductDetailService.get_all_detail_product_by_product_id(product.product_id)
 
+        list_product_color = []
+        list_product_size = []
+        if list_product_detail is not None and list_product_detail.count() > 0:
+            for p_detail in list_product_detail:
+                # List color
+                product_color = {
+                    'product_color_code': p_detail.product_color_id.product_color_code,
+                    'product_color_id': p_detail.product_color_id.product_color_id,
+                    'product_color_name': p_detail.product_color_id.product_color_name,
+                }
+                if not product_color in list_product_color:
+                    list_product_color.append(product_color)
+
+                # List size
+                product_size = {
+                    'product_size_id': p_detail.product_size_id.product_size_id,
+                    'product_size_code': p_detail.product_size_id.product_size_code,
+                    'product_size_name': p_detail.product_size_id.product_size_name,
+                    'product_size_height_max': p_detail.product_size_id.product_size_height_max,
+                    'product_size_height_min': p_detail.product_size_id.product_size_height_min,
+                    'product_size_width_max': p_detail.product_size_id.product_size_width_max,
+                    'product_size_width_min': p_detail.product_size_id.product_size_width_min,
+                }
+                if not product_size in list_product_size:
+                    list_product_size.append(product_size)
+
         context = {
             'product': product,
             'list_product_type': list_product_type,
             'list_product_image': list_product_image,
             'list_product_detail': list_product_detail,
+            'list_product_color': list_product_color,
+            'list_product_size': list_product_size
         }
         return render(request, 'public/Product/productdetail.html', context=context)
     else:
