@@ -2,6 +2,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import math
 
 from mainapp.model.ProductPromotion import ProductPromotion
 from mainapp.service.Product import ProductService, ProductPromotionService, ProductImageService, ProductDetailService
@@ -71,6 +72,9 @@ def get_product_detail_by_product_id(request, product_id):
 
         list_product_color = []
         list_product_size = []
+        min_public_price = 0
+        list_public_price = []
+        total_product_in_stock = 0
         if list_product_detail is not None and list_product_detail.count() > 0:
             for p_detail in list_product_detail:
                 # List color
@@ -94,6 +98,18 @@ def get_product_detail_by_product_id(request, product_id):
                 }
                 if not product_size in list_product_size:
                     list_product_size.append(product_size)
+                
+                # List price
+                list_public_price.append(p_detail.product_public_price)
+
+                # Total product
+                total_product_in_stock += p_detail.product_in_stock
+
+            # Price min in list price
+            min_public_price = min(list_public_price)
+
+            # Remove .00 in price
+            min_public_price = math.floor(min_public_price)
 
         context = {
             'product': product,
@@ -101,7 +117,10 @@ def get_product_detail_by_product_id(request, product_id):
             'list_product_image': list_product_image,
             'list_product_detail': list_product_detail,
             'list_product_color': list_product_color,
-            'list_product_size': list_product_size
+            'list_product_size': list_product_size,
+            'min_public_price': min_public_price,
+            'total_product_in_stock': total_product_in_stock,
+            'length_total_product_in_stock': len(str(total_product_in_stock)),
         }
         return render(request, 'public/Product/productdetail.html', context=context)
     else:

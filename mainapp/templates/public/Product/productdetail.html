@@ -15,6 +15,10 @@
 .btnlike{
     display : none;
 }
+.product-in-stock {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
 </style>
 <div class="section">
     <div class="w-container1">
@@ -46,8 +50,8 @@
                     {% comment %} <a href="#" class="product-link">visit nike store</a> {% endcomment %}
 
                     <div class="product-price">
-                        <p class="last-price">Old Price: <span>$257.00</span></p>
-                        <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
+                        <p class="last-price1">Giá: <span id="product-price">{{min_public_price}}</span></p>
+                        {% comment %} <p class="new-price">New Price: <span>$249.00 (5%)</span></p> {% endcomment %}
                     </div>
 
                     <div class="purchase-info">
@@ -56,7 +60,7 @@
                                 Màu
                             </div>
                             <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
-                                <div class="w-row">
+                                <div class="w-row" id="color">
                                 {% for product_color in list_product_color %}
                                     <label class="w-col w-col-tiny-3 w-col-small-3 w-col-medium-3 w-col-3 product-option">
                                         <input class="btnlike color" type="checkbox" 
@@ -74,10 +78,10 @@
                                     Size
                                 </div>
                                 <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
-                                    <div class="w-row">
+                                    <div class="w-row" id="size">
                                     {% for product_size in list_product_size %}
                                         <label class="w-col w-col-tiny-3 w-col-small-3 w-col-medium-3 w-col-3 product-option">
-                                            <input class="btnlike size" type="checkbox" 
+                                            <input class="btnlike size" type="checkbox"
                                                 name="size[]" onclick="onlyOneSize(this)"
                                                 value="{{product_size.product_size_id}}">
                                             <span>{{product_size.product_size_name}}</span>
@@ -94,11 +98,17 @@
                                 </div>
                                 <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
                                     <div class="w-row">
-                                    <div class="number-input">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
-                                        <input class="quantity" min="1" name="quantity" value="1" type="number">
-                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-                                    </div>
+                                        <div class="number-input w-col w-col-small-6 w-col-medium-6 w-col-6">
+                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                                            <input class="quantity" min="1" max="{{total_product_in_stock}}"
+                                                name="quantity" value="133" maxlength="{{length_total_product_in_stock}}" 
+                                                type="number" id="quantity"
+                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                        </div>
+                                        <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 product-in-stock">
+                                            Còn <span id="product-in-stock">{{total_product_in_stock}}</span> sản phẩm
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -131,6 +141,21 @@
 <script>
 const imgs = document.querySelectorAll('.img-select a');
 const imgBtns = [...imgs];
+const defaultPrice = {{min_public_price}};
+const defaultProductInStock = {{total_product_in_stock}};
+const maxLengthDefaultProductInStock = {{length_total_product_in_stock}};
+let listProductDetail = [];
+{% for product_detail in list_product_detail %}
+    listProductDetail.push({
+        'product_detail_id': {{product_detail.product_detail_id}},
+        'product_id': {{product_detail.product_id.product_id}},
+        'product_color_id': {{product_detail.product_color_id.product_color_id}},
+        'product_size_id': {{product_detail.product_size_id.product_size_id}},
+        'product_in_stock': {{product_detail.product_in_stock}},
+        'product_public_price': {{product_detail.product_public_price}},
+        
+    });
+{% endfor %}
 let imgId = 1;
 
 imgBtns.forEach((imgItem) => {
@@ -145,12 +170,41 @@ function onlyOneColor(checkbox) {
     document.querySelectorAll('.color').forEach(function(item) {
         if (item !== checkbox) item.checked = false
     });
+    setPrice();
 }
 function onlyOneSize(checkbox) {
     var checkboxes = document.getElementsByName('checked');
     document.querySelectorAll('.size').forEach(function(item) {
         if (item !== checkbox) item.checked = false
     });
+    setPrice();
+}
+function setPrice() {
+    let size;
+    let color;
+    var listSize = document.querySelectorAll('#size input[type="checkbox"]:checked');
+    for (var i = 0; i < listSize.length; i++) size = listSize[i].value;
+    var listColor = document.querySelectorAll('#color input[type="checkbox"]:checked');
+    for (var i = 0; i < listColor.length; i++) color = listColor[i].value;
+    if (size != undefined && color != undefined) {
+        checkColorAndSize(color, size);
+    } else if (size == undefined && color == undefined) {
+        document.getElementById('product-price').innerHTML = defaultPrice;
+        document.getElementById('product-in-stock').innerHTML = defaultProductInStock;
+        document.getElementById('quantity').max = defaultProductInStock;
+        document.getElementById('quantity').maxLength = maxLengthDefaultProductInStock;
+    }
+}
+function checkColorAndSize(color, size) {
+    for (let i = 0; i < listProductDetail.length; i++ ) {
+        if (listProductDetail[i].product_color_id == color && listProductDetail[i].product_size_id == size) {
+            document.getElementById('product-price').innerHTML = listProductDetail[i].product_public_price;
+            document.getElementById('product-in-stock').innerHTML = listProductDetail[i].product_in_stock;
+            document.getElementById('quantity').max = listProductDetail[i].product_in_stock;
+            document.getElementById('quantity').maxLength = listProductDetail[i].product_in_stock.toString().length;
+            console.log(listProductDetail[i].product_in_stock.toString().length)
+        }
+    }
 }
 /*
 $('input[type="checkbox"]').on('change', function() {
