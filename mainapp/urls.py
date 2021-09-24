@@ -10,6 +10,7 @@ from mainapp.view.ProductType import ProductTypeController, ProductSizeControlle
 from mainapp.view.Event import EventController
 from mainapp.view.Product import ProductController, ProductImageController, ProductPromotionController
 from mainapp.view.ProductPublic import ProductController as PublicProductController
+from mainapp.view.Cart import CartController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -115,4 +116,7 @@ urlpatterns = [
     # ---------------- API ----------------
     path('api/header/', HeaderConntroller.get_header_path, name='api-header'),
     path('api/banner-title/', BannerTitleController.get_banner_title, name='api-banner-title'),
+
+
+    path('api/cart/<str:key>/', CartController.count_item_in_cart_by_key, name='api-cart-count'),
 ]

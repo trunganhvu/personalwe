@@ -138,6 +138,7 @@
         </div>
     </div>
 </div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
 <script>
 const imgs = document.querySelectorAll('.img-select a');
 const imgBtns = [...imgs];
@@ -157,7 +158,26 @@ let listProductDetail = [];
     });
 {% endfor %}
 let imgId = 1;
+function makeCode(length) {
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+   return result;
+}
+function getCookie(name) {
+    let v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : undefined;
+}
+let code = getCookie('uc_code');
 
+if (code == undefined) {
+    code = makeCode(60);
+    let maxAge = 365 * 24 * 60 * 60;
+    document.cookie = 'uc_code= '+ code + '; secure; path=/; max-age=' + maxAge;
+}
 imgBtns.forEach((imgItem) => {
     imgItem.addEventListener('click', (event) => {
         event.preventDefault();
@@ -217,5 +237,15 @@ function slideImage(){
 }
 
 window.addEventListener('resize', slideImage);
+function setCountItemCart() {
+    // Call api get count item cart
+    let api = window.location.protocol + '//' + window.location.host + '/api/cart/' + code + '/';
+    let item = fetchApi(api);
+    let itemPromise = Promise.resolve(item);
+    itemPromise.then(function(value) {
+        console.log(value.count);
+    })
+}
+setCountItemCart();
 </script>
 {% endblock %}
