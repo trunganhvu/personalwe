@@ -1,0 +1,106 @@
+{% extends 'public/Product/base.html' %}
+{% block section %}
+{% load static %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet" type="text/css" />
+<style>
+@media screen and (min-width:1300px) {
+    .item-carts, .item-cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .p-0 {
+        padding: 0;
+        margin: 0;
+    }
+}
+.item-carts {
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 5px;
+}
+.btn-remove {
+    color: black;
+    text-decoration: none;
+}
+.btn-remove:hover {
+    color: #d0011b;
+}
+</style>
+<div class="section">
+    <div class="w-container1">
+        <div class="w-dyn-list">
+            <div role="list" class="w-clearfix w-dyn-items w-row">
+            {% for product in list_product %}
+                <div class="w-row item-carts">
+                    <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
+                        <img src="/{{product.product_image.product_image_path}}"
+                            alt="{{product.product_image.product_image_name}}">
+                    </div>
+                    <div class="w-col w-col-small-8 w-col-medium-8 w-col-8">
+                        <div class="w-row item-cart">
+                            <div class="w-col w-col-small-8 w-col-medium-8 w-col-8">
+                                <h3 class="p-0">
+                                    {{product.product.product_name}} - {{product.product.product_code}}
+                                </h2>
+                                <br>
+                                <p class="p-0">Size: 
+                                    <span id="">
+                                        {{product.size.product_size_name}}
+                                    </span>
+                                </p>
+                                <p class="p-0">Màu: 
+                                    <span id="">
+                                        {{product.color.product_color_name}}
+                                    </span>
+                                </p>
+                                <p class="">Giá: 
+                                    <span id="">
+                                       {{product.price}}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="w-col w-col-small-4 w-col-medium-4 w-col-4">
+                                <div class="w-row">
+                                        <div class="number-input w-col w-col-small-12 w-col-medium-12 w-col-12">
+                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown();
+                                                onchangeInputQuantity(this.parentNode.querySelector('input[type=number]').value)" ></button>
+                                            <input class="quantity" min="1" max="{{total_product_in_stock}}"
+                                                name="quantity" value="{{product.quantity}}" maxlength="{{length_total_product_in_stock}}" 
+                                                type="number" id="quantity"
+                                                onchange="onchangeInputQuantity(this.value)"
+                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp();
+                                                    onchangeInputQuantity(this.parentNode.querySelector('input[type=number]').value)"
+                                                    class="plus"></button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-col w-col-small-1 w-col-medium-1 w-col-1">
+                        <a href="" class="btn-remove">Xóa</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div role="list" class="w-clearfix w-dyn-items w-row">
+                <div class="w-row">
+                    Tổng thanh toán
+                </div>
+                <div class="w-row">
+                    <div class="w-col w-col-small-6 w-col-medium-6 w-col-6">
+                        Chọn tất cả
+                    </div>
+                    <div class="w-col w-col-small-6 w-col-medium-6 w-col-6">
+                        <button type="button" class="button button-red w-button">
+                                Mua ngay<i class="bxs-cart-download"></i>
+                                </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

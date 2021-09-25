@@ -106,6 +106,7 @@ urlpatterns = [
 
     # ---------------- Url login ----------------
     path('/cart/<int:product_id>/', CartController.insert_item_into_cart, name='cart-item-insert'),
+    path('cart/', CartController.view_detail_cart_page, name='cart'),
 
 
     # ---------------- Url login ----------------

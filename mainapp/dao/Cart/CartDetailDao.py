@@ -12,6 +12,13 @@ def get_cart_detail_by_cart_id(cart_id):
     list_cart_item = CartDetail.objects.filter(cart_id=cart_id).order_by('updated_at')
     return list_cart_item
 
+def get_cart_detail_by_pk_product_detail_id(cart_id, product_detail_id):
+    """
+    Get cart detail by pk, product detail id
+    """
+    cart_detail = CartDetail.objects.filter(cart_id=cart_id, product_detail_id=product_detail_id).first()
+    return cart_detail
+
 def count_cart_detail_by_cart_id(cart_id):
     """
     Count cart detail by cart id
@@ -33,7 +40,7 @@ def update_cart_detail(cart_detail_id, quantity):
     """
     Update quantity in cart detail
     """
-    cart_detail = CartDetail.objects.get(cart_detail_id)
+    cart_detail = CartDetail.objects.get(pk=cart_detail_id)
     cart_detail.quantity = quantity
     cart_detail.save()
     return cart_detail

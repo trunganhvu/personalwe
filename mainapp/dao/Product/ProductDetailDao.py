@@ -21,6 +21,15 @@ def get_all_detail_product_by_product_id(product_id):
                                                                                     )
     return list_detail
 
+def get_product_detail_by_product_id_size_id_color_id(product_id, product_size_id, product_color_id):
+    """
+    View detail by product id, size, color
+    """
+    product_detail = ProductDetail.objects.filter(product_id=product_id,
+                                                product_color_id=product_color_id,
+                                                product_size_id=product_size_id).first()
+    return product_detail
+
 def insert_product_detail(product_detail):
     """
     Insert product detail

@@ -6,7 +6,7 @@ from mainapp.dao.Product import ProductDetailDao
 
 KEY_CACHE_GET_PRODUCT_DETAIL_BY_ID = 'context-detail-product-detail-in-'
 KEY_CACHE_GET_PRODUCT_DETAIL_BY_PRODUCT_DETAIL_ID = 'context-detail-product-detail-by-product-detail-id-'
-
+GET_PRODUCT_DETAIL_BY_PRODUCT_ID_SIZE_ID_COLOR_ID = 'get_product-detail-by-product-id-size_id-color-id'
 
 def get_all_detail_product_by_product_id(product_id):
     """
@@ -38,6 +38,25 @@ def get_product_detail_by_product_detail_id(product_detail_id):
         # Set into cache
         cache.set(key_cache, list_product_detail, settings.CACHE_TIME)
         cached_data = list_product_detail 
+    return cached_data
+
+def get_product_detail_by_product_id_size_id_color_id(product_id, product_size_id, product_color_id):
+    """
+    View detail by product id, size, color
+    """
+    key_cache = GET_PRODUCT_DETAIL_BY_PRODUCT_ID_SIZE_ID_COLOR_ID + str(product_id) + '-' + \
+                str(product_size_id) + '-' + str(product_color_id)
+    cached_data = cache.get(key_cache)
+    if not cached_data:
+
+        # Get detail product
+        product_detail = ProductDetailDao.get_product_detail_by_product_id_size_id_color_id(product_id,
+                                                                                            product_size_id,
+                                                                                            product_color_id)
+
+        # Set into cache
+        cache.set(key_cache, product_detail, settings.CACHE_TIME)
+        cached_data = product_detail 
     return cached_data
 
 def delete_product_by_id(product_id):

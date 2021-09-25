@@ -118,7 +118,7 @@ def get_product_detail_by_product_id(request, product_id):
             'list_product_detail': list_product_detail,
             'list_product_color': list_product_color,
             'list_product_size': list_product_size,
-            'min_public_price': min_public_price,
+            'min_public_price': f'{min_public_price:,}',
             'total_product_in_stock': total_product_in_stock,
             'length_total_product_in_stock': len(str(total_product_in_stock)),
         }
