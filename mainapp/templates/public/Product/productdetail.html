@@ -99,12 +99,16 @@
                                 <div class="w-col w-col-small-9 w-col-medium-9 w-col-9">
                                     <div class="w-row">
                                         <div class="number-input w-col w-col-small-6 w-col-medium-6 w-col-6">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown();
+                                                onchangeInputQuantity(this.parentNode.querySelector('input[type=number]').value)" ></button>
                                             <input class="quantity" min="1" max="{{total_product_in_stock}}"
-                                                name="quantity" value="133" maxlength="{{length_total_product_in_stock}}" 
+                                                name="quantity" value="1" maxlength="{{length_total_product_in_stock}}" 
                                                 type="number" id="quantity"
+                                                onchange="onchangeInputQuantity(this.value)"
                                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp();
+                                                    onchangeInputQuantity(this.parentNode.querySelector('input[type=number]').value)"
+                                                    class="plus"></button>
                                         </div>
                                         <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 product-in-stock">
                                             Còn <span id="product-in-stock">{{total_product_in_stock}}</span> sản phẩm
@@ -113,12 +117,34 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="button button-red-pink w-button">
-                        Thêm vào giỏ hàng<i class="bxs-cart-download"></i>
-                        </button>
-                        <button type="button" class="button button-red w-button">
-                        Mua ngay<i class="bxs-cart-download"></i>
-                        </button>
+                        <div class="w-row">
+                            <div class="w-col w-col-small-7 w-col-medium-7 w-col-7">
+                                <form method="post" autocomplete="on" enctype="multipart/form-data"
+                                    action="{% url 'cart-item-insert' product_id=product.product_id %}"
+                                    onsubmit="return onSubmitAddItem()">
+                                    <input type="hidden" name="add-cart-product" 
+                                        id="add-cart-product" value="{{product.product_id}}"/>
+                                    <input type="hidden" name="add-cart-size"
+                                        id="add-cart-size" value=""/>
+                                    <input type="hidden" name="add-cart-color"
+                                        id="add-cart-color" value=""/>
+                                    <input type="hidden" name="add-cart-cookie-key"
+                                        id="add-cart-cookie-key" value=""/>
+                                    <input type="hidden" name="add-cart-quantity"
+                                        id="add-cart-quantity" value="1"/>
+                                    {% csrf_token %}
+                                    <button type="submit" class="button button-red-pink w-button">
+                                    Thêm vào giỏ hàng (<span id="total-item-cart"></span>)
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="w-col w-col-small-5 w-col-medium-5 w-col-5">
+                                <button type="button" class="button button-red w-button">
+                                Mua ngay<i class="bxs-cart-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <div class="product-detail">
@@ -153,8 +179,7 @@ let listProductDetail = [];
         'product_color_id': {{product_detail.product_color_id.product_color_id}},
         'product_size_id': {{product_detail.product_size_id.product_size_id}},
         'product_in_stock': {{product_detail.product_in_stock}},
-        'product_public_price': {{product_detail.product_public_price}},
-        
+        'product_public_price': {{product_detail.product_public_price}},   
     });
 {% endfor %}
 let imgId = 1;
@@ -178,6 +203,8 @@ if (code == undefined) {
     let maxAge = 365 * 24 * 60 * 60;
     document.cookie = 'uc_code= '+ code + '; secure; path=/; max-age=' + maxAge;
 }
+document.getElementById('add-cart-cookie-key').value = code;
+
 imgBtns.forEach((imgItem) => {
     imgItem.addEventListener('click', (event) => {
         event.preventDefault();
@@ -214,6 +241,36 @@ function setPrice() {
         document.getElementById('quantity').max = defaultProductInStock;
         document.getElementById('quantity').maxLength = maxLengthDefaultProductInStock;
     }
+    setFormAddCart(size, color);
+}
+function setFormAddCart(size, color) {
+    let valueSize = 0;
+    let valuecolor = 0;
+    if (size != undefined) {
+        valueSize = size;
+    }
+    if (color != undefined) {
+        valuecolor = color;
+    }
+    document.getElementById('add-cart-color').value = valuecolor;
+    document.getElementById('add-cart-size').value = valueSize;
+}
+function onchangeInputQuantity(value) {
+    document.getElementById('add-cart-quantity').value = value;
+}
+function onSubmitAddItem(){
+    console.log('onsubmit');
+    let inputProduct = document.getElementById('add-cart-product').value;    
+    let inputSize = document.getElementById('add-cart-size').value;
+    let intputColor = document.getElementById('add-cart-color').value;
+    let intputCookieKey = document.getElementById('add-cart-cookie-key').value;
+    let intputQuantity = document.getElementById('add-cart-quantity').value;
+    if (inputProduct == 0 || inputSize == 0 || intputColor == 0 || intputQuantity == 0)
+        return false;
+    if (intputCookieKey == '' || intputCookieKey != code) {
+        location.reload();
+    }
+    return true;
 }
 function checkColorAndSize(color, size) {
     for (let i = 0; i < listProductDetail.length; i++ ) {
@@ -222,15 +279,9 @@ function checkColorAndSize(color, size) {
             document.getElementById('product-in-stock').innerHTML = listProductDetail[i].product_in_stock;
             document.getElementById('quantity').max = listProductDetail[i].product_in_stock;
             document.getElementById('quantity').maxLength = listProductDetail[i].product_in_stock.toString().length;
-            console.log(listProductDetail[i].product_in_stock.toString().length)
         }
     }
 }
-/*
-$('input[type="checkbox"]').on('change', function() {
-    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
-});
-*/
 function slideImage(){
     const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
     document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
@@ -239,11 +290,17 @@ function slideImage(){
 window.addEventListener('resize', slideImage);
 function setCountItemCart() {
     // Call api get count item cart
+    console.log(code);
     let api = window.location.protocol + '//' + window.location.host + '/api/cart/' + code + '/';
     let item = fetchApi(api);
     let itemPromise = Promise.resolve(item);
     itemPromise.then(function(value) {
         console.log(value.count);
+        let countItem = 0;
+        if (value.count != undefined) {
+            countItem = value.count;
+        }
+        document.getElementById('total-item-cart').innerHTML = countItem;
     })
 }
 setCountItemCart();

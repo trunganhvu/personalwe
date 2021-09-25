@@ -104,6 +104,9 @@ urlpatterns = [
     path('event-form/<int:event_id>/update/', EventController.update_event, name='event-update'),
     path('event-form/<int:event_id>/delete/', EventController.delete_event_by_id, name='event-delete'),
 
+    # ---------------- Url login ----------------
+    path('/cart/<int:product_id>/', CartController.insert_item_into_cart, name='cart-item-insert'),
+
 
     # ---------------- Url login ----------------
     path('login/', UserController.view_login_page, name='login'),
