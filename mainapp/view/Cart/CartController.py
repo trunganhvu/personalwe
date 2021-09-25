@@ -45,6 +45,7 @@ def view_detail_cart_page(request):
                     'color': item.product_detail_id.product_color_id,
                     'product_image': product_image,
                     'price': f'{price:,}',
+                    'product_detail': item.product_detail_id,
                 }
                 list_product.append(item_product)
         context = {

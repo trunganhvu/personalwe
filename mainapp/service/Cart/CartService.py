@@ -110,3 +110,5 @@ def insert_cart_and_item(product_detail_id, cart_quantity, cart_cookie_key):
             print(type(quatity_update))
             print(c_detail.cart_detail_id)
             c_detail_new = CartDetailDao.update_cart_detail(c_detail.cart_detail_id, quatity_update)
+            CacheUtil.clean_cache_by_key(GET_CART_ITEM_BY_KEY_CODE + cart_cookie_key)
+
