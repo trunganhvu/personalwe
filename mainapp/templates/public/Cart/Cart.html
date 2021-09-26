@@ -43,94 +43,99 @@
 <div class="section">
     <div class="w-container1">
         <div class="w-dyn-list">
-            <div role="list" class="w-clearfix w-dyn-items w-row">
-            {% if list_product %}
-                {% for product in list_product %}
-                    <input type="checkbox" id="product-item-{{product.product_detail.product_detail_id}}" 
-                        class="item-checkbox" onclick="setTotalPay()">
-                    <label class="label-product-item" for="product-item-{{product.product_detail.product_detail_id}}">
-                        <div class="w-row item-carts">
-                            <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
-                                <img src="/{{product.product_image.product_image_path}}"
-                                    alt="{{product.product_image.product_image_name}}">
-                            </div>
-                            <div class="w-col w-col-small-8 w-col-medium-8 w-col-8">
-                                <div class="w-row item-cart">
-                                    <div class="w-col w-col-small-8 w-col-medium-8 w-col-8">
-                                        <h3 class="p-0">
-                                            <a href="{% url 'public-product-detail' product_id=product.product.product_id %}"
-                                                class="btn-remove" target="_blank">
-                                            {{product.product.product_name}} - {{product.product.product_code}}
-                                            </a>
-                                        </h2>
-                                        <br>
-                                        <p class="p-0">Size:
-                                            <span id="">
-                                                {{product.size.product_size_name}}
-                                            </span>
-                                        </p>
-                                        <p class="p-0">Màu: 
-                                            <span id="">
-                                                {{product.color.product_color_name}}
-                                            </span>
-                                        </p>
-                                        <p class="">Giá: 
-                                            <span id="product-price-{{product.product_detail.product_detail_id}}">
-                                            {{product.price}}
-                                            </span>
-                                        </p>
-                                        
-                                    </div>
-                                    <div class="w-col w-col-small-4 w-col-medium-4 w-col-4">
-                                        <div class="w-row">
-                                            <div class="number-input w-col w-col-small-12 w-col-medium-12 w-col-12">
-                                                <button id="btn-minus"
-                                                    onclick="updateQuantityItem('product-quantity-{{product.product_detail.product_detail_id}}', 'minus', {{product.cart_item.cart_detail_id}});
-                                                    this.parentNode.querySelector('input[type=number]').stepDown();
-                                                    setTotalPay();
-                                                    ">
-                                                </button>
-                                                <input class="quantity" min="1" max="{{total_product_in_stock}}" readonly
-                                                    name="quantity" value="{{product.quantity}}" maxlength="{{length_total_product_in_stock}}" 
-                                                    type="number" id="product-quantity-{{product.product_detail.product_detail_id}}"
-                                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                    >
-                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(),
-                                                    setTotalPay();
-                                                    updateQuantityItem('product-quantity-{{product.product_detail.product_detail_id}}', 'plus', {{product.cart_item.cart_detail_id}})"
-                                                    class="plus"></button>
+            <form method="post" autocomplete="on" enctype="multipart/form-data"
+                action="{% url 'shopping-order-infor' %}">
+                {% csrf_token %}
+                <div role="list" class="w-clearfix w-dyn-items w-row">
+                {% if list_product %}
+                    {% for product in list_product %}
+                        <input type="checkbox" id="product-item-{{product.product_detail.product_detail_id}}" 
+                            class="item-checkbox" onclick="setTotalPay()"
+                            name="cart-detail-id" value="{{product.cart_item.cart_detail_id}}">
+                        <label class="label-product-item" for="product-item-{{product.product_detail.product_detail_id}}">
+                            <div class="w-row item-carts">
+                                <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
+                                    <img src="/{{product.product_image.product_image_path}}"
+                                        alt="{{product.product_image.product_image_name}}">
+                                </div>
+                                <div class="w-col w-col-small-8 w-col-medium-8 w-col-8">
+                                    <div class="w-row item-cart">
+                                        <div class="w-col w-col-small-8 w-col-medium-8 w-col-8">
+                                            <h3 class="p-0">
+                                                <a href="{% url 'public-product-detail' product_id=product.product.product_id %}"
+                                                    class="btn-remove" target="_blank">
+                                                {{product.product.product_name}} - {{product.product.product_code}}
+                                                </a>
+                                            </h2>
+                                            <br>
+                                            <p class="p-0">Size:
+                                                <span id="">
+                                                    {{product.size.product_size_name}}
+                                                </span>
+                                            </p>
+                                            <p class="p-0">Màu: 
+                                                <span id="">
+                                                    {{product.color.product_color_name}}
+                                                </span>
+                                            </p>
+                                            <p class="">Giá: 
+                                                <span id="product-price-{{product.product_detail.product_detail_id}}">
+                                                {{product.price}}
+                                                </span>
+                                            </p>
+                                            
+                                        </div>
+                                        <div class="w-col w-col-small-4 w-col-medium-4 w-col-4">
+                                            <div class="w-row">
+                                                <div class="number-input w-col w-col-small-12 w-col-medium-12 w-col-12">
+                                                    <button id="btn-minus"
+                                                        onclick="updateQuantityItem('product-quantity-{{product.product_detail.product_detail_id}}', 'minus', {{product.cart_item.cart_detail_id}});
+                                                        this.parentNode.querySelector('input[type=number]').stepDown();
+                                                        setTotalPay();
+                                                        ">
+                                                    </button>
+                                                    <input class="quantity" min="1" max="{{total_product_in_stock}}" readonly
+                                                        name="quantity" value="{{product.quantity}}" maxlength="{{length_total_product_in_stock}}" 
+                                                        type="number" id="product-quantity-{{product.product_detail.product_detail_id}}"
+                                                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                        >
+                                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(),
+                                                        setTotalPay();
+                                                        updateQuantityItem('product-quantity-{{product.product_detail.product_detail_id}}', 'plus', {{product.cart_item.cart_detail_id}})"
+                                                        class="plus"></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="w-col w-col-small-1 w-col-medium-1 w-col-1">
+                                    <a href="{% url 'cart-item-delete' cart_detail_id=product.cart_item.cart_detail_id %}" 
+                                        class="btn-remove">Xóa</a>
+                                </div>
                             </div>
-                            <div class="w-col w-col-small-1 w-col-medium-1 w-col-1">
-                                <a href="{% url 'cart-item-delete' cart_detail_id=product.cart_item.cart_detail_id %}" 
-                                    class="btn-remove">Xóa</a>
-                            </div>
+                        </label>
+                    {% endfor %}
+                    {% else %}
+                        <div role="listitem" class="project-block w-dyn-item w-col w-col-4">
+                            <h2>Chưa có sản phẩm.</h2>
                         </div>
-                    </label>
-                {% endfor %}
-            {% else %}
-                <div role="listitem" class="project-block w-dyn-item w-col w-col-4">
-                    <h2>Chưa có sản phẩm.</h2>
+                    {% endif %}
                 </div>
-            {% endif %}
-            </div>
-            <div role="list" class="w-clearfix w-dyn-items w-row">
-                <div class="w-row">
-                    <div class="w-col w-col-small-6 w-col-medium-6 w-col-6">
-                        <p class="p-0">Tổng thanh toán: 
-                            <span id="total-pay">0</span>
-                        </p>
-                    </div>
-                    <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 button-buy">
-                        <button type="button" class="button button-red w-button">
-                            Mua ngay<i class="bxs-cart-download"></i>
-                        </button>
+                <div role="list" class="w-clearfix w-dyn-items w-row">
+                    <div class="w-row">
+                        <div class="w-col w-col-small-6 w-col-medium-6 w-col-6">
+                            <p class="p-0">Tổng thanh toán: 
+                                <span id="total-pay">0</span>
+                            </p>
+                        </div>
+                        <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 button-buy">
+                            <input type="submit" class="button button-red w-button" value="Mua ngay">
+                                {% comment %} Mua ngay<i class="bxs-cart-download"></i> {% endcomment %}
+                            {% comment %} </button> {% endcomment %}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

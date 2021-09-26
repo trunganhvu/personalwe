@@ -103,7 +103,7 @@
                                                 onchangeInputQuantity(this.parentNode.querySelector('input[type=number]').value)" ></button>
                                             <input class="quantity" min="1" max="{{total_product_in_stock}}"
                                                 name="quantity" value="1" maxlength="{{length_total_product_in_stock}}" 
-                                                type="number" id="quantity"
+                                                type="number" id="quantity" readonly
                                                 onchange="onchangeInputQuantity(this.value)"
                                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                                             <button onclick="this.parentNode.querySelector('input[type=number]').stepUp();

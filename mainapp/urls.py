@@ -11,6 +11,7 @@ from mainapp.view.Event import EventController
 from mainapp.view.Product import ProductController, ProductImageController, ProductPromotionController
 from mainapp.view.ProductPublic import ProductController as PublicProductController
 from mainapp.view.Cart import CartController
+from mainapp.view.Order import OrderInforController, AddressController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -104,11 +105,14 @@ urlpatterns = [
     path('event-form/<int:event_id>/update/', EventController.update_event, name='event-update'),
     path('event-form/<int:event_id>/delete/', EventController.delete_event_by_id, name='event-delete'),
 
-    # ---------------- Url login ----------------
+    # ---------------- Url cart ----------------
     path('cart/<int:product_id>/', CartController.insert_item_into_cart, name='cart-item-insert'),
     path('cart/', CartController.view_detail_cart_page, name='cart'),
     path('cart/<int:cart_detail_id>/delete', CartController.delete_item_in_cart, name='cart-item-delete'),
 
+    # ---------------- Url order product ----------------
+    path('shopping/', OrderInforController.view_info_order, name='shopping-order-infor'),
+    
 
     # ---------------- Url login ----------------
     path('login/', UserController.view_login_page, name='login'),
@@ -125,4 +129,9 @@ urlpatterns = [
 
     path('api/cart/<str:key>/', CartController.count_item_in_cart_by_key, name='api-cart-count'),
     path('api/cart/<str:action>/<int:cart_detail_id>', CartController.update_quantity_item_in_cart, name='api-cart-update-quantity'),
+
+    path('api/address/city/', AddressController.get_all_city, name='api-city'),
+    path('api/address/city/<int:city_code>/', AddressController.get_all_districts_in_city, name='api-district'),
+    path('api/address/city/<int:city_code>/<int:district_code>', AddressController.get_all_wards_in_city, name='api-ward'),
+
 ]

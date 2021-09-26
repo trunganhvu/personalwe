@@ -1,0 +1,78 @@
+{% extends 'public/Order/base.html' %}
+{% block section %}
+{% load static %}
+<link href="{% static 'css/product.css' %}" rel="stylesheet" type="text/css" />
+<style>
+.input-padding {
+    padding: 5px!important;
+}
+</style>
+<div class="section">
+    <div class="w-container2">
+        <div class="w-dyn-list">
+            <div role="list" class="w-clearfix w-dyn-items w-row">
+                <div class="w-col w-col-small-7 w-col-medium-7 w-col-7">
+                    <div>
+                        <h3 class="checkout__heading">Thông tin nhận hàng</h3>
+                        <div class="form-info">
+                            <div class="w-row">
+                                <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
+                                    <input type="text" name="full-name"
+                                        class="w-input" placeholder="Họ tên">
+                                </div>
+                                <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
+                                    <input type="text" name="phone-number"
+                                        class="w-input" placeholder="Số điện thoại">
+                                </div>
+                            </div>
+                            <div class="w-row">
+                                <div class="w-col w-col-small-12 w-col-medium-12 w-col-12 input-padding">
+                                    <input type="text" name="email"
+                                        class="w-input" placeholder="Địa chỉ email">
+                                </div>
+                            </div>
+                            <div class="w-row">
+                                <div class="w-col w-col-small-12 w-col-medium-12 w-col-12 input-padding">
+                                    <input type="text" name="address-detail"
+                                        class="w-input" placeholder="Địa chỉ giao hàng">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="checkout__heading">Hình thức thanh toán</h3>
+                        <div class="form-info">
+                            <div class="w-row">
+                                <div class="w-col w-col-small-4 w-col-medium-4 w-col-4 input-padding">
+                                    <input type="checkbox" name="" id="payment"
+                                        class="w-input">
+                                </div>
+                                <div class="w-col w-col-small-4 w-col-medium-4 w-col-4 input-padding">
+                                    <label for="payment">
+                                        Thanh toán khi nhận hàng(COD)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-col w-col-small-5 w-col-medium-5 w-col-5">
+                    {% for product_item in list_product_item_cart %}
+                        {{product_item.product.product_name}} <br>
+                        {{product_item.product_detail}} <br>
+                        {{product_item.product_size}} <br>
+                        {{product_item.product_color}} <br>
+                        {{product_item.quantity}} <br>
+                        =========
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script>
+
+</script>
+{% endblock %}

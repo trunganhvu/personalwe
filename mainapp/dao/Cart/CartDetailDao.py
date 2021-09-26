@@ -5,6 +5,13 @@ from mainapp.Common import CacheUtil
 from django.conf import settings
 from django.utils import timezone
 
+def get_cart_detail_by_cart_detail_id(cart_detail_id):
+    """
+    Get cart detail by cart detail id
+    """
+    cart_item = CartDetail.objects.get(pk=cart_detail_id)
+    return cart_item
+
 def get_cart_detail_by_cart_id(cart_id):
     """
     Get cart detail by cart id

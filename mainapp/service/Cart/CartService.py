@@ -11,6 +11,7 @@ from mainapp.model.CartDetail import CartDetail
 COUNT_CART_ITEM_BY_KEY_CODE = 'count-cart-item-by-key-code-'
 GET_CART_ITEM_BY_KEY_CODE = 'get-cart-item-by-key-code-'
 GET_CART_BY_KEY_CODE = 'get-cart-by-key-code-'
+GET_CART_DETAIL_BY_CART_DETAIL_ID = 'get-cart-detail-by-cart-detail-id-'
 
 def get_cart_by_key_code(key_code):
     """
@@ -23,6 +24,20 @@ def get_cart_by_key_code(key_code):
 
         if cart is not None:
             cache.set(GET_CART_BY_KEY_CODE + key_code, cart, settings.CACHE_TIME)
+            cached_data = cart 
+    return cached_data
+
+def get_cart_detail_by_cart_detail_id(cart_detail_id):
+    """
+    Get cart detail by cart detail id
+    """
+    key_cache = GET_CART_DETAIL_BY_CART_DETAIL_ID + str(cart_detail_id)
+    cached_data = cache.get(key_cache)
+    if not cached_data:
+        # Get cart in DB
+        cart = CartDetailDao.get_cart_detail_by_cart_detail_id(cart_detail_id)
+        if cart is not None:
+            cache.set(key_cache, cart, settings.CACHE_TIME)
             cached_data = cart 
     return cached_data
 
