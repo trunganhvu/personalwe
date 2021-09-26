@@ -46,6 +46,7 @@ def view_detail_cart_page(request):
                     'product_image': product_image,
                     'price': f'{price:,}',
                     'product_detail': item.product_detail_id,
+                    'cart_item': item,
                 }
                 list_product.append(item_product)
         context = {
@@ -96,10 +97,28 @@ def insert_item_into_cart(request, product_id):
         print(error)
         return redirect('/shop/product/' + str(product_id))
 
-def update_item_in_cart(request):
+@api_view(['GET'])
+def update_quantity_item_in_cart(request, action, cart_detail_id):
     """
-    Update item in cart
+    API Update item in cart
     """
+    try:
+        uc_code = request.COOKIES['uc_code']
+        # check key code exist
+        cart = CartService.get_cart_by_key_code(uc_code)
+        if cart is not None:
+            print(action)
+            if action == 'plus':
+                CartService.update_quantity_cart_detail(cart_detail_id, 1, uc_code)
+            elif action == 'minus':
+                number_minus = -(1)
+                print(number_minus)
+                CartService.update_quantity_cart_detail(cart_detail_id, number_minus, uc_code)
+            return Response({'message': 'success'})
+        else:
+            raise Exception
+    except Exception as error:
+        return Response({'message': 'error'})
 
 def delete_item_in_cart(request):
     """

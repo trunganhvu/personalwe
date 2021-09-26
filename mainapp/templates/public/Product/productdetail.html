@@ -290,7 +290,6 @@ function slideImage(){
 window.addEventListener('resize', slideImage);
 function setCountItemCart() {
     // Call api get count item cart
-    console.log(code);
     let api = window.location.protocol + '//' + window.location.host + '/api/cart/' + code + '/';
     let item = fetchApi(api);
     let itemPromise = Promise.resolve(item);

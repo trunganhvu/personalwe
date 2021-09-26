@@ -1536,6 +1536,9 @@ textarea.w-select {
     .w-nav-brand {
         padding-left: 10px
     }
+    .button-buy {
+        text-align: center;
+    }
 }
 
 .w-lightbox-backdrop {

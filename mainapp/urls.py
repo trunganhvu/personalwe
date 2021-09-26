@@ -105,7 +105,7 @@ urlpatterns = [
     path('event-form/<int:event_id>/delete/', EventController.delete_event_by_id, name='event-delete'),
 
     # ---------------- Url login ----------------
-    path('/cart/<int:product_id>/', CartController.insert_item_into_cart, name='cart-item-insert'),
+    path('cart/<int:product_id>/', CartController.insert_item_into_cart, name='cart-item-insert'),
     path('cart/', CartController.view_detail_cart_page, name='cart'),
 
 
@@ -123,4 +123,5 @@ urlpatterns = [
 
 
     path('api/cart/<str:key>/', CartController.count_item_in_cart_by_key, name='api-cart-count'),
+    path('api/cart/<str:action>/<int:cart_detail_id>', CartController.update_quantity_item_in_cart, name='api-cart-update-quantity'),
 ]
