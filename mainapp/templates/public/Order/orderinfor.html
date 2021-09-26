@@ -2,9 +2,23 @@
 {% block section %}
 {% load static %}
 <link href="{% static 'css/product.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/select2.min.css' %}" rel="stylesheet" />
 <style>
 .input-padding {
     padding: 5px!important;
+}
+.select2-container{width:100%!important}
+b{margin-top: 2px !important}
+.select2-selection{
+    border: 1px solid #ced4da!important;
+    height: calc(1.5em + .75rem + 2px)!important;
+    padding: .2rem .25rem !important;
+}
+.total-price-right {
+    text-align: right;
+}
+.product-detail-confirm {
+    padding: 0 10px!important;
 }
 </style>
 <div class="section">
@@ -37,6 +51,23 @@
                                         class="w-input" placeholder="Địa chỉ giao hàng">
                                 </div>
                             </div>
+                            <div class="w-row">
+                                <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
+                                    <select class="custom-select w-input" name="city" 
+                                        id="city" class="city" onchange="getDistrict()">
+                                        <option value="none">Lựa chọn</option>
+                                        {% for city in list_city %}
+                                            <option value="{{city.code}}">{{city.name}}</option>                                        
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
+                                    <select class="custom-select w-input" name="" 
+                                        id="district" class="district" onchange="">
+                                        <option value="none">Lựa chọn</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -57,13 +88,43 @@
                     </div>
                 </div>
                 <div class="w-col w-col-small-5 w-col-medium-5 w-col-5">
+                    <h3 class="checkout__heading">Sản phẩm</h3>
                     {% for product_item in list_product_item_cart %}
-                        {{product_item.product.product_name}} <br>
-                        {{product_item.product_detail}} <br>
-                        {{product_item.product_size}} <br>
-                        {{product_item.product_color}} <br>
-                        {{product_item.quantity}} <br>
-                        =========
+                        <div class="w-col w-col-small-3 w-col-medium-3 w-col-3">
+                            <img src="/{{product_item.product_image.product_image_path}}"
+                                alt="{{product_item.product_image.product_image_name}}">
+                        </div>
+                        <div class="w-col w-col-small-9 w-col-medium-9 w-col-9 product-detail-confirm">
+                            <h3 class="p-0">
+                                <a href="{% url 'public-product-detail' product_id=product_item.product.product_id %}"
+                                    class="btn-remove" target="_blank">
+                                {{product_item.product.product_name}} - {{product_item.product.product_code}}
+                                </a>
+                            </h3>
+                            <p class="p-0">Size:
+                                <span id="">
+                                    {{product_item.product_size.product_size_name}}
+                                </span>
+                            </p>
+                            <p class="p-0">Màu: 
+                                <span id="">
+                                    {{product_item.product_color.product_color_name}}
+                                </span>
+                            </p>
+                            <p class="">Số lượng: 
+                                <span id="">
+                                {{product_item.quantity}}
+                                </span>
+                            </p>
+                            <p class="w-col"> 
+                                <span class="w-col w-col-tiny-6 w-col-small-6 w-col-medium-6 w-col-6">Giá:
+                                {{product_item.product_detail.product_public_price}}
+                                </span>
+                                <span class="w-col w-col-tiny-6 w-col-small-6 w-col-medium-6 w-col-6 total-price-right">
+                                {{product_item.total_price_item}}
+                                </span>
+                            </p>
+                        </div>
                     {% endfor %}
                 </div>
                 
@@ -72,7 +133,36 @@
     </div>
 </div>
 <script src="{% static 'js/webjs/fetchdata.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/webjs/select2.min.js' %}"></script>
 <script>
-
+$(document).ready(function() {
+    $('#city').select2();
+    $('#district').select2();
+});
+function getDistrict() {
+    let cityCode = document.getElementById('city').value;
+    let api = window.location.protocol + '//' + window.location.host + '/api/address/city/' + cityCode + '/';
+    console.log(api)
+    let item = fetchApi(api);
+    let itemPromise = Promise.resolve(item);
+    itemPromise.then(function(value) {
+        console.log(value);
+        
+        let district = document.getElementById('district');
+        district.querySelectorAll('*').forEach(n => n.remove());
+        let option = document.createElement('option');
+        option.appendChild(document.createTextNode("Lựa chọn"));
+        option.value = "none";
+        district.appendChild(option);
+        for (let i = 0; i < value.length; i++) {
+            let code = value[i].code;
+            let name = value[i].name
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode(name));
+            option.value = code;
+            district.appendChild(option);
+        } 
+    })
+}
 </script>
 {% endblock %}

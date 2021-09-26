@@ -3,41 +3,6 @@
 {% load static %}
 <link href="{% static 'css/product.css' %}" rel="stylesheet" type="text/css" />
 <style>
-@media screen and (min-width:1300px) {
-    .item-carts, .item-cart {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .p-0 {
-        padding: 0;
-        margin: 0;
-    }
-    .button-buy {
-        text-align: right;
-    }
-}
-.item-carts {
-    margin: 10px 0;
-    padding: 5px;
-}
-.btn-remove {
-    color: black;
-    text-decoration: none;
-}
-.btn-remove:hover {
-    color: #d0011b;
-}
-.item-checkbox {
-    display: none; 
-}
-.label-product-item {
-    border: 1px solid rgba(0,0,0,.09);
-    border-radius: 7px;
-}
-.item-checkbox:checked + .label-product-item {
-    border: 3px solid #d0011b;
-}
 
 </style>
 <div class="section">
@@ -66,7 +31,7 @@
                                                     class="btn-remove" target="_blank">
                                                 {{product.product.product_name}} - {{product.product.product_code}}
                                                 </a>
-                                            </h2>
+                                            </h3>
                                             <br>
                                             <p class="p-0">Size:
                                                 <span id="">
@@ -88,7 +53,7 @@
                                         <div class="w-col w-col-small-4 w-col-medium-4 w-col-4">
                                             <div class="w-row">
                                                 <div class="number-input w-col w-col-small-12 w-col-medium-12 w-col-12">
-                                                    <button id="btn-minus"
+                                                    <button id="btn-minus" type="button"
                                                         onclick="updateQuantityItem('product-quantity-{{product.product_detail.product_detail_id}}', 'minus', {{product.cart_item.cart_detail_id}});
                                                         this.parentNode.querySelector('input[type=number]').stepDown();
                                                         setTotalPay();
@@ -99,7 +64,8 @@
                                                         type="number" id="product-quantity-{{product.product_detail.product_detail_id}}"
                                                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                                         >
-                                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp(),
+                                                    <button type="button"
+                                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp(),
                                                         setTotalPay();
                                                         updateQuantityItem('product-quantity-{{product.product_detail.product_detail_id}}', 'plus', {{product.cart_item.cart_detail_id}})"
                                                         class="plus"></button>
@@ -166,12 +132,12 @@ function setTotalPay() {
         if (document.getElementById(productItem).checked) {
             let quantity = document.getElementById('product-quantity-' + listItemId[i]).value;
             let price = document.getElementById('product-price-' + listItemId[i]).innerText;
-            price = price.toString().split(",")[0]
+            price = price.toString().split(",")[0] + price.toString().split(",")[1]
             let totalInItem = quantity * price;
             totalPay += totalInItem
         } 
     }
-    document.getElementById('total-pay').innerText = totalPay;
+    document.getElementById('total-pay').innerText = totalPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 
