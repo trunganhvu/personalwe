@@ -105,7 +105,8 @@
                                 </div>
                             </div>
                             <div class="w-col w-col-small-1 w-col-medium-1 w-col-1">
-                                <a href="" class="btn-remove">Xóa</a>
+                                <a href="{% url 'cart-item-delete' cart_detail_id=product.cart_item.cart_detail_id %}" 
+                                    class="btn-remove">Xóa</a>
                             </div>
                         </div>
                     </label>

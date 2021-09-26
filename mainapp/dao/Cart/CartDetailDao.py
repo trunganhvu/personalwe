@@ -35,8 +35,16 @@ def insert_cart_detail(cart_detail):
                         quantity=cart_detail.quantity)
     c_detail.save()
     return c_detail
-
 def update_cart_detail(cart_detail_id, quantity):
+    """
+    Update quantity in cart detail
+    """
+    cart_detail = CartDetail.objects.get(pk=cart_detail_id)
+    cart_detail.quantity = quantity
+    cart_detail.save()
+    return cart_detail
+
+def add_quantity_cart_detail(cart_detail_id, quantity):
     """
     Update quantity in cart detail
     """
@@ -49,5 +57,5 @@ def delete_cart_detail(cart_detail_id):
     """
     Delete cart detail
     """
-    cart_detail = CartDetail.objects.get(cart_detail_id)
+    cart_detail = CartDetail.objects.get(pk=cart_detail_id)
     cart_detail.delete()

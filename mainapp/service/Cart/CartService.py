@@ -106,16 +106,26 @@ def insert_cart_and_item(product_detail_id, cart_quantity, cart_cookie_key):
         else:
             # Update quantity
             quatity_update = int(cart_quantity) + int(c_detail.quantity)
-            print(quatity_update)
-            print(type(quatity_update))
-            print(c_detail.cart_detail_id)
             c_detail_new = CartDetailDao.update_cart_detail(c_detail.cart_detail_id, quatity_update)
+
+            # Clean cache
             CacheUtil.clean_cache_by_key(GET_CART_ITEM_BY_KEY_CODE + cart_cookie_key)
 
 def update_quantity_cart_detail(cart_detail_id, quantity, cart_cookie_key):
     """
     Update quantity detail
     """
-    print(quantity)
-    CartDetailDao.update_cart_detail(cart_detail_id, quantity)
+    CartDetailDao.add_quantity_cart_detail(cart_detail_id, quantity)
+
+    # Clean cache
     CacheUtil.clean_cache_by_key(GET_CART_ITEM_BY_KEY_CODE + cart_cookie_key)
+
+def delete_cart_detail_by_cart_detail_id(uc_code, cart_detail_id):
+    """
+    Delete cart detail
+    """
+    CartDetailDao.delete_cart_detail(cart_detail_id)
+
+    # Clean cache
+    CacheUtil.clean_cache_by_key(COUNT_CART_ITEM_BY_KEY_CODE + uc_code)
+    CacheUtil.clean_cache_by_key(GET_CART_ITEM_BY_KEY_CODE + uc_code)

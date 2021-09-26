@@ -107,12 +107,10 @@ def update_quantity_item_in_cart(request, action, cart_detail_id):
         # check key code exist
         cart = CartService.get_cart_by_key_code(uc_code)
         if cart is not None:
-            print(action)
             if action == 'plus':
                 CartService.update_quantity_cart_detail(cart_detail_id, 1, uc_code)
             elif action == 'minus':
                 number_minus = -(1)
-                print(number_minus)
                 CartService.update_quantity_cart_detail(cart_detail_id, number_minus, uc_code)
             return Response({'message': 'success'})
         else:
@@ -120,7 +118,13 @@ def update_quantity_item_in_cart(request, action, cart_detail_id):
     except Exception as error:
         return Response({'message': 'error'})
 
-def delete_item_in_cart(request):
+def delete_item_in_cart(request, cart_detail_id):
     """
     Delete item in cart
     """
+    uc_code = request.COOKIES['uc_code']
+    # check key code exist
+    cart = CartService.get_cart_by_key_code(uc_code)
+    if cart is not None:
+        CartService.delete_cart_detail_by_cart_detail_id(uc_code, cart_detail_id)
+    return redirect('/cart/')
