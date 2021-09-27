@@ -18,6 +18,7 @@ def view_info_order(request):
 
             list_product_item_cart = []
             list_city = []
+            total_bill = 0
             uc_code = request.COOKIES['uc_code']
 
             # check key code exist
@@ -40,6 +41,8 @@ def view_info_order(request):
 
                         product_image = ProductImageService.get_one_product_image_by_product_id(product.product_id)
 
+                        total_price_item = product_detail.product_public_price * c_detail.quantity
+                        total_bill += total_price_item
                         product_item = {
                             'product': product,
                             'product_detail': product_detail,
@@ -47,12 +50,13 @@ def view_info_order(request):
                             'product_color': product_color,
                             'quantity': c_detail.quantity,
                             'product_image': product_image,
-                            'total_price_item': product_detail.product_public_price * c_detail.quantity,
+                            'total_price_item': total_price_item,
                         }
                         list_product_item_cart.append(product_item)
             context = {
                 'list_product_item_cart': list_product_item_cart,
                 'list_city': list_city,
+                'total_bill': total_bill,
             }
             return render(request, 'public/Order/orderinfor.html', context=context)
         else:

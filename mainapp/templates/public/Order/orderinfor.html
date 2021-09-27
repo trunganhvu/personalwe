@@ -7,6 +7,9 @@
 .input-padding {
     padding: 5px!important;
 }
+.input-padding2 {
+    padding: 15px!important;
+}
 .select2-container{width:100%!important}
 b{margin-top: 2px !important}
 .select2-selection{
@@ -20,9 +23,37 @@ b{margin-top: 2px !important}
 .product-detail-confirm {
     padding: 0 10px!important;
 }
+.price-bill {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.bill {
+    margin: 20px 0;
+}
+.price-bill-color {
+    background-color: #f8f8f8;
+    margin: 10px 0;
+}
+.w-input1 {
+    margin-bottom: 0px;
+}
+input[type="radio"] {
+    box-shadow:0 0 0 1px #932;
+    appearance:none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    background-color:#fff;
+    padding: 0px;
+}
+input[type="radio"]:checked {
+    background: #f64749;
+    border: 2px solid #f64749;
+}
 </style>
 <div class="section">
-    <div class="w-container2">
+    <div class="w-container1">
         <div class="w-dyn-list">
             <div role="list" class="w-clearfix w-dyn-items w-row">
                 <div class="w-col w-col-small-7 w-col-medium-7 w-col-7">
@@ -73,16 +104,35 @@ b{margin-top: 2px !important}
                     <div>
                         <h3 class="checkout__heading">Hình thức thanh toán</h3>
                         <div class="form-info">
-                            <div class="w-row">
-                                <div class="w-col w-col-small-4 w-col-medium-4 w-col-4 input-padding">
-                                    <input type="checkbox" name="" id="payment"
-                                        class="w-input">
+                            <div class="w-row img-select price-bill price-bill-color">
+                                <div class="w-col w-col-tiny-1 w-col-small-1 w-col-medium-1 w-col-1 input-padding2">
+                                    <input type="radio" name="payment" id="payment"
+                                        class="w-input w-input1">
                                 </div>
-                                <div class="w-col w-col-small-4 w-col-medium-4 w-col-4 input-padding">
-                                    <label for="payment">
-                                        Thanh toán khi nhận hàng(COD)
-                                    </label>
+                                <label for="payment"
+                                    class="w-col w-col-tiny-11 w-col-small-11 w-col-medium-11 w-col-11 input-padding2 w-input1">
+                                    Thanh toán khi nhận hàng(COD)
+                                </label>
+                            </div>
+                            <div class="w-row img-select price-bill price-bill-color">
+                                <div class="w-col w-col-tiny-1 w-col-small-1 w-col-medium-1 w-col-1 input-padding2">
+                                    <input type="radio" name="payment" id="payment1"
+                                        class="w-input w-input1">
                                 </div>
+                                <label for="payment1"
+                                    class="w-col w-col-tiny-11 w-col-small-11 w-col-medium-11 w-col-11 input-padding2 w-input1">
+                                    Thanh toán khi nhận hàng(COD)
+                                </label>
+                            </div>
+                            <div class="w-row img-select price-bill price-bill-color">
+                                <div class="w-col w-col-tiny-1 w-col-small-1 w-col-medium-1 w-col-1 input-padding2">
+                                    <input type="radio" name="payment" id="payment2"
+                                        class="w-input w-input1">
+                                </div>
+                                <label for="payment2"
+                                    class="w-col w-col-tiny-11 w-col-small-11 w-col-medium-11 w-col-11 input-padding2 w-input1">
+                                    Thanh toán khi nhận hàng(COD)
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -126,6 +176,24 @@ b{margin-top: 2px !important}
                             </p>
                         </div>
                     {% endfor %}
+                    <div class="w-col product-detail-confirm bill">
+                        <p class="img-select price-bill">Tạm tính: 
+                            <span id="">
+                                {{total_bill}}
+                            </span>
+                        </p>
+                        <p class="img-select price-bill">Phí vận chuyển: 
+                            <span id="">
+                            30000
+                            </span>
+                        </p>
+                        <p class="img-select price-bill">Tổng cộng: 
+                            <span id="">
+                            {{total_bill|add:'30000'}}
+                            </span>
+                        </p>
+                    </div>
+                    <input type="submit" class="button button-red w-button w-col" value="Mua ngay">
                 </div>
                 
             </div>

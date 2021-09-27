@@ -323,6 +323,9 @@ input[type=number]::-webkit-outer-spin-button {
     .button-buy {
         text-align: right;
     }
+    .shop-confirm-container {
+        width: 90%;
+    }
 }
 .item-carts {
     margin: 10px 0;
