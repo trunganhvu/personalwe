@@ -21,6 +21,13 @@ def get_all_detail_product_by_product_id(product_id):
                                                                                     )
     return list_detail
 
+def get_product_detail_by_product_detail_id(product_detail_id):
+    """
+    Get product detail by product detail id
+    """
+    product_detail = ProductDetail.objects.get(pk=product_detail_id)
+    return product_detail
+
 def get_product_detail_by_product_id_size_id_color_id(product_id, product_size_id, product_color_id):
     """
     View detail by product id, size, color

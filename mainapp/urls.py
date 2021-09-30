@@ -11,7 +11,7 @@ from mainapp.view.Event import EventController
 from mainapp.view.Product import ProductController, ProductImageController, ProductPromotionController
 from mainapp.view.ProductPublic import ProductController as PublicProductController
 from mainapp.view.Cart import CartController
-from mainapp.view.Order import OrderInforController, AddressController
+from mainapp.view.Order import OrderInforController, AddressController, OrderConfirmController
 
 urlpatterns = [
     # ---------------- Url manager ----------------
@@ -112,6 +112,7 @@ urlpatterns = [
 
     # ---------------- Url order product ----------------
     path('shopping/', OrderInforController.view_info_order, name='shopping-order-infor'),
+    path('shopping/order-confirm/', OrderConfirmController.view_confirm_order, name='shopping-order-confirm'),
     
 
     # ---------------- Url login ----------------

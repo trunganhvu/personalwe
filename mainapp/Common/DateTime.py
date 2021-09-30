@@ -1,5 +1,6 @@
 from datetime import datetime
 import pytz
+import time
 
 def get_current_YmdHMS():
     """
@@ -20,3 +21,6 @@ def get_current_microsecond():
     day_of_year = date.timetuple().tm_yday
     microsecond = date.microsecond
     return str(year) + str(day_of_year) + str(microsecond) 
+
+def current_milli_time():
+    return round(time.time() * 1000)

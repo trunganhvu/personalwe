@@ -5,7 +5,9 @@ from mainapp.service.Cart import CartService
 from mainapp.service.Product import ProductDetailService, ProductService, ProductImageService
 from mainapp.service.ProductType import ProductTypeService
 from mainapp.view.Order import AddressController
-import math
+from mainapp.Common import DateTime
+import math, json
+from django.core import serializers
 
 def view_info_order(request):
     """
@@ -17,10 +19,14 @@ def view_info_order(request):
             cart_detail_id = request.POST.getlist('cart-detail-id')
 
             list_product_item_cart = []
+            list_product_item_cart_session = []
             list_city = []
             total_bill = 0
             uc_code = request.COOKIES['uc_code']
 
+            # key time
+            key_current_time = DateTime.current_milli_time()
+            
             # check key code exist
             cart = CartService.get_cart_by_key_code(uc_code)
             if cart is not None:
@@ -52,11 +58,27 @@ def view_info_order(request):
                             'product_image': product_image,
                             'total_price_item': total_price_item,
                         }
+                        product_item_session = {
+                            'product': product.product_id,
+                            'product_detail': product_detail.product_detail_id,
+                            'product_size': product_size.product_size_id,
+                            'product_color': product_color.product_color_id,
+                            'quantity': c_detail.quantity,
+                            'product_image': product_image.product_image_id,
+                            'total_price_item': total_price_item,
+                        }
                         list_product_item_cart.append(product_item)
+                        list_product_item_cart_session.append(product_item_session)
+                context_session = {
+                    'list_product_item_cart': list_product_item_cart_session,
+                    'total_bill': total_bill,
+                }
+                request.session[key_current_time] = context_session
             context = {
                 'list_product_item_cart': list_product_item_cart,
                 'list_city': list_city,
                 'total_bill': total_bill,
+                'key_current_time': key_current_time,
             }
             return render(request, 'public/Order/orderinfor.html', context=context)
         else:

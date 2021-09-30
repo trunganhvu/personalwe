@@ -33,7 +33,7 @@ def get_product_detail_by_product_detail_id(product_detail_id):
     if not cached_data:
 
         # Get detail color, size
-        list_product_detail = ProductDetailDao.get_all_detail_product_by_product_id(product_detail_id)
+        list_product_detail = ProductDetailDao.get_product_detail_by_product_detail_id(product_detail_id)
 
         # Set into cache
         cache.set(key_cache, list_product_detail, settings.CACHE_TIME)

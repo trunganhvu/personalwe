@@ -55,10 +55,9 @@ input[type="radio"]:checked {
 <div class="section">
     <div class="w-container1">
         <div class="w-dyn-list">
-            <a href="{% url 'cart' %}" class="button w-button">◄ Quay lại</a>
+            {% comment %} <a href="{% url 'cart' %}" class="button w-button">◄ Quay lại</a> {% endcomment %}
             <form method="post" autocomplete="on" enctype="multipart/form-data"
-                action="{% url 'shopping-order-confirm' %}">
-                {% csrf_token %}
+                action="">
                 <div role="list" class="w-clearfix w-dyn-items w-row">
                     <div class="w-col w-col-small-7 w-col-medium-7 w-col-7">
                         <div>
@@ -67,51 +66,49 @@ input[type="radio"]:checked {
                                 <input type="hidden" name="key_current_time" value="{{key_current_time}}">
                                 <div class="w-row">
                                     <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
-                                        <input type="text" name="full-name" required
+                                        <input type="text" name="full-name" 
+                                            disabled value="{{full_name}}"
                                             class="w-input" placeholder="Họ tên">
                                     </div>
                                     <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
                                         <input type="text" name="phone-number" 
-                                            length="10" required
+                                            length="10" disabled
+                                            value="{{phone_number}}"
                                             class="w-input" placeholder="Số điện thoại">
                                     </div>
                                 </div>
                                 <div class="w-row">
                                     <div class="w-col w-col-small-12 w-col-medium-12 w-col-12 input-padding">
                                         <input type="email" name="email"
-                                            required
+                                            disabled value="{{email}}"
                                             class="w-input" placeholder="Địa chỉ email">
                                     </div>
                                 </div>
                                 <div class="w-row">
                                     <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
-                                        <select class="custom-select w-input" name="city"
-                                            required
-                                            id="city" class="city" onchange="getDistrict()">
-                                            <option value="none">Tỉnh, thành phố</option>
-                                            {% for city in list_city %}
-                                                <option value="{{city.code}}">{{city.name}}</option>                                        
-                                            {% endfor %}
-                                        </select>
+                                        <input type="text" name="city" 
+                                            disabled
+                                            value="{{city}}"
+                                            class="w-input">
                                     </div>
                                     <div class="w-col w-col-small-6 w-col-medium-6 w-col-6 input-padding">
-                                        <select class="custom-select w-input" name="district"
-                                            required
-                                            id="district" class="district" onchange="">
-                                            <option value="none">Quận, huyện</option>
-                                        </select>
+                                        <input type="text" name="district" 
+                                            disabled
+                                            value="{{district}}"
+                                            class="w-input">
                                     </div>
                                 </div>
                                 <div class="w-row">
                                     <div class="w-col w-col-small-12 w-col-medium-12 w-col-12 input-padding">
                                         <input type="text" name="address-detail"
-                                            required
+                                            disabled value=""
                                             class="w-input" placeholder="Địa chỉ giao hàng">
                                     </div>
                                 </div>
                                 <div class="w-row">
                                     <div class="w-col w-col-small-12 w-col-medium-12 w-col-12 input-padding">
-                                        <input type="text" name="note"
+                                        <input type="text" name="note" 
+                                            disabled value=""
                                             class="w-input" placeholder="Lưu ý đặc biệt">
                                     </div>
                                 </div>
@@ -121,15 +118,11 @@ input[type="radio"]:checked {
                             <h3 class="checkout__heading">Hình thức thanh toán</h3>
                             <div class="form-info">
                                 <div class="w-row img-select price-bill price-bill-color">
-                                    <div class="w-col w-col-tiny-1 w-col-small-1 w-col-medium-1 w-col-1 input-padding2">
-                                        <input type="radio" name="payment" id="payment" 
-                                            required value="Thanh toán khi nhận hàng(COD)"
-                                            class="w-input w-input1">
+                                    <div class="w-col w-col-small-12 w-col-medium-12 w-col-12 input-padding">
+                                        <input type="text" name="payment" 
+                                            disabled value="{{payment}}"
+                                            class="w-input">
                                     </div>
-                                    <label for="payment"
-                                        class="w-col w-col-tiny-11 w-col-small-11 w-col-medium-11 w-col-11 input-padding2 w-input1">
-                                        Thanh toán khi nhận hàng(COD)
-                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -192,42 +185,11 @@ input[type="radio"]:checked {
                         </div>
                         <input type="submit" class="button button-red w-button w-col" value="Mua ngay">
                     </div>
-            </div>
+                </div>
             </form> 
         </div>
     </div>
 </div>
-<script src="{% static 'js/webjs/fetchdata.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/webjs/select2.min.js' %}"></script>
 <script>
-$(document).ready(function() {
-    $('#city').select2();
-    $('#district').select2();
-});
-function getDistrict() {
-    let cityCode = document.getElementById('city').value;
-    let api = window.location.protocol + '//' + window.location.host + '/api/address/city/' + cityCode + '/';
-    console.log(api)
-    let item = fetchApi(api);
-    let itemPromise = Promise.resolve(item);
-    itemPromise.then(function(value) {
-        console.log(value);
-        
-        let district = document.getElementById('district');
-        district.querySelectorAll('*').forEach(n => n.remove());
-        let option = document.createElement('option');
-        option.appendChild(document.createTextNode("Lựa chọn"));
-        option.value = "none";
-        district.appendChild(option);
-        for (let i = 0; i < value.length; i++) {
-            let code = value[i].code;
-            let name = value[i].name
-            option = document.createElement('option');
-            option.appendChild(document.createTextNode(name));
-            option.value = code;
-            district.appendChild(option);
-        } 
-    })
-}
 </script>
 {% endblock %}
